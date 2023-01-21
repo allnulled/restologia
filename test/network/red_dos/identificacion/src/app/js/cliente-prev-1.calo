@@ -1,0 +1,60 @@
+Asigno window.$restologia como {}.
+
+Asigno window.$restologia.cliente como axios.create({ baseUrl: "http://127.0.0.1:9999" }).
+
+Asigno window.$restologia.$project como undefined.
+
+Asigno window.$restologia.setProject como una función con (project) donde asigno window.$restologia.$project como project.
+
+Asigno window.$restologia.login como una función con (user, password) donde {
+    Creo responsePromise como window.$restologia.cliente.post("/?operation=login&project=" + this.$project, { user, password }).
+    Hago responsePromise.then(una función con (response) donde {
+        Si response.data.status es igual que "success" {
+            Asigno window.$restologia.cliente.defaults.headers.common.Authorization como response.data.data.session.token.
+            Asigno Vue.prototype.$root.authentication como {
+                Propiedad token como response.data.data.session.token.
+                Propiedad user como response.data.data.session.authentication.user.
+                Propiedad groups como response.data.data.session.authentication.groups.
+                Propiedad privileges como response.data.data.session.authentication.privileges.
+            }.
+        }.
+        Retorno response.
+    }).
+    Retorno responsePromise.
+}.
+
+Asigno window.$restologia.logout como una función con () donde {
+    Creo responsePromise como window.$restologia.cliente.post("/?operation=logout&project=" + this.$project, { }).
+    Hago responsePromise.then(una función con (response) donde {
+        Si response.data.status es igual que "success" {
+            Elimino propiedad window.$restologia.cliente.defaults.headers.common.Authorization.
+            Asigno Vue.prototype.$root.authentication como undefined.
+        }.
+        Retorno response.
+    }).
+    Retorno responsePromise.
+}.
+
+Asigno window.$restologia.schema como una función con (root) donde {
+    Retorno window.$restologia.cliente.get("/?operation=view-schema&project=" + this.$project).then(una función con (response) donde {
+        Si response.data.status es igual que "success" {
+            Asigno root.schema como response.data.data.schema.
+        } y si no lanzo un nuevo Error("No se pudo cargar esquema de datos").
+        Retorno response.
+    }).
+}.
+
+Asigno window.$restologia.select como una función con (table, where, order, paginate, search) donde {
+    Retorno window.$restologia.cliente.get("/?operation=select"
+        + "&project=" + this.$project
+        + "&table=" + table
+        + "&where=" + encodeURIComponent(where textualizado)
+        + "&sort=" + encodeURIComponent(order textualizado)
+        + "&paginate=" + encodeURIComponent(paginate textualizado)
+        + "&search=" + encodeURIComponent(search textualizado)
+    ).
+}.
+
+Asigno window.$restologia.checkSuccess como una función con (response) donde {
+    Retorno response.data y (response.data.status es igual que "success").
+}.

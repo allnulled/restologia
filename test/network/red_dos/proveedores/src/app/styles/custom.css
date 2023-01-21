@@ -1,0 +1,346 @@
+.ControlForText > input[type="text"],
+.ControlForText > .form_control_input,
+.ControlForText > .textarea_input,
+.ControlForPassword > input[type="password"],
+.ControlForText > input,
+.ControlForButton > button,
+.ControlForSelect > select {
+    font-size: 11px;
+    background-color: transparent;
+    border: 2px solid #888;
+    outline: none;
+    color: white;
+    padding: 7px;
+    min-height: 30px;
+    vertical-align: middle;
+    transition: background-color .2s linear, color .2s linear;
+}
+
+span {
+    font-size: 11px;
+}
+
+.ControlForText > input[type="text"],
+.ControlForText > .form_control_input,
+.ControlForText > .textarea_input,
+.ControlForPassword > input[type="password"],
+.ControlForSelect > select {
+    border: 2px solid rgb(62, 236, 255, 0.8);
+}
+
+.ControlForText > input[type="text"]:hover,
+.ControlForText > .form_control_input:hover,
+.ControlForText > .textarea_input:hover,
+.ControlForPassword > input[type="password"]:hover,
+.ControlForSelect > select:hover {
+    background-color: rgba(3, 13, 127, 0.3);
+}
+
+.ControlForText > input[type="text"]:focus,
+.ControlForText > .form_control_input:focus,
+.ControlForText > .textarea_input:focus,
+.ControlForPassword > input[type="password"]:focus,
+.ControlForSelect > select:focus {
+    background-color: rgba(3, 13, 127, 0.5);
+}
+
+.ControlForText > input[disabled],
+.ControlForText > textarea[disabled],
+.ControlForPassword > input[disabled],
+.ControlForSelect > select[disabled] {
+    border: 2px solid rgba(255, 62, 130, 0.8);
+    background-color: rgba(171, 32, 34, 0.1);
+    cursor: not-allowed;
+}
+.ControlForText > input[disabled]:hover,
+.ControlForText > textarea[disabled]:hover,
+.ControlForPassword > input[disabled]:hover,
+.ControlForSelect > select[disabled]:hover,
+.ControlForText > input[disabled]:focus,
+.ControlForText > textarea[disabled]:focus,
+.ControlForPassword > input[disabled]:focus,
+.ControlForSelect > select[disabled]:focus {
+    background-color: rgba(171, 32, 34, 0.3);
+}
+
+.ControlForText > input[type="text"],
+.ControlForPassword > input[type="password"],
+.ControlForText > .form_control_input,
+.ControlForText > .textarea_input,
+.ControlForSelect > select {
+    border-radius: 2pt;
+    padding: 3px;
+}
+
+.ControlForText > div,
+.ControlForPassword > div {
+    font-size: 11px;
+    text-shadow: 0 0 8px #666;
+}
+
+.ControlForButton > button.success_button {
+    background-color: transparent;
+}
+
+.ControlForButton > button.danger_button {
+    border: 2px solid rgba(152, 15, 65, 0.852);
+    background-color: rgba(225, 117, 117, 0.178);
+}
+
+.ControlForButton > button.danger_button:hover {
+    border: 2px solid rgb(199, 18, 85);
+    background-color: rgba(165, 34, 34, 0.571);
+}
+
+.ControlForSelect > select {
+    padding-top: 6px;
+}
+.BigMenuSquaresList > li,
+.ControlForButton > button.success_button,
+.ControlForButton > button {
+    border: 2px solid rgba(83, 232, 41, 0.441);
+    background-color: rgba(12, 96, 62, 0.598);
+    border-radius: 4pt;
+    font-weight: bold;
+    font-size: 11px;
+}
+.BigMenuSquaresList > li:hover,
+.ControlForButton > button.success_button:hover,
+.ControlForButton > button:hover {
+    border: 2px solid rgba(45, 255, 0, 1);
+    background-color: rgba(12, 96, 62, 0.598);
+}
+
+.BigMenuSquaresList > li {
+    width: auto;
+    height: 30px;
+    padding-top: 5px;
+    padding-left: 7px;
+    padding-right: 7px;
+    margin-left: 6px;
+    margin-bottom: 6px;
+}
+
+.ControlForButton {
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+.remarked_row {
+    background-color: transparent;
+}
+
+.remarked_row > td {
+}
+
+.info-group,
+.remarked_row.secondary {
+    background-color: transparent;
+}
+.info-group:hover,
+.remarked_row:hover,
+.remarked_row.secondary:hover {
+    background-color: transparent;
+}
+
+.border_left_marked {
+    border-radius: 5pt;
+    padding-left: 2px;
+}
+
+.DataRowExplorerComponent {
+    padding-bottom: 5px;
+}
+
+.main_contents {
+    background-color: transparent;
+}
+
+html {
+    background-image: url("/app/images/background-003.png");
+    background-size: auto 100%;
+    background: #123;
+    color: white;
+}
+.default_row {
+    background-color: transparent;
+}
+
+.link_text {
+    color: inherit;
+    font-weight: bold;
+}
+
+.BigMenuSquaresList > li,
+.ControlForButton > button {
+    transition: background-color .2s linear;
+}
+
+.default_button,
+.BigMenuSquaresList > li.default_button,
+.ControlForButton > button.default_button {
+    border: 2px solid rgba(127, 150, 29, 0.8);
+    background-color: rgba(138, 160, 25, 0.598);
+}
+
+.default_button:hover,
+.BigMenuSquaresList > li.default_button:hover,
+.ControlForButton > button.default_button:hover {
+    border: 2px solid rgb(234, 249, 67);
+}
+
+.default_button.selected,
+.BigMenuSquaresList > li.default_button.selected,
+.ControlForButton > button.default_button.selected {
+    border: 2px solid rgb(234, 249, 67);
+    background-color: rgba(203, 220, 22, 0.283);
+    text-decoration: underline;
+}
+.default_button.selected:hover,
+.BigMenuSquaresList > li.default_button.selected:hover,
+.ControlForButton > button.default_button.selected:hover {
+    border: 2px solid rgb(234, 249, 67);
+}
+
+.text_style_as_two {
+    color: blueviolet;
+}
+
+.info_group {
+    border-radius: 3pt;
+    padding-bottom: 2px;
+    padding-top: 2px;
+}
+
+.main_contents {
+    border-radius: 3pt;
+}
+
+.border_left_marked,
+.info_group,
+.main_contents {
+    border: 2px solid rgba(122, 122, 122, 0.2);
+}
+.remarked_row > td,
+.border_on_top,
+hr {
+    border-top: 2px solid rgba(122, 122, 122, 0.2);
+}
+
+.border_on_bottom {
+    border-bottom: 2px solid rgba(122, 122, 122, 0.2);
+}
+
+.SessionSettingsPage {
+    font-size: 11px;
+}
+
+.remarked_row > td {
+    border-bottom: none;
+}
+
+.table_viewer {
+    background-color: transparent;
+    border: 2px solid rgba(122, 122, 122, 0.2);
+    outline: none;
+    color: white;
+    padding: 0px;
+    border-radius: 3pt;
+    min-height: 30px;
+}
+
+.info_group.danger_group {
+    border: 2px solid rgba(138, 35, 12, 0.8);
+}
+.notification_trace {
+    font-size: 8px;
+}
+.notification_message {
+    font-size: 11px;
+    color: white;
+    background-color: rgba(103, 11, 11, 0.6);
+}
+
+.notification_list {
+    padding: 0px;
+    border-top: 2px solid rgb(201, 210, 29);
+    background-color: rgba(201, 210, 29, 0.2);
+}
+
+.notification_group_wrapper {
+    padding: 6px;
+    padding-bottom: 0px;
+}
+.notification_group {
+    padding: 0px;
+    padding-left: 6px;
+    padding-right: 6px;
+    background-color: rgba(103, 11, 11, 0.6);
+}
+@keyframes background_movement {
+    0% {
+        background-color:rgb(1, 15, 20);
+    }
+    20% {
+        background-color:rgb(15, 15, 20);
+    }
+    40% {
+        background-color:rgb(15, 1, 20);
+    }
+    60% {
+        background-color:rgb(1, 1, 20);
+    }
+    80% {
+        background-color:rgb(15, 15, 20);
+    }
+    100% {
+        background-color:rgb(1, 15, 20);
+    }
+}
+html {
+    transition: background-color 4s linear;
+    animation-name: background_movement;
+    animation-duration: 100s;
+    animation-delay: -2s;
+    animation-iteration-count: infinite;
+    min-height: 100%;
+}
+
+html, button, input, textarea {
+    font-family: "Lato";
+    font-family: "Roboto";
+    font-size: 12px;
+}
+
+.data_viewer_table > thead > tr > th,
+.TitleOfPage,
+.Topbar {
+    background-color: rgba(0,0,0,0.2);
+}
+
+.data_viewer_table > thead > tr > th,
+.TitleOfPage,
+.BigMenuSquaresList > li,
+.Topbar,
+button,
+.ControlForButton > button,
+.ControlForPassword > input,
+.ControlForSelect > select,
+.ControlForText > input,
+.ControlForText > textarea {
+    font-size: 12px;
+    font-family: "Liberation Sans Narrow";
+    font-family: "Latin Modern Mono Caps";
+    font-family: "Latin Modern Mono Light Cond";
+    font-family: "Lato Black";
+}
+
+.remarked_text {
+    padding: 5px;
+    border: 2px solid rgba(45, 255, 0, 1);
+    background-color: transparent;
+}
+.image_preview_wrapper { padding: 10px; }
+.image_preview {
+    
+}

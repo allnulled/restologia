@@ -1,0 +1,11 @@
+{
+    "RESPONSE_PROTOTYPE": {
+        "app": "REST application nº 1",
+        "version": "1.0.0",
+        "contact": {
+            "name": "Carlos Jimeno Hernández",
+            "email": "carlcarlsonc18@gmail.com",
+            "telephone": "+34 619982622"
+        }
+    }
+}

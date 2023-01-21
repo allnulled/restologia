@@ -17,4 +17,4 @@ Con este proyecto pretendía elaborar la red de sistemas que necesitaría un **E
     - Sanidad:
       - Sistema hospitalario y de salud
 
-Pero claro. Todo es una construcción. El mundo no necesita nada.# restologia
+Pero claro. Todo es una construcción. El mundo no necesita nada.

@@ -1,0 +1,90 @@
+En proceso X {
+    Redefino una global llamada "entorno" como "testing".
+    Defino constante incr como una función con (parametro) donde retorno parametro + 1.
+    Si estoy en entorno de "testing" hago un hecho ~ donde {
+        Hago un testeo que en menos de 4 segundos pase [ "Test inicio" ].
+        Hago ~ un test llamado "Test inicio" donde {
+            Compruebo que incr(50) es igual que 51 lanzando un nuevo Error("Función incr no suma 1 (1)").
+            Compruebo que incr(100) es igual que 101 lanzando un nuevo Error("Función incr no suma 1 (2)").
+            Compruebo que incr("ok") es igual que "ok1" lanzando un nuevo Error("Función incr no suma 1 (3)").
+        }.
+    }.
+}.
+
+Creo aplicacion como una aplicación sintáctica universal configurada con {
+    help: una función donde {},
+    http: { port: 9001 },
+    ws: { port: 9011 },
+    web: { port: 9021 }
+} con {
+    ejecuta: {
+        aplicacion: un punto sintáctico universal con {
+            api: un código en js donde {
+                Exporto como módulo es5 un hecho ~ donde {
+                    Imprimo 800.
+                    Retorno 900.
+                }.
+            },
+            bin: "api",
+            http: false,
+            ws: false,
+            web: false
+        }
+    },
+    bildea: {
+        ficheros: {
+            calo: un punto sintáctico universal con {
+                api: un código en js donde {
+                    Exporto como módulo es5 un hecho ~ donde {
+                        Imprimo 1000.
+                        Retorno 1100.
+                    }.
+                },
+                bin: "api",
+                http: "api",
+                ws: "api",
+                web: {
+                    name: "BildeaFicherosCaloPage"
+                }
+            }
+        },
+        todo: un punto sintáctico universal con {
+            api: una función donde retorno 400,
+            bin: "api", 
+            http: "api",
+            ws: "api",   
+            web: "api"
+        }
+    }
+}.
+
+[*
+
+Node.js:: ------------------------------------------------------
+
+    Hago app.bildea.ficheros.calo()
+
+Cmd: -----------------------------------------------------------
+
+    ~$ npm run bildea:ficheros:calo -- --parametro-a algo --parametro-b otro algo
+    ~$ node app.js --comando bildea/ficheros/calo --parametro-a algo --parametro-b otro algo
+
+Http:: ---------------------------------------------------------
+
+    127.0.0.1:9989?punto=bildea/ficheros/calo
+    127.0.0.1:9989/bildea/ficheros/calo
+
+Websockets:: ---------------------------------------------------
+
+    socket.emit({ punto: "/bildea/ficheros/calo" });
+
+Web:: ----------------------------------------------------------
+
+    Browser route:
+        #/bildea/ficheros/calo
+    Html input de #comando:
+        bildea ficheros calo + custom page
+
+
+
+*]

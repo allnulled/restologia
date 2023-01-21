@@ -1,0 +1,3080 @@
+Compilable con:
+  ./js/api-nativa.calo
+  ./js/almacenamiento.calo
+  ./js/traducciones.calo
+  ./js/notificaciones.calo
+  ./js/utilidades.calo
+  ./js/cliente.calo
+Empaquetable con:
+  ./js/api-nativa.js
+  ./js/almacenamiento.js
+  ./js/traducciones.js
+  ./js/notificaciones.js
+  ./js/utilidades.js
+  ./js/cliente.js
+Ejecutable como documento HTML5
+con autor allnulled
+con nombre restologia-app
+con versión 1.0.0:
+<head>
+    <title>Restologia</title>
+    <meta charset="utf8" />
+    <link rel="stylesheet" href="/app/styles/reset.css" />
+    <link rel="stylesheet" href="/app/styles/framework.css" />
+    <link rel="stylesheet" href="/app/styles/app.css" />
+    <link rel="stylesheet" href="/app/styles/theme.css" />
+    <link rel="stylesheet" href="/app/styles/custom.css" />
+</head>
+<body>
+    <div id="app"></div>
+</body>.
+
+Creo noop como una función donde retorno {}.
+
+@SECCIÓN DE HOOK: nativo.introduccion
+
+@SECCIÓN 1. Prerrequisitos & Componentes:
+
+@SECCIÓN 1.*. Prerrequisito de Propiedades de Control comunes:
+
+Creo propiedadesDeControl como {
+    Propiedad onChange como {
+        Propiedad type como Function.
+        Propiedad default como noop.
+    }.
+    Propiedad label como {
+        Propiedad type como String.
+        Propiedad default como "".
+    }.
+    Propiedad placeholder como {
+        Propiedad type como String.
+        Propiedad default como "".
+    }.
+    Propiedad initialValue como {
+        Propiedad type como String.
+        Propiedad default como "".
+    }.
+    Propiedad generalClasses como {
+        Propiedad type como String.
+        Propiedad default como "".
+    }.
+    Propiedad labelClasses como {
+        Propiedad type como String.
+        Propiedad default como "".
+    }.
+    Propiedad inputClasses como {
+        Propiedad type como String.
+        Propiedad default como "".
+    }.
+    Propiedad onClick como {
+        Propiedad type como Function.
+        Propiedad default como noop.
+    }.
+}.
+
+@SECCIÓN 1.*. Prerrequisito de Datos de Control comunes:
+
+Creo datosDeControl como una función con (scope, extensor o en su defecto {}) donde {
+    Retorno {
+        Propiedad internalValue como scope.initialValue.
+        Propiedad internalOnChange como scope.onChange.
+        Propiedad internalLabel como scope.label.
+        Propiedad internalGeneralClasses como scope.generalClasses.
+        Propiedad internalLabelClasses como scope.labelClasses.
+        Propiedad internalInputClasses como scope.inputClasses.
+        Propiedad internalPlaceholder como scope.placeholder.
+        Propiedad internalOnClick como scope.onClick.
+        ...Incluyo extensor
+    }.
+}.
+
+@SECCIÓN 1.*. Prerrequisito de Watchers de Control comunes:
+
+Creo watchersDeControl como {
+    Método internalValue como una función con (v, old) donde {
+        Hago this.internalOnChange(v, old, this).
+    }.
+}.
+
+@SECCIÓN 1.*. Componente de Card:
+
+Creo Card como un componente vue con nombre "Card" con plantilla {
+    <div class="Card" :class="internalGeneralClasses">
+        <slot></slot>
+    </div>
+} con lógica {
+    Retorno {
+        Propiedad props como { ...Incluyo propiedadesDeControl }.
+        Método data como una función donde retorno { ...Incluyo datosDeControl(this) }.
+        Propiedad watch como { ...Incluyo watchersDeControl }.
+    }.
+}.
+
+@SECCIÓN 1.*. Componente de ControlForText:
+
+Creo ControlForText como un componente vue con nombre "ControlForText" con plantilla {
+    <div class="ControlForText" :class="internalGeneralClasses">
+        <div v-if="internalLabel" :class="internalLabelClasses">{{ $t(internalLabel) }}</div>
+        <textarea class="textarea_input" :class="internalInputClasses" v-model="internalValue" v-bind="inputAttributes" v-if="hasMultipleRows"></textarea>
+        <input type="text" :class="internalInputClasses" v-model="internalValue" v-bind="inputAttributes" v-else />
+    </div>
+} con lógica {
+    Retorno {
+        Propiedad props como {
+            Propiedad inputAttributes como {
+                Propiedad type como Object.
+                Propiedad default como una función donde retorno {}.
+            }.
+            Propiedad hasMultipleRows como {
+                Propiedad type como Boolean.
+                Propiedad default como una función donde retorno false.
+            }.
+            ...Incluyo propiedadesDeControl
+        }.
+        Método data como una función donde retorno { ...Incluyo datosDeControl(this) }.
+        Propiedad watch como { ...Incluyo watchersDeControl }.
+    }.
+}.
+
+@SECCIÓN 1.*. Componente de ControlForPassword:
+
+Creo ControlForPassword como un componente vue con nombre "ControlForPassword" con plantilla {
+    <div class="ControlForPassword" :class="internalGeneralClasses">
+        <div v-if="internalLabel" :class="internalLabelClasses">{{ $t(internalLabel) }}</div>
+        <input type="password" :class="internalInputClasses" v-model="internalValue" />
+    </div>
+} con lógica {
+    Retorno {
+        Propiedad props como { ...Incluyo propiedadesDeControl }.
+        Método data como una función donde retorno { ...Incluyo datosDeControl(this) }.
+        Propiedad watch como { ...Incluyo watchersDeControl }.
+    }.
+}.
+
+@SECCIÓN 1.*. Componente de ControlForButton:
+
+Creo ControlForButton como un componente vue con nombre "ControlForButton" con plantilla {
+    <div class="ControlForButton" :class="internalGeneralClasses">
+        <button type="button" :class="internalInputClasses" v-on:click="internalOnClick">
+            <slot></slot>
+        </button>
+    </div>
+} con lógica {
+    Retorno {
+        Propiedad props como { ...Incluyo propiedadesDeControl }.
+        Método data como una función donde retorno { ...Incluyo datosDeControl(this) }.
+        Propiedad watch como { ...Incluyo watchersDeControl }.
+    }.
+}.
+
+@SECCIÓN 1.*. Componente de Horizontally:
+
+Creo Horizontally como un componente vue con nombre "Horizontally" con plantilla {
+    <table :class="internalTableClasses">
+        <tbody :class="internalTbodyClasses">
+            <tr :class="internalTrClasses">
+                <slot></slot>
+            </tr>
+        </tbody>
+    </table>
+} con lógica {
+    Retorno {
+        Propiedad props como {
+            Propiedad tableClasses como {
+                Propiedad type como [Object, String].
+                Propiedad required como false.
+                Propiedad default como una función donde retorno {}.
+            }.
+            Propiedad tbodyClasses como {
+                Propiedad type como [Object, String].
+                Propiedad required como false.
+                Propiedad default como una función donde retorno {}.
+            }.
+            Propiedad trClasses como {
+                Propiedad type como [Object, String].
+                Propiedad required como false.
+                Propiedad default como una función donde retorno {}.
+            }.
+        }.
+        Método data como una función donde retorno {
+            Propiedad internalTableClasses como this.tableClasses.
+            Propiedad internalTbodyClasses como this.tbodyClasses.
+            Propiedad internalTrClasses como this.trClasses.
+        }.
+        Propiedad watch como {}.
+    }.
+}.
+
+@SECCIÓN 1.*. Componente de ControlForDate:
+
+Creo ControlForDate como un componente vue con nombre "ControlForDate" con plantilla {
+    <div class="ControlForDate">
+        <Horizontally table-classes="width_100x100">
+            <td class="width_100x100">
+                <div class="ControlForText">
+                    <input type="text" v-model="internalValue" disabled />
+                </div>
+            </td>
+            <td class="width_1x100">
+                <ControlForButton input-classes="default_button selected" v-if="isSelected" :on-click="() => isSelected = false" v-bind:key="'control-for-date-uid-' + uid + '-show-button'"> - </ControlForButton>
+                <ControlForButton input-classes="default_button" v-else :on-click="() => isSelected = true" v-bind:key="'control-for-date-uid-' + uid + '-hide-button'"> + </ControlForButton>
+            </td>
+        </Horizontally>
+        <div v-if="internalDate && isSelected" class="info_group font_size_small padding_2 margin_top_2">
+            <Horizontally table-classes="width_100x100">
+                <td class="width_1x100"><ControlForButton input-classes="default_button" :on-click="decreaseDate"> « </ControlForButton></td>
+                <td class="width_100x100 text_align_center">
+                    <span>{{ $t($utilidades.fromWeekdayToText(internalDate.getDay())) }}, {{ $t("día") }} </span>
+                    <span>{{ $utilidades.padLeft(internalDate.getDate(), 2, "0") }}</span>
+                </td>
+                <td class="width_1x100"><ControlForButton input-classes="default_button" :on-click="increaseDate"> » </ControlForButton></td>
+            </Horizontally>
+            <Horizontally table-classes="width_100x100">
+                <td style="width: 50%;">
+                    <Horizontally table-classes="width_100x100">
+                        <td class="width_1x100"><ControlForButton input-classes="default_button" :on-click="decreaseMonth"> « </ControlForButton></td>
+                        <td class="width_100x100 text_align_center">
+                            <span>{{ $t($utilidades.fromMonthToText(internalDate.getMonth())) }}</span>
+                        </td>
+                        <td class="width_1x100"><ControlForButton input-classes="default_button" :on-click="increaseMonth"> » </ControlForButton></td>
+                    </Horizontally>
+                </td>
+                <td style="width: 50%;">
+                    <Horizontally table-classes="width_100x100">
+                        <td class="width_1x100"><ControlForButton input-classes="default_button" :on-click="decreaseYear"> « </ControlForButton></td>
+                        <td class="width_100x100 text_align_center">{{ internalDate.getFullYear() }}</td>
+                        <td class="width_1x100"><ControlForButton input-classes="default_button" :on-click="increaseYear"> » </ControlForButton></td>
+                    </Horizontally>
+                </td>
+            </Horizontally>
+            <div class="padding_vertical_3">
+                <table class="width_100x100 font_family_monospace">
+                    <tr v-for="(row, rowIndex) in internalCalendar" v-bind:key="'calendar-row-' + rowIndex">
+                        <td class="calendar_cell" :class="cell === internalDate.getDate() ? 'selected' : ''" v-for="(cell, cellIndex) in row" v-bind:key="'calendar-row-' + rowIndex + '-cell-' + cellIndex">
+                            <template v-if="!cell"></template>
+                            <span v-else class="calendar_cell_content font_size_small" v-on:click="() => selectDate(cell)">
+                                {{ $utilidades.padLeft(cell, 2, "0") }}
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <Horizontally table-classes="width_100x100">
+                <td style="width: 33%;">
+                    <Horizontally table-classes="width_100x100">
+                        <td class="width_1x100"><ControlForButton input-classes="default_button" :on-click="decreaseHours"> « </ControlForButton></td>
+                        <td class="width_100x100 text_align_center">{{ $utilidades.padLeft(internalDate.getHours(), 2, "0") }}</td>
+                        <td class="width_1x100"><ControlForButton input-classes="default_button" :on-click="increaseHours"> » </ControlForButton></td>
+                    </Horizontally>
+                </td>
+                <td style="width: 33%;">
+                    <Horizontally table-classes="width_100x100">
+                        <td class="width_1x100"><ControlForButton input-classes="default_button" :on-click="decreaseMinutes"> « </ControlForButton></td>
+                        <td class="width_100x100 text_align_center">{{ $utilidades.padLeft(internalDate.getMinutes(), 2, "0") }}</td>
+                        <td class="width_1x100"><ControlForButton input-classes="default_button" :on-click="increaseMinutes"> » </ControlForButton></td>
+                    </Horizontally>
+                </td>
+                <td style="width: 33%;">
+                    <Horizontally table-classes="width_100x100">
+                        <td class="width_1x100"><ControlForButton input-classes="default_button" :on-click="decreaseSeconds"> « </ControlForButton></td>
+                        <td class="width_100x100 text_align_center">{{ $utilidades.padLeft(internalDate.getSeconds(), 2, "0") }}</td>
+                        <td class="width_1x100"><ControlForButton input-classes="default_button" :on-click="increaseSeconds"> » </ControlForButton></td>
+                    </Horizontally>
+                </td>
+            </Horizontally>
+        </div>
+    </div>
+} con lógica {
+    Retorno {
+        Propiedad props como {
+            Propiedad uid como {
+                Propiedad type como String.
+                Propiedad default como una función donde retorno Vue.prototype.$utilidades.getRandomId(10).
+            }.
+            Propiedad initialDate como {
+                Propiedad type como [String, Date].
+                Propiedad required como false.
+                Propiedad default como una función donde retorno una nueva Date().
+            }.
+            Propiedad onChange como {
+                Propiedad type como Function.
+                Propiedad required como false.
+                Propiedad default como noop.
+            }.
+        }.
+        Método data como una función donde {
+            Retorno {
+                Propiedad isSelected como false.
+                Propiedad internalDate como undefined.
+                Propiedad internalValue como undefined.
+                Propiedad internalOnChange como this.onChange.
+                Propiedad internalCalendar como undefined.
+            }.
+        }.
+        Propiedad watch como {
+            Método internalDate como una función con (nuevoValor) donde {
+                Si nuevoValor es tipo texto {
+                    Asigno this.internalValue como nuevoValor.
+                }
+                Y si no {
+                    Asigno this.internalValue como window.$utilidades.fromDateToString(nuevoValor, true).
+                }.
+            }.
+            Método internalValue como una función con (nuevoValor) donde {
+                Hago this.internalOnChange(nuevoValor, this).
+                Hago this.calculateCalendar().
+            }.
+        }.
+        Propiedad methods como {
+            Método calculateCalendar como una función donde {
+                Creo dayFirst como una nueva Date(this.internalDate).
+                Creo dayLast como una nueva Date(this.internalDate).
+                Hago dayFirst.setDate(1).
+                Hago dayLast.setMonth(dayLast.getMonth()+1).
+                Hago dayLast.setDate(0-1).
+                Creo weekDayFirst como window.$utilidades.adaptWeekDay(dayFirst.getDay()) - 1.
+                Creo weekDayLast como window.$utilidades.adaptWeekDay(dayLast.getDay()) - 1.
+                Creo calendar como [[]].
+                Creo variable calendarDaysIndex como 0.
+                Creo variable calendarRowsIndex como 0.
+                Desde 0 hasta Math.abs(weekDayFirst) {
+                    Hago calendar[0].push(undefined).
+                    Incremento calendarDaysIndex.
+                }.
+                Desde 0 hasta dayLast.getDate() {
+                    Si (calendarDaysIndex % 7) es igual que 0 {
+                        Incremento calendarRowsIndex.
+                        Asigno calendar[calendarRowsIndex] como [].
+                    }.
+                    Hago calendar[calendarRowsIndex].push(index+1).
+                    Incremento calendarDaysIndex.
+                }.
+                Asigno this.internalCalendar como calendar.
+            }.
+            Método decreaseYear como una función donde {
+                Creo date como una nueva Date(this.internalDate).
+                Hago date.setFullYear(date.getFullYear() - 1).
+                Asigno this.internalDate como date.
+            }.
+            Método increaseYear como una función donde {
+                Creo date como una nueva Date(this.internalDate).
+                Hago date.setFullYear(date.getFullYear() + 1).
+                Asigno this.internalDate como date.
+            }.
+            Método decreaseMonth como una función donde {
+                Creo date como una nueva Date(this.internalDate).
+                Hago date.setMonth(date.getMonth() - 1).
+                Asigno this.internalDate como date.
+            }.
+            Método increaseMonth como una función donde {
+                Creo date como una nueva Date(this.internalDate).
+                Hago date.setMonth(date.getMonth() + 1).
+                Asigno this.internalDate como date.
+            }.
+            Método decreaseDate como una función donde {
+                Creo date como una nueva Date(this.internalDate).
+                Hago date.setDate(date.getDate() - 1).
+                Asigno this.internalDate como date.
+            }.
+            Método increaseDate como una función donde {
+                Creo date como una nueva Date(this.internalDate).
+                Hago date.setDate(date.getDate() + 1).
+                Asigno this.internalDate como date.
+            }.
+            Método decreaseHours como una función donde {
+                Creo date como una nueva Date(this.internalDate).
+                Hago date.setHours(date.getHours() - 1).
+                Asigno this.internalDate como date.
+            }.
+            Método increaseHours como una función donde {
+                Creo date como una nueva Date(this.internalDate).
+                Hago date.setHours(date.getHours() + 1).
+                Asigno this.internalDate como date.
+            }.
+            Método decreaseMinutes como una función donde {
+                Creo date como una nueva Date(this.internalDate).
+                Hago date.setMinutes(date.getMinutes() - 1).
+                Asigno this.internalDate como date.
+            }.
+            Método increaseMinutes como una función donde {
+                Creo date como una nueva Date(this.internalDate).
+                Hago date.setMinutes(date.getMinutes() + 1).
+                Asigno this.internalDate como date.
+            }.
+            Método decreaseSeconds como una función donde {
+                Creo date como una nueva Date(this.internalDate).
+                Hago date.setSeconds(date.getSeconds() - 1).
+                Asigno this.internalDate como date.
+            }.
+            Método increaseSeconds como una función donde {
+                Creo date como una nueva Date(this.internalDate).
+                Hago date.setSeconds(date.getSeconds() + 1).
+                Asigno this.internalDate como date.
+            }.
+            Método selectDate como una función con (cell) donde {
+                Creo date como una nueva Date(this.internalDate).
+                Hago date.setDate(cell numerizado).
+                Asigno this.internalDate como date.
+            }.
+        }.
+        Método mounted como una función donde {
+            Asigno this.internalDate como window.$utilidades.fromStringToDate(this.initialDate, true).
+            Hago this.internalDate.setMilliseconds(0).
+        }.
+    }.
+}.
+
+@SECCIÓN 1.*. Componente de ControlForFile:
+
+Creo ControlForFile como un componente vue con nombre "ControlForFile" con plantilla {
+    <div class="ControlForFile">
+        <Horizontally>
+            <td class="width_100x100">
+                <input class="display_none" type="file" :ref="'column-file-for-' + uid" v-on:change="() => setFilePath()" />
+                <div class="form_control_input">{{ $t("File: ") }} {{ internalFilePath }}</div>
+            </td>
+            <td class="width_1x100">
+                <ControlForButton input-classes="min_width_25px success_button" :on-click="() => downloadFile()"> Descargar </ControlForButton>
+            </td>
+            <td class="width_1x100">
+                <ControlForButton input-classes="min_width_25px" :on-click="() => changeFile()"> * </ControlForButton>
+            </td>
+        </Horizontally>
+    </div>
+} con lógica {
+    Retorno {
+        Propiedad props como {
+            Propiedad initialValue como {
+                Propiedad type como [String, Date].
+                Propiedad required como false.
+                Propiedad default como una función donde retorno una nueva Date().
+            }.
+            Propiedad onChange como {
+                Propiedad type como Function.
+                Propiedad required como false.
+                Propiedad default como noop.
+            }.
+            Propiedad uid como {
+                Propiedad type como String.
+                Propiedad default como una función donde retorno window.$utilidades.getRandomId(10).
+            }.
+            Propiedad formControlParent como {
+                Propiedad type como Object.
+                Propiedad required como true.
+            }.
+        }.
+        Método data como una función donde {
+            Retorno {
+                Propiedad internalValue como this.initialValue.
+                Propiedad internalFilePath como undefined.
+            }.
+        }.
+        Propiedad watch como {}.
+        Propiedad methods como {
+            Método changeFile como una función donde {
+                Retorno this.$refs["column-file-for-" + this.uid].click().
+            } en errores hago this.$notificaciones.error(error).
+            Método setFilePath como una función donde {
+                Creo inputFile como this.$refs["column-file-for-" + this.uid].
+                Creo inputFileData como inputFile.files[0].
+                Asigno this.internalFilePath como inputFileData.name + " [mimetype: " + inputFileData.type + "] [space: " + inputFileData.size + " bytes]".
+            } en errores hago this.$notificaciones.error(error).
+            Método getFileInputs como una función donde {
+                Creo inputFile como this.$refs["column-file-for-" + this.uid].
+                Retorno [inputFile].
+            } en errores hago this.$notificaciones.error(error).
+            Método downloadFile como una función donde {
+                @POR-HACER...
+                Hago window.alert("Funcionalidad por completar").
+            } en errores hago this.$notificaciones.error(error).
+        }.
+        Método mounted como una función donde {
+        }.
+    }.
+}.
+
+@SECCIÓN 1.*. Componente de ControlForImage:
+
+Creo ControlForImage como un componente vue con nombre "ControlForImage" con plantilla {
+    <div class="ControlForImage">
+        <Horizontally>
+            <td class="width_100x100">
+                <input class="display_none" type="file" :ref="'column-image-for-' + uid" v-on:change="() => setFilePath()" />
+                <div class="ControlForText">
+                    <input type="text" disabled class="form_control_input" :value="$t('Image: ') + internalFilePath" />
+                </div>
+            </td>
+            <td class="width_1x100">
+                <ControlForButton input-classes="min_width_25px success_button" :on-click="() => openImage()"> Abrir </ControlForButton>
+            </td>
+            <td class="width_1x100">
+                <ControlForButton input-classes="min_width_25px" :on-click="() => changeFile()"> * </ControlForButton>
+            </td>
+        </Horizontally>
+        <div v-on:click="() => refreshImage()">
+            <Horizontally table-classes="width_100x100" v-if="internalImageUrl">
+                <td class="width_100x100" colspan="100" v-bind:key="internalImageUid">
+                    <div class="image_preview_container">
+                        <div class="image_preview_wrapper">
+                            <img class="image_preview" :src="internalImageUrl" alt="No se encontró imagen" />
+                        </div>
+                    </div>
+                </td>
+            </Horizontally>
+        </div>
+    </div>
+} con lógica {
+    Retorno {
+        Propiedad props como {
+            Propiedad initialValue como {
+                Propiedad type como [String, Date].
+                Propiedad required como false.
+                Propiedad default como una función donde retorno una nueva Date().
+            }.
+            Propiedad onChange como {
+                Propiedad type como Function.
+                Propiedad required como false.
+                Propiedad default como noop.
+            }.
+            Propiedad uid como {
+                Propiedad type como String.
+                Propiedad required como false.
+                Propiedad default como una función donde retorno window.$utilidades.getRandomId(10).
+            }.
+            Propiedad imageUrl como {
+                Propiedad type como String.
+                Propiedad required como false.
+                Propiedad default como undefined.
+            }.
+            Propiedad formControlParent como {
+                Propiedad type como Object.
+                Propiedad required como true.
+            }.
+        }.
+        Método data como una función donde {
+            Retorno {
+                Propiedad internalValue como this.initialValue.
+                Propiedad internalFilePath como this.initialValue.
+                Propiedad internalImageUrl como this.imageUrl o this.initialValue.
+                Propiedad internalImageUid como this.$utilidades.getRandomId(10).
+            }.
+        }.
+        Propiedad watch como {
+        }.
+        Propiedad methods como {
+            Método changeFile como una función donde {
+                Retorno this.$refs["column-image-for-" + this.uid].click().
+            } en errores hago this.$notificaciones.error(error).
+            Método setFilePath como una función donde {
+                Creo inputFile como this.$refs["column-image-for-" + this.uid].
+                Creo fileItem como inputFile.files[0].
+                Si fileItem {
+                    Asigno this.internalFilePath como fileItem.name + " [mimetype: " + fileItem.type + "] [space: " + fileItem.size + " bytes]".
+                }.
+            } en errores hago this.$notificaciones.error(error).
+            Método getFileInputs como una función donde {
+                Creo inputFile como this.$refs["column-image-for-" + this.uid].
+                Retorno [inputFile].
+            } en errores hago this.$notificaciones.error(error).
+            Método refreshImage como una función donde {
+                Asigno this.internalImageUrl como false.
+                Creo imageUrlInstance como un nuevo URL(this.imageUrl).
+                Creo imageUrlParams como un nuevo URLSearchParams(imageUrlInstance.search).
+                Hago imageUrlParams.set("nocache", this.$utilidades.getRandomId(10)).
+                Creo imageUrl2 como imageUrlInstance.origin + imageUrlInstance.pathname + '?' + imageUrlParams.toString().
+                Hago una espera de 0.5 segundos donde {
+                    Asigno this.internalImageUrl como imageUrl2.
+                }.
+
+            }.
+            Método openImage como una función donde {
+                @POR-HACER...
+                Hago window.alert("Funcionalidad por completar").
+            }.
+        }.
+        Método mounted como una función donde {
+        }.
+    }.
+}.
+
+@SECCIÓN 1.*. Componente de FormControl:
+
+Creo FormControl como un componente vue con nombre "FormControl" con plantilla {
+    <div class="FormControl padding_top_2 padding_bottom_2" style="border-bottom: 1px dashed rgba(221, 221, 221,0.2);" v-if="meetsOptionConditions()">
+        <div class="">
+            <span class="font_weight_bold">{{ $window.$utilidades.capitalizeString(columnId) }}: </span>
+            <span class="font_size_small text_style_as_two">[ {{ internalColumnMetadata.attributes.isType }} {{ internalColumnMetadata.attributes.isSubtype || "" }} ] </span>
+            <span class="font_size_small text_style_as_three">{{ internalColumnMetadata.attributes.hasDescription || "" }}</span>
+        </div>
+        <div v-if="internalColumnMetadata.attributes.isType === 'string' && internalColumnMetadata.attributes.isSubtype === null">
+            <div class="ControlForText">
+                <input class="form_control_input" type="text" v-model="internalValue" :ref="'form-control-' + uid" />
+            </div>
+        </div>
+        <div v-else-if="internalColumnMetadata.attributes.isType === 'string' && internalColumnMetadata.attributes.isSubtype === 'password'">
+            <div class="ControlForPassword">
+                <input class="form_control_input" type="password" v-model="internalValue" :ref="'form-control-' + uid" />
+            </div>
+        </div>
+        <div v-else-if="internalColumnMetadata.attributes.isType === 'string' || internalColumnMetadata.attributes.isType === 'text'">
+            <template v-if="internalColumnMetadata.attributes.hasMultipleRows">
+                <div class="ControlForText">
+                    <textarea class="form_control_input textarea_input" type="text" v-model="internalValue" :ref="'form-control-' + uid"></textarea>
+                </div>
+            </template>
+            <template v-else>
+                <div class="ControlForText">
+                    <input class="form_control_input" type="text" v-model="internalValue" :ref="'form-control-' + uid" />
+                </div>
+            </template>
+        </div>
+        <div v-else-if="internalColumnMetadata.attributes.isType === 'number'">
+            <div class="ControlForText">
+                <input class="form_control_input" type="number" v-model="internalValue" :ref="'form-control-' + uid" />
+            </div>
+        </div>
+        <div v-else-if="internalColumnMetadata.attributes.isType === 'boolean'">
+            <div class="ControlForCheckbox">
+                <input class="form_control_input" type="checkbox" v-model="internalValue" :ref="'form-control-' + uid" />
+            </div>
+        </div>
+        <div v-else-if="internalColumnMetadata.attributes.isType === 'option'">
+            <div class="ControlForSelect">
+                <select class="form_control_input select_input" v-model="internalValue" :ref="'form-control-' + uid">
+                    <option v-for="(optionData, optionIndex) in internalColumnMetadata.attributes.hasOptions" v-bind:key="'form-control-' + uid + '-option-' + optionIndex" :value="optionData.value">
+                        {{ optionData.label }}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div v-else-if="internalColumnMetadata.attributes.isType === 'options'">
+            <div class="ControlForCheckbox">
+                <input class="form_control_input" type="checkbox" v-model="internalValue" :ref="'form-control-' + uid" />
+            </div>
+        </div>
+        <div v-else-if="internalColumnMetadata.attributes.isType === 'object'">
+            <DataTableComponent
+                mode="input"
+                mode-type="object"
+                :target-project="$rest.getReferredProjectAndTableByColumn(internalProjectId, internalTableId, internalColumnId).project"
+                :target-table="$rest.getReferredProjectAndTableByColumn(internalProjectId, internalTableId, internalColumnId).table"
+                :on-change="v => internalValue = v"
+                :initial-value="internalValue"
+                :ref="'form-control-' + uid" />
+        </div>
+        <div v-else-if="internalColumnMetadata.attributes.isType === 'list'">
+            <DataTableComponent
+                mode="input"
+                mode-type="list"
+                :target-project="$rest.getReferredProjectAndTableByColumn(internalProjectId, internalTableId, internalColumnId).project"
+                :target-table="$rest.getReferredProjectAndTableByColumn(internalProjectId, internalTableId, internalColumnId).table"
+                :on-change="v => internalValue = v"
+                :initial-value="internalValue"
+                :ref="'form-control-' + uid" />
+        </div>
+        <div v-else-if="internalColumnMetadata.attributes.isType === 'time'">
+            <ControlForDate
+                :initial-value="internalValue"
+                :on-change="v => internalValue = v"
+                :ref="'form-control-' + uid" />
+        </div>
+        <div v-else-if="internalColumnMetadata.attributes.isType === 'file'">
+            <ControlForFile
+                :initial-value="internalValue"
+                :on-change="v => internalValue = v"
+                :ref="'form-control-' + uid"
+                :form-control-parent="this" />
+        </div>
+        <div v-else-if="internalColumnMetadata.attributes.isType === 'image'">
+            <ControlForImage
+                :initial-value="internalValue"
+                :on-change="v => internalValue = v"
+                :image-url="getImageUrl()"
+                :ref="'form-control-' + uid"
+                :form-control-parent="this" />
+        </div>
+        <div v-else>
+            <input class="form_control_input" type="text" v-model="internalValue" />
+        </div>
+    </div>
+} con lógica {
+    Retorno {
+        Propiedad props como {
+            Propiedad uid como {
+                Propiedad type como String.
+                Propiedad required como false.
+                Propiedad default como una función donde retorno this.$utilidades.getRandomId(10).
+            }.
+            Propiedad fullRow como {
+                Propiedad type como Object.
+                Propiedad required como true.
+            }.
+            Propiedad projectId como {
+                Propiedad type como String.
+                Propiedad required como true.
+            }.
+            Propiedad columnId como {
+                Propiedad type como String.
+                Propiedad required como true.
+            }.
+            Propiedad tableId como {
+                Propiedad type como String.
+                Propiedad required como true.
+            }.
+            Propiedad tableMetadata como {
+                Propiedad type como Object.
+                Propiedad required como true.
+            }.
+            Propiedad itemId como {
+                Propiedad type como [Number, String].
+                Propiedad required como false.
+                Propiedad default como undefined.
+            }.
+            Propiedad initialValue como {
+                Propiedad type como [Array, Object, String, Number, Boolean, Function].
+                Propiedad required como false.
+                Propiedad default como una lambda donde retorno "".
+            }.
+            Propiedad onChange como {
+                Propiedad type como Function.
+                Propiedad required como false.
+                Propiedad default como noop.
+            }.
+        }.
+        Método data como una función donde {
+            Retorno {
+                Propiedad internalFullRow como this.fullRow.
+                Propiedad internalProjectId como this.projectId.
+                Propiedad internalTableId como this.tableId.
+                Propiedad internalTableMetadata como this.tableMetadata.
+                Propiedad internalItemId como this.itemId.
+                Propiedad internalColumnId como this.columnId.
+                Propiedad internalColumnMetadata como this.tableMetadata.columns[this.columnId].
+                Propiedad internalOnChange como this.onChange.
+                Propiedad internalValue como this.initialValue.
+            }.
+        }.
+        Propiedad methods como {
+            Método getImageUrl como una función donde {
+                Retorno this.$rest.getFileUrl(this.internalProjectId, this.tableId, this.internalItemId, this.columnId).
+            } en errores hago this.$notificaciones.error(error).
+            Método getFiles como una función donde {
+                Si ["file", "image"] no contiene valor this.internalColumnMetadata.attributes.isType lanzo un nuevo Error("Required form control to be «file» or «image» in order to «getFiles»").
+                Creo controlElement como this.$refs["form-control-" + this.uid].
+                Creo fileInputs como controlElement.getFileInputs().
+                Retorno fileInputs.
+            } en errores hago this.$notificaciones.error(error).
+            Método meetsOptionConditions como una función donde {
+                Creo optionConditionGroups como this.internalColumnMetadata.attributes.hasOptionConditions.
+                Si optionConditionGroups es tipo indefinido retorno true.
+                Si optionConditionGroups es igual que null retorno true.
+                Si optionConditionGroups no es tipo lista lanzo un nuevo Error("Required configuration on «schema.tables[" + this.internalTableId + "].columns[" + this.internalColumnId + "].attributes.hasOptionConditions» to be an array, «undefined» or «null» in order to «meetsOptionConditions»").
+                Itero como objeto optionConditionGroups creando constante groupIndex donde {
+                    Creo optionConditionGroup como optionConditionGroups[groupIndex].
+                    Creo variable resultConditionGroup como true.
+                    Si optionConditionGroup no es tipo lista lanzo un nuevo Error("Required configuration on «schema.tables[" + JSON.stringify(this.internalTableId) + "].columns[" + JSON.stringify(this.internalColumnId) + "].attributes.hasOptionConditions» on index «" + groupIndex + "» to be an array in order to «meetsOptionConditions»").
+                    Itero como objeto optionConditionGroup creando constante atomicIndex donde {
+                        Creo atomicCondition como optionConditionGroup[atomicIndex].
+                        Si atomicCondition no es tipo lista lanzo un nuevo Error("Required configuration on «schema.tables[" + JSON.stringify(this.internalTableId) + "].columns[" + JSON.stringify(this.internalColumnId) + "].attributes.hasOptionConditions» on index «" + groupIndex + "».«" + atomicIndex + "» to be an array in order to «meetsOptionConditions»").
+                        Creo atomicConditionResult como this.resolveCondition(atomicCondition).
+                        Asigno resultConditionGroup como resultConditionGroup y atomicConditionResult.
+                        Si resultConditionGroup es igual que false retorno false.
+                    }.
+                }.
+                Retorno true.
+            } en errores hago this.$notificaciones.error(error).
+            Método resolveCondition como una función con (parametros) donde {
+                Creo sujeto como parametros[0].
+                Creo operacion como parametros[1].
+                Creo predicado como parametros[2].
+                Creo usandoVariable como parametros[3] o false.
+                Si operacion es igual que "=" {
+                    Creo sujetoFinal como this.internalFullRow.getProperty(sujeto).
+                    Creo predicadoFinal como cuando usandoVariable entonces this.internalFullRow.getProperty(predicado) si no predicado.
+                    Si sujetoFinal no es igual que predicadoFinal {
+                        Retorno false.
+                    }.
+                }.
+                @POR-HACER.... != < > <= >= in not in has has not ... ?
+                Retorno true.
+            }.
+        }.
+        Propiedad watch como {
+            Método internalValue como una función con (nuevoValor) donde {
+                Hago this.internalOnChange(nuevoValor).
+            }.
+        }.
+    }.
+}.
+
+@SECCIÓN 1.*. Componente de TitleOfPage:
+
+Creo TitleOfPage como un componente vue con nombre "TitleOfPage" con plantilla {
+    <div class="TitleOfPage">
+        <h3 class="padding_horizontal_2 text_align_right"><slot></slot></h3>
+    </div>
+}.
+
+@SECCIÓN 1.*. Componente de LanguageSelector:
+
+Creo LanguageSelector como un componente vue con nombre "LanguageSelector" con plantilla {
+    <div class="LanguageSelector text_align_right">
+        <Horizontally>
+            <td class="width_1x100">
+                <span>{{ $t("Idioma:") }}</span>
+            </td>
+            <td class="width_100x100">
+                <div class="ControlForSelect">
+                    <select v-model="selected_language">
+                        <option value="es">Español</option>
+                        <option value="ca">Català</option>
+                        <option value="en">English</option>
+                    </select>
+                </div>
+            </td>
+        </Horizontally>
+    </div>
+} con lógica donde {
+    Retorno {
+        Método data como una función donde {
+            Retorno {
+                Propiedad selected_language como "".
+            }.
+        }.
+        Propiedad watch como {
+            Método selected_language como una función con (nuevoValor) donde {
+                Hago this.$almacenamiento.persistir("preferences.user.language", nuevoValor).
+                Hago this.$i18n.i18next.changeLanguage(nuevoValor).
+            }.
+        }.
+        Método mounted como una función donde {
+            Asigno this.selected_language como this.$almacenamiento.obtener("preferences.user.language", this.$i18n.i18next.language).
+        }.
+    }.
+}.
+
+@SECCIÓN 1.*. Componente de Notificaciones:
+
+Creo Notificaciones como un componente vue con nombre "Notificaciones" con plantilla {
+    <div class="Notificaciones">
+        <div style="position: fixed; top: auto; bottom: 0; left: 0; right: 0;">
+            <div class="notification_list">
+                <div class="padding_horizontal_0" v-if="notifications.length">
+                    <div class="notification_group_wrapper" v-for="(notification, notificationIndex) in notifications" v-bind:key="'notifications-list-notification-' + notificationIndex">
+                        <div class="info_group danger_group notification_group">
+                            <span class="notification_trace">[{{ notification.trace }}]</span> <span class="notification_message">{{ notification.message }}</span>
+                        </div>
+                    </div>
+                    <div class="padding_top_2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+} con lógica donde {
+    Retorno {
+        Método data como una función donde retorno {
+            Propiedad notifications como [].
+        }.
+        Propiedad methods como {
+            Método addNotification como una función con (notification) donde {
+                Imprimo "add notif:" + notification textualizado.
+                Creo $id como window.$utilidades.getRandomId(10).
+                Creo notification2 como Object.assign({}, notification).
+                Asigno notification2.$id como $id.
+                Si notification es instancia de Error {
+                    Hago this.notifications.push(notification2).
+                }
+                Y si no {
+                    Hago this.notifications.push(notification2).
+                }.
+                Hago setTimeout(una lambda donde {
+                    Creo indiceNotification como Object.keys(this.notifications).filter(una lambda con (index) donde {
+                        Retorno this.notifications[index].$id es igual que $id.
+                    })[0].
+                    Hago this.notifications.splice(indiceNotification, 1).
+                }, notification2.timeout o 5000).
+            }.
+        }.
+    }.
+}.
+
+@SECCIÓN 1.*. Componente de Topbar:
+
+Creo variable relojInterval como undefined.
+
+Creo Topbar como un componente vue con nombre "Topbar" con plantilla {
+    <div class="Topbar">
+        <Horizontally>
+            <td class="width_1x100">
+                <ControlForButton :on-click="toggleNavigation">
+                    #
+                </ControlForButton>
+            </td>
+            <td class="width_100x100 text_align_center">
+                <h2>{{ hora }}</h2>
+            </td>
+        </Horizontally>
+    </div>
+} con lógica donde {
+    Retorno {
+        Método data como una función donde {
+            Asigno relojInterval como setInterval(una lambda donde {
+                Creo fecha como un nuevo Date().
+                Hago fecha.setMilliseconds(0).
+                Asigno this.hora como this.$utilidades.fromDateToString(fecha, true).replace(una nueva RegExp("\\.[0-9][0-9][0-9]$", "g"), "").
+            }, 1000).
+            Retorno {
+                Propiedad hora como "".
+            }.
+        }.
+        Propiedad methods como {
+            Método toggleNavigation como una función donde {
+                Hago this.$router.history.push("/home").
+            }.
+        }.
+    }.
+}.
+
+@SECCIÓN 1.*. Componente de BackButton:
+
+Creo BackButton como un componente vue con nombre "BackButton" con plantilla {
+    <div class="BackButton" :class="internalGeneralClasses">
+        <ControlForButton input-classes="width_auto" :on-click="goToRouteUp" >{{ $t("Atrás") }}</ControlForButton>
+    </div>
+} con lógica donde {
+    Retorno {
+        Método props como {
+            Propiedad generalClasses como {
+                Propiedad type como String.
+                Propiedad default como "".
+            }.
+            Propiedad levels como {
+                Propiedad type como Number.
+                Propiedad default como 1.
+            }.
+        }.
+        Método data como una función donde retorno {
+            Propiedad internalGeneralClasses como this.generalClasses.
+            Propiedad internalLevels como this.levels.
+        }.
+        Propiedad methods como {
+            Método goToRouteUp como una función donde {
+                Creo variable partesDeRuta como this.$route.path.split("/").
+                Desde 0 hasta this.internalLevels hago partesDeRuta.pop().
+                Creo variable nuevaRuta como partesDeRuta.join("/").
+                Si nuevaRuta es igual que "" asigno nuevaRuta como "/home".
+                Hago this.$router.history.push(nuevaRuta).
+            }.
+        }.
+    }.
+}.
+
+@SECCIÓN 2. Páginas:
+
+@SECCIÓN 2.*. Componente de HomePage:
+
+Creo HomePage como un componente vue con nombre "HomePage" con plantilla {
+    <div class="HomePage">
+        <TitleOfPage>
+            <Horizontally>
+                <td class="width_auto"><BackButton general-classes="visibility_hidden" /></td>
+                <td class="width_100x100">{{ $t("Inicio") }}</td>
+            </Horizontally>
+        </TitleOfPage>
+        <hr />
+        <div class="padding_2 padding_left_0 padding_bottom_0">
+            <Card>
+                <!-- @SECCIÓN DE HOOK: nativo.botones_de_home_page -->
+                <ul class="BigMenuSquaresList">
+                    <li class="margin_bottom_2" v-on:click="() => $router.history.push('/data')">
+                        <span class="link_text">{{ $t("Datos") }}</span>
+                    </li>
+                    <li class="margin_bottom_2" v-on:click="() => $router.history.push('/analysis')">
+                        <span class="link_text">{{ $t("Analíticas") }}</span>
+                    </li>
+                    <li class="margin_bottom_2" v-on:click="() => $router.history.push('/settings')">
+                        <span class="link_text">{{ $t("Configuraciones") }}</span>
+                    </li>
+                    <li class="margin_bottom_2" v-on:click="() => $router.history.push('/logout')">
+                        <span class="link_text">{{ $t("Cerrar sesión") }}</span>
+                    </li>
+                </ul>
+            </Card>
+        </div>
+    </div>
+}.
+
+@SECCIÓN 2.*. Componente de LoginPage:
+
+Creo LoginPage como un componente vue con nombre "LoginPage" con plantilla {
+    <div class="LoginPage">
+        <TitleOfPage>
+            <Horizontally>
+                <td class="width_auto"><BackButton :general-classes="$root.authentication ? '' : 'visibility_hidden'" /></td>
+                <td class="width_100x100">{{ $t("Identificación") }}</td>
+            </Horizontally>
+        </TitleOfPage>
+        <hr />
+        <div class="padding_vertical_4 text_align_center"> 
+            {{ $root.metadata.project }}
+        </div>
+        <hr />
+        <div class="text_align_center remarked_row padding_horizontal_2">
+            <div class="padding_horizontal_2 text_align_left display_inline_block margin_vertical_4 info_group default_row" style="max-width: 180px;">
+                <Card general-classes="">
+                    <ControlForText :on-change="v => user = v" label="Usuario:" ref="Login_user_input" general-classes="padding_top_2" />
+                    <ControlForPassword :on-change="v => password = v" label="Contraseña:" ref="Login_password_input" general-classes="padding_top_2" />
+                    <hr class="margin_top_2"/>
+                    <ControlForButton :on-click="login" general-classes="padding_vertical_2" input-classes="success_button">{{ $t("Identificarse") }}</ControlForButton>
+                </Card>
+            </div>
+        </div>
+        <hr />
+        <div class="padding_2">
+            <LanguageSelector />
+        </div>
+    </div>
+} con lógica {
+    Retorno {
+        Método data como una función donde {
+            Asigno window.$loginpage como this.
+            Retorno {
+                Propiedad user como this.$almacenamiento.obtener("preferences.user.user", "").
+                Propiedad password como this.$almacenamiento.obtener("preferences.user.password", "").
+            }.
+        }.
+        Propiedad methods como {
+            Método login como una función asíncrona donde {
+                Hago this.$rest.setRootComponent(this.$root).
+                Creo respuestaSchema como asíncronamente this.$rest.schema(false).
+                Creo respuestaLogin como asíncronamente this.$rest.login(this.user, this.password).
+                Creo respuestaFullSchema como asíncronamente this.$rest.schema(true).
+                Hago this.$router.history.push("/home").
+            } en errores hago this.$notificaciones.error(error, "LoginPage.methods.login").
+        }.
+        Propiedad watch como {
+            Método user como una función con (nuevoValor) donde {
+                Hago this.$almacenamiento.persistir("preferences.user.user", nuevoValor).
+            } en errores hago this.$notificaciones.error(error, "LoginPage.watch.user").
+            Método password como una función con (nuevoValor) donde {
+                Hago this.$almacenamiento.persistir("preferences.user.password", nuevoValor).
+            } en errores hago this.$notificaciones.error(error, "LoginPage.watch.password").
+        }.
+        Método mounted como una función donde {
+            Asigno this.$refs["Login_user_input"].internalValue como this.$almacenamiento.obtener("preferences.user.user", "").
+            Asigno this.$refs["Login_password_input"].internalValue como this.$almacenamiento.obtener("preferences.user.password", "").
+        } en errores hago this.$notificaciones.error(error, "LoginPage.mounted").
+    }.
+}.
+
+@SECCIÓN 2.*. Componente de LogoutPage:
+
+Creo LogoutPage como un componente vue con nombre "LogoutPage" con plantilla {
+    <div class="LogoutPage">
+        <TitleOfPage>
+            <Horizontally>
+                <td class="width_auto"><BackButton :general-classes="$root.authentication ? '' : 'visibility_hidden'" /></td>
+                <td class="width_100x100">{{ $t("Cerrar sesión") }}</td>
+            </Horizontally>
+        </TitleOfPage>
+        <hr />
+        <div class="padding_horizontal_2 text_align_center">
+            <div class="font_size_small padding_2">{{ $t("¿Seguro que quieres abandonar la aplicación?") }}</div>
+            <div>
+                <span class="display_inline_block width_auto">
+                    <ControlForButton :on-click="() => $router.history.push('/home')" general-classes="padding_vertical_2 text_align_center" input-classes="display_inline_block width_auto success_button no_break_line">
+                        {{ $t("Volver atrás") }}
+                    </ControlForButton>
+                </span>
+                <span class="display_inline_block width_auto">
+                    <ControlForButton :on-click="closeSession" general-classes="padding_vertical_2 text_align_center" input-classes="display_inline_block width_auto danger_button no_break_line">
+                        {{ $t("Cerrar sesión") }}
+                    </ControlForButton>
+                </span>
+            </div>
+        </div>
+    </div>
+} con lógica {
+    Retorno {
+        Método data como una función donde {
+            Retorno {}.
+        }.
+        Propiedad methods como {
+            Método closeSession como una función asíncrona donde {
+                Creo respuestaLogout como asíncronamente this.$rest.logout().
+                Si no this.$root.authentication hago this.$router.history.push("/home");
+                Y si no hago this.$notificaciones.error(respuestaLogout).
+            } en errores hago this.$notificaciones.error(error, "LogoutPage.methods.closeSession").
+        }.
+    }.
+}.
+
+@SECCIÓN 2.*. Componente de DataTablePage:
+
+Creo DataTablePage como un componente vue con nombre "DataTablePage" con plantilla {
+    <div class="DataTablePage">
+        <template v-if="isLoaded">
+            <TitleOfPage>
+                <Horizontally>
+                    <td class="width_auto"><BackButton :levels="2" /></td>
+                    <td class="width_100x100">{{ $t("Datos de") }} {{ $t("#" + $route.params.table) }}</td>
+                </Horizontally>
+            </TitleOfPage>
+            <hr/>
+            <div class="padding_horizontal_2">
+                <DataTableComponent
+                    mode="view"
+                    :target-project="$route.params.project"
+                    :target-table="$route.params.table"
+                />
+            </div>
+        </template>
+    </div>
+} con lógica {
+    Retorno {
+        Método data como una función donde retorno {
+            Propiedad isLoaded como true.
+        }.
+        Propiedad watch como {
+            Método $route como una función con (nuevoValor) donde {
+                Asigno this.isLoaded como false.
+                Hago una espera de 0 segundos donde asigno this.isLoaded como true.
+            }.
+        }.
+    }.
+}.
+
+@SECCIÓN 2.*. Componente de DataTableComponent:
+
+Creo DataTableComponent como un componente vue con nombre "DataTableComponent" con plantilla {
+    <div class="DataTableComponent">
+        <div v-if="mode === 'input'">
+            <Horizontally>
+                <td class="width_1x100">
+                    <span class="font_size_small">{{ (modeType === 'list') ? $t("Seleccionados") : $t("Seleccionado") }}: </span>
+                </td>
+                <td class="width_100x100">
+                    <div class="ControlForText">
+                        <input type="text" v-model="internalValue" disabled />
+                    </div>
+                </td>
+                <td class="width_1x100 min_width_25px">
+                    <div v-if="isSelected" v-bind:key="'data-table-component-uid-' + uid + '-button-for-is-selected-row-on-true'">
+                        <ControlForButton input-classes="default_button selected" :on-click="() => isSelected = false">-</ControlForButton>
+                    </div>
+                    <div v-else v-bind:key="'data-table-component-uid-' + uid + '-button-for-is-selected-row-on-false'">
+                        <ControlForButton input-classes="default_button" :on-click="() => isSelected = true">+</ControlForButton>
+                    </div>
+                </td>
+            </Horizontally>
+        </div>
+        <div v-if="(mode === 'view') || (mode === 'input' && isSelected === true)" :class="(mode === 'input') ? 'info_group padding_2 margin_top_2' : ''">
+            <Horizontally>
+                <td class="width_1x100">
+                    <div class="ControlForButton">
+                        <button type="text" :class="'default_button ' + (isAdvancedSearch ? 'selected' : '')" v-on:click="toggleAdvancedSearch">#</button>
+                    </div>
+                </td>
+                <td class="width_100x100">
+                    <ControlForText :on-change="v => search = v"></ControlForText>
+                </td>
+                <td class="width_1x100">
+                    <ControlForButton input-classes="default_button" :on-click="loadRows">Buscar</ControlForButton>
+                </td>
+            </Horizontally>
+            <div v-if="isAdvancedSearch" class="info_group margin_bottom_2">
+                <div class="padding_horizontal_2">
+                    <Horizontally>
+                        <span class="display_inline_block">
+                            <div class="ControlForButton">
+                                <button :class="'default_button ' + (isAdvancedSearchPanel === 'where' ? 'selected' : '')" v-on:click="goToWhereSettings">{{ $t("Filtros") }}</button>
+                            </div>
+                        </span>
+                        <span class="display_inline_block">
+                            <div class="ControlForButton">
+                                <button :class="'default_button ' + (isAdvancedSearchPanel === 'sort' ? 'selected' : '')" v-on:click="goToOrderSettings">{{ $t("Orden") }}</button>
+                            </div>
+                        </span>
+                        <span class="display_inline_block">
+                            <div class="ControlForButton">
+                                <button :class="'default_button ' + (isAdvancedSearchPanel === 'paginate' ? 'selected' : '')" v-on:click="goToPaginationSettings">{{ $t("Paginación") }}</button>
+                            </div>
+                        </span>
+                        <span class="display_inline_block">
+                            <ControlForButton input-classes="success_button" :on-click="goToAddItemPage"><span class="no_break_line">{{ $t("Nuevo") }}</span></ControlForButton>
+                        </span>
+                    </Horizontally>
+                </div>
+                <div v-if="isAdvancedSearchPanel === 'where'">
+                    <div class="padding_horizontal_2 margin_top_0">
+                        <div class="padding_vertical_2 padding_vertical_1 font_size_small" v-if="where.length === 0">No hay filtros aplicados ahora mismo.</div>
+                        <div class="margin_bottom_0" v-for="(whereRule, whereIndex) in where" v-bind:key="'select-where-filter-' + whereIndex">
+                            <div class="info_group padding_2 margin_bottom_1 remarked_row">
+                                <span class="info_group_item display_block width_100x100 vertical_align_top">
+                                    <div class="padding_0 padding_top_2 margin_bottom_2 default_row font_size_small no_break_line">
+                                        <div>{{ $t("Columna inicial") }}:</div>
+                                        <div class="ControlForSelect">
+                                            <select v-model="whereRule[0]">
+                                                <option value="id">{{ $t("id") }}</option>
+                                                <option :value="columnIndex" v-for="(column, columnIndex) in definition.columns" v-bind:key="'select-where-filter-parameter-1-rule-' + whereIndex + '-option-' + columnIndex">
+                                                    {{ columnIndex }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </span>
+                                <template v-if="whereRule[0]">
+                                    <span class="info_group_item display_block width_100x100 vertical_align_top">
+                                        <div class="padding_0 padding_top_2 margin_bottom_2 default_row font_size_small">
+                                            <div>{{ $t("Operador") }}:</div>
+                                            <div class="ControlForSelect">
+                                                <select v-model="whereRule[1]">
+                                                    <option :value="operator" v-for="(operator, operatorIndex) in allOperators" v-bind:key="'select-where-filter-parameter-2-rule-' + whereIndex + '-option-' + operatorIndex">
+                                                        {{ operatorIndex }}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </span>
+                                    <span class="info_group_item display_block width_100x100 vertical_align_top">
+                                        <div class="padding_0 padding_top_2 margin_bottom_2 default_row font_size_small">
+                                            <div>{{ $t("Tipo") }}:</div>
+                                            <div class="ControlForSelect">
+                                                <select v-model="whereRule[3]" value="string">
+                                                    <option :value="operandType" v-for="(operandType, operandTypeIndex) in allOperandTypes" v-bind:key="'select-where-filter-parameter-3-type-rule-' + whereIndex + '-option-' + operandTypeIndex">
+                                                        {{ operandType }}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </span>
+                                </template>
+                                <template v-if="whereRule[3]">
+                                    <span class="info_group_item display_block width_100x100 vertical_align_top">
+                                        <div class="padding_0 padding_top_2 margin_bottom_2 default_row font_size_small">
+                                            <div v-if="whereRule[3] === 'json'">{{ $t("Valor") }}:</div>
+                                            <div v-else-if="whereRule[3] === 'string'">{{ $t("Texto") }}:</div>
+                                            <div>
+                                                <ControlForText :on-change="v => whereRule[2] = v" />
+                                            </div>
+                                        </div>
+                                    </span>
+                                </template>
+                                <span class="info_group_item display_block width_auto vertical_align_top margin_bottom_0">
+                                    <ControlForButton general-classes="text_align_right" input-classes="width_auto display_inline_block danger_button no_break_line" :on-click="() => deleteWhere(whereIndex)">Eliminar filtro</ControlForButton>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="margin_top_2" v-bind:key="'add-where-rule-button'">
+                            <ControlForButton general-classes="text_align_right" input-classes="width_auto display_inline_block" :on-click="addWhere">{{ $t("Añadir filtro") }}</ControlForButton>
+                        </div>
+                    </div>
+                </div>
+                <div v-else-if="isAdvancedSearchPanel === 'sort'">
+                    <div class="padding_horizontal_2 margin_top_0">
+                        <div class="padding_vertical_2 padding_vertical_1 font_size_small" v-if="order.length === 0">No hay reglas de orden aplicadas ahora mismo.</div>
+                        <div class="margin_bottom_0" v-else>
+                            <div class="padding_horizontal_0 padding_bottom_0 margin_bottom_2 remarked_row">
+                                <template v-for="(orderRule, orderIndex) in order">
+                                    <div class="info_group padding_2 margin_bottom_1 remarked_row">
+                                        <span class="info_group_item display_block width_100x100 vertical_align_top" v-bind:key="'select-order-filter-parameter-1-rule-' + orderIndex + '-row-for-subject'">
+                                            <div class="padding_0 padding_top_2 margin_bottom_2 default_row font_size_small">
+                                                <div>{{ $t("Columna") }}:</div>
+                                                <div class="ControlForSelect">
+                                                    <select v-model="orderRule[0]">
+                                                        <option value="id">{{ $t("id") }}</option>
+                                                        <option :value="columnIndex" v-for="(column, columnIndex) in definition.columns" v-bind:key="'select-order-filter-parameter-1-rule-' + orderIndex + 'option-' + columnIndex">
+                                                            {{ columnIndex }}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </span>
+                                        <span class="info_group_item display_block width_100x100 vertical_align_top" v-bind:key="'select-order-filter-parameter-1-rule-' + orderIndex + '-row-for-direction'" v-if="orderRule[0]">
+                                            <div class="padding_0 padding_top_2 margin_bottom_2 default_row font_size_small">
+                                                <div>{{ $t("Dirección") }}:</div>
+                                                <div class="ControlForSelect">
+                                                    <select v-model="orderRule[1]">
+                                                        <option :value="sense" v-for="(sense) in ['ascendent', 'descendent']" v-bind:key="'select-order-filter-parameter-1-rule-' + orderIndex + '-sense-' + sense">
+                                                            {{ sense }}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </span>
+                                        <span class="info_group_item display_block width_100x100 vertical_align_top" v-bind:key="'select-order-filter-parameter-1-rule-' + orderIndex + '-row-for-delete-button'">
+                                            <ControlForButton general-classes="text_align_right" input-classes="width_auto display_inline_block danger_button no_break_line" :on-click="() => deleteOrder(orderIndex)">Eliminar regla</ControlForButton>
+                                        </span>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                        <div class="margin_top_2" v-bind:key="'add-order-rule-button'">
+                            <ControlForButton general-classes="text_align_right" input-classes="width_auto display_inline_block" :on-click="addOrder">{{ $t("Añadir regla") }}</ControlForButton>
+                        </div>
+                    </div>
+                </div>
+                <div v-else-if="isAdvancedSearchPanel === 'paginate'">
+                    <div class="padding_horizontal_2 margin_top_0">
+                        <Horizontally table-classes="width_100x100">
+                            <td class="font_size_small" style="width: 50%;">
+                                <div>{{ $t("Página") }}:</div>
+                                <div>
+                                    <ControlForText :initial-value="'' + paginate[0]" :on-change="v => paginate[0] = parseInt(v)"></ControlForText>
+                                </div>
+                            </td>
+                            <td class="font_size_small" style="width: 50%;">
+                                <div class="no_break_line">{{ $t("Ítems por página") }}:</div>
+                                <div>
+                                    <ControlForText :initial-value="'' + paginate[1]" :on-change="v => paginate[1] = parseInt(v)"></ControlForText>
+                                </div>
+                            </td>
+                        </Horizontally>
+                    </div>
+                </div>
+            </div>
+            <div v-if="typeof rows === 'undefined'">
+                {{ $t("Cargando...") }}
+            </div>
+            <div v-else style="overflow: scroll; max-height: 360px;" class="table_viewer">
+                <table class="data_viewer_table width_100x100">
+                    <thead>
+                        <tr>
+                            <th class="padding_2 width_1x100" v-bind:key="'select-table-header-open-row-cell'"></th>
+                            <th class="padding_2 width_1x100" v-bind:key="'select-table-header-view-row-cell'"></th>
+                            <th class="padding_2 width_1x100" v-bind:key="'select-table-header-open-row-cell-of-column-id'">
+                                {{ $t("#id") }}
+                            </th>
+                            <template v-for="(column, columnId) in definition.columns">
+                                <th class="padding_2" v-bind:key="'select-table-header-cell-of-column-' + columnId">
+                                    {{ $t("#" + columnId) }}
+                                </th>
+                            </template>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template v-for="(row, rowIndex) in rows">
+                            <tr class="remarked_row" v-bind:key="'select-table-body-row-' + rowIndex">
+                                <td class="padding_horizontal_2 padding_right_0 width_1x100" v-bind:key="'select-table-row-' + rowIndex + '-open-row-cell'">
+                                    <ControlForButton :on-click="() => goToRow(row, rowIndex)" v-if="mode === 'view'" input-classes="success_button">
+                                        {{ $t("Ir") }}
+                                    </ControlForButton>
+                                    <template v-else-if="mode === 'input'">
+                                        <ControlForButton v-if="!isSelectedItem(row.id)" :on-click="() => selectRow(row)" v-bind:key="'select-table-row-button-' + rowIndex + '-select-item'" input-classes="default_button">
+                                            {{ $t("+") }}
+                                        </ControlForButton>
+                                        <ControlForButton v-else :on-click="() => unselectRow(row)" v-bind:key="'select-table-row-button-' + rowIndex + '-remove-item'" input-classes="default_button selected">
+                                            {{ $t("-") }}
+                                        </ControlForButton>
+                                    </template>
+                                </td>
+                                <td class="padding_horizontal_2 width_1x100" v-bind:key="'select-table-row-' + rowIndex + '-see-row-cell'">
+                                    <ControlForButton v-if="viewedRows.indexOf(row.id) === -1" :on-click="() => viewRow(row.id)" v-bind:key="'button-to-view-row-' + row.id" input-classes="default_button">
+                                        {{ $t("Ver") }}
+                                    </ControlForButton>
+                                    <ControlForButton v-else :on-click="() => hideRow(row.id)" v-bind:key="'button-to-hide-row-' + row.id" input-classes="default_button selected">
+                                        {{ $t("Ok") }}
+                                    </ControlForButton>
+                                </td>
+                                <td class="padding_2 no_break_line width_1x100" v-bind:key="'select-table-row-' + rowIndex + '-cell-of-column-id'">
+                                    <span class="link_text">{{ row.id }}</span>
+                                </td>
+                                <template v-for="(column, columnId) in definition.columns">
+                                    <td class="padding_2 no_break_line" v-bind:key="'select-table-row-' + rowIndex + '-cell-of-column-' + columnId">
+                                        <span class="link_text">{{ row[columnId] }}</span>
+                                    </td>
+                                </template>
+                            </tr>
+                            <tr class="remarked_row secondary" v-if="isViewedRow(row.id)" v-bind:key="'select-table-body-row-' + rowIndex + '-details-row'">
+                                <td colspan="1000">
+                                    <div class="padding_vertical_2">
+                                        <Horizontally table-classes="width_100x100">
+                                            <td class="width_1x100 padding_left_2">
+                                                <div class="ControlForSelect">
+                                                    <select class="width_auto" style="min-width: 140px;" v-model="selectedView[row.id]">
+                                                        <option :value="undefined">{{ $t("Por defecto") }}</option>
+                                                    </select>
+                                                </div>
+                                            </td>
+                                        </Horizontally>
+                                    </div>
+                                    <div class="padding_left_2" v-if="selectedView[row.id] === undefined">
+                                        <DataRowExplorerComponent
+                                            :project="project"
+                                            :table="table"
+                                            :row-id="row.id"
+                                        />
+                                    </div>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+            <Horizontally v-if="typeof pagination === 'object'">
+                <td class="width_1x100">
+                    <ControlForButton input-classes="default_button" :on-click="goToFirstPage"> «« </ControlForButton>
+                </td>
+                <td class="width_1x100">
+                    <ControlForButton input-classes="default_button" :on-click="goToPreviousPage"> « </ControlForButton>
+                </td>
+                <td class="width_100x100 text_align_center">
+                    <span>{{ $t("Página") }} {{ pagination.page }} {{ $t("de") }} {{ pagination.totalPages }}</span>
+                </td>
+                <td class="width_1x100">
+                    <ControlForButton input-classes="default_button" :on-click="goToNextPage"> » </ControlForButton>
+                </td>
+                <td class="width_1x100">
+                    <ControlForButton input-classes="default_button" :on-click="goToLastPage"> »» </ControlForButton>
+                </td>
+            </Horizontally>
+        </div>
+    </div>
+} con lógica {
+    Retorno {
+        Propiedad props como {
+            Propiedad uid como {
+                Propiedad type como String.
+                Propiedad default como una función donde retorno Vue.prototype.$utilidades.getRandomId(10).
+            }.
+            Propiedad mode como {
+                Propiedad type como String.
+                Propiedad required como true.
+            }.
+            Propiedad modeType como {
+                Propiedad type como String.
+                Propiedad required como false.
+                Propiedad default como "object".
+            }.
+            Propiedad targetProject como {
+                Propiedad type como String.
+                Propiedad required como true.
+            }.
+            Propiedad targetTable como {
+                Propiedad type como String.
+                Propiedad required como true.
+            }.
+            Propiedad onChange como {
+                Propiedad type como Function.
+                Propiedad required como false.
+                Propiedad default como noop.
+            }.
+            Propiedad initialValue como {
+                Propiedad required como false.
+                Propiedad default como undefined.
+            }.
+        }.
+        Método data como una función donde {
+            Retorno {
+                Propiedad rows como undefined.
+                Propiedad table como this.targetTable.
+                Propiedad project como this.targetProject.
+                Propiedad definition como undefined.
+                Propiedad where como [].
+                Propiedad order como [].
+                Propiedad paginate como [1, 10].
+                Propiedad search como "".
+                Propiedad pagination como undefined.
+                Propiedad isAdvancedSearch como false.
+                Propiedad isAdvancedSearchPanel como "where".
+                Propiedad allOperators como {
+                    Propiedad "is less than" como "<".
+                    Propiedad "is less or equal to" como "<=".
+                    Propiedad "is greater than" como ">".
+                    Propiedad "is greater or equal to" como ">=".
+                    Propiedad "is equal to" como "=".
+                    Propiedad "is not equal to" como "!=".
+                    Propiedad "is in" como "in".
+                    Propiedad "is not in" como "!in".
+                    Propiedad "is null" como "=null".
+                    Propiedad "is not null" como "!=null".
+                    Propiedad "has" como "has".
+                    Propiedad "has not" como "!has".
+                }.
+                Propiedad allOperandTypes como ["string", "json", "column", "nothing"].
+                # Propiedades del modo 'input':
+                Propiedad isSelected como false.
+                Propiedad internalOnChange como this.onChange.
+                Propiedad internalValue como cuando this.initialValue entonces this.initialValue si no
+                    cuando this.modeType es igual que "object" entonces undefined si no
+                    cuando this.modeType es igual que "list" entonces [] si no this.initialValue.
+                # Propiedades de la row:
+                Propiedad viewedRows como [].
+                # Propiedades de la vista:
+                Propiedad selectedView como {}.
+            }.
+        }.
+        Propiedad watch como {
+            Método internalValue como una función con (nuevoValor) donde {
+                Hago this.onChange(nuevoValor).
+            }.
+        }.
+        Propiedad methods como {
+            Método loadRows como una función asíncrona donde {
+                Asigno this.rows como undefined.
+                Creo responseSelect como asíncronamente this.$rest.select(
+                    this.project,
+                    this.table,
+                    this.sanitizeWhere(this.where),
+                    this.sanitizeOrder(this.order),
+                    this.paginate,
+                    this.search
+                ).
+                Si responseSelect.data.status no es igual que "success" lanzo un nuevo Error("Hubo errores para cargar los datos").
+                Asigno this.rows como responseSelect.data.data.items.
+                Asigno this.pagination como {
+                    Propiedad page como this.paginate[0].
+                    Propiedad totalPages como Math.floor((responseSelect.data.data.total numerizado) / this.paginate[1]) + 1.
+                    Propiedad total como responseSelect.data.data.total.
+                }.
+            } en errores hago this.$notificaciones.error(error, "DataTableComponent.methods.loadRows").
+            Método loadDefinition como una función donde {
+                Si this.$root.schema no es tipo indefinido {
+                    Asigno this.definition como this.$root.schema.projects[this.project].project.schema.tables[this.table].
+                }.
+            } en errores hago this.$notificaciones.error(error, "DataTableComponent.methods.loadDefinition").
+            Método goToFirstPage como una función donde {
+                Asigno this.paginate[0] como 1.
+                Hago this.loadRows().
+            }.
+            Método goToPreviousPage como una función donde {
+                Si this.paginate[0] no es igual que 1 {
+                    Decremento this.paginate[0].
+                }.
+                Hago this.loadRows().
+            }.
+            Método goToNextPage como una función donde {
+                Si this.paginate[0] no es igual que (this.pagination.totalPages) {
+                    Incremento this.paginate[0].
+                }.
+                Hago this.loadRows().
+            }.
+            Método goToLastPage como una función donde {
+                Asigno this.paginate[0] como this.pagination.totalPages.
+                Hago this.loadRows().
+            }.
+            Método goToWhereSettings como una función donde {
+                Si this.isAdvancedSearchPanel es igual que "where" asigno this.isAdvancedSearchPanel como undefined;
+                Y si no asigno this.isAdvancedSearchPanel como "where".
+            }.
+            Método goToOrderSettings como una función donde {
+                Si this.isAdvancedSearchPanel es igual que "sort" asigno this.isAdvancedSearchPanel como undefined;
+                Y si no asigno this.isAdvancedSearchPanel como "sort".
+            }.
+            Método goToPaginationSettings como una función donde {
+                Si this.isAdvancedSearchPanel es igual que "paginate" asigno this.isAdvancedSearchPanel como undefined;
+                Y si no asigno this.isAdvancedSearchPanel como "paginate".
+            }.
+            Método goToRow como una función con (row, rowIndex) donde {
+                Hago this.$router.history.push("/data/" + this.project + "/" + this.table + "/" + row.id).
+            }.
+            Método goToAddItemPage como una función donde {
+                Hago this.$router.history.push("/data/" + this.project + "/" + this.table + "/@add").
+            }.
+            Método viewRow como una función con (rowId) donde {
+                Hago this.viewedRows.push(rowId).
+            }.
+            Método hideRow como una función con (rowId) donde {
+                Creo indexRow como this.viewedRows.indexOf(rowId).
+                Hago this.viewedRows.splice(indexRow, 1).
+            }.
+            Método toggleAdvancedSearch como una función donde {
+                Asigno this.isAdvancedSearch como no this.isAdvancedSearch.
+            }.
+            Método selectRow como una función con (row) donde {
+                Si this.modeType es igual que "list" {
+                    Hago this.internalValue.push(row.id).
+                }
+                Pero si this.modeType es igual que "object" {
+                    Asigno this.internalValue como row.id.
+                }.
+            }.
+            Método unselectRow como una función con (row) donde {
+                Si this.modeType es igual que "list" {
+                    Creo variable rowPosition como 0-1.
+                    Desde 0 hasta this.internalValue.length {
+                        Creo rowId como this.internalValue[index].
+                        Si rowId es igual que row.id {
+                            Hago this.internalValue.splice(index, 1).
+                        }.
+                    }.
+                }
+                Pero si this.modeType es igual que "object" {
+                    Asigno this.internalValue como undefined.
+                }.
+            }.
+            Método isSelectedItem como una función con (rowId) donde {
+                Si this.modeType es igual que "list" {
+                    Creo coincidentes como this.internalValue.filter(una lambda con (selectedRow) donde retorno selectedRow es igual que rowId).
+                    Retorno coincidentes.length es mayor que 0.
+                }
+                Pero si this.modeType es igual que "object" {
+                    Retorno this.internalValue es igual que rowId.
+                }.
+                Retorno false.
+            }.
+            Método isViewedRow como una función con (rowId) donde {
+                Creo coincidentes como this.viewedRows.filter(una lambda con (viewedRow) donde retorno viewedRow es igual que rowId).
+                Retorno coincidentes.length es mayor que 0.
+            }.
+            Método addWhere como una función donde {
+                Creo variable hayVacios como false.
+                Desde 0 hasta this.where.length {
+                    Si this.where[index].length es menor que 2 asigno hayVacios como true.
+                }.
+                Si no hayVacios hago this.where.push([]).
+            }.
+            Método deleteWhere como una función con (rowIndex) donde {
+                Hago this.where.splice(rowIndex, 1).
+            }.
+            Método addOrder como una función donde {
+                Creo variable hayVacios como false.
+                Desde 0 hasta this.order.length {
+                    Si this.order[index].length es menor que 2 asigno hayVacios como true.
+                }.
+                Si no hayVacios hago this.order.push([]).
+            }.
+            Método deleteOrder como una función con (rowIndex) donde {
+                Hago this.order.splice(rowIndex, 1).
+            }.
+            Método sanitizeWhere como una función con (where) donde {
+                Retorno where.
+            }.
+            Método sanitizeOrder como una función con (order) donde {
+                Retorno order mapeado con una función con (orderRule) donde retorno (cuando orderRule[1] es igual que "descendent" entonces "!" si no "" ) + orderRule[0].
+            }.
+            Método extendWithIdColumn como una función con (tableDefinition) donde {
+                Asigno tableDefinition.columns.id como {}.
+                Retorno tableDefinition.
+            }.
+        }.
+        Método mounted como una función asíncrona donde {
+            Hago asíncronamente this.loadDefinition().
+            Hago asíncronamente this.loadRows().
+        }.
+    }.
+}.
+
+@SECCIÓN 2.*. Componente DataRowExplorerComponent:
+
+Creo DataRowExplorerComponent como un componente vue con nombre "DataRowExplorerComponent" con plantilla {
+    <div class="DataRowExplorerComponent">
+        <div v-if="!internalRow" class="font_size_small padding_2">
+            No se encontró elemento.
+        </div>
+        <div v-else class="info_group padding_left_2">
+            <table class="width_100x100">
+                <tbody>
+                    <tr>
+                        <td class="" colspan="1000">
+                            <Horizontally tableClasses="width_100x100">
+                                <td class="width_1x100 padding_right_2">
+                                    <ControlForButton general-classes="width_1x100" input-classes="width_auto success_button no_break_line" :on-click="() => $router.history.push('/data/' + internalProject + '/' + internalTable + '/' + internalRow.id)">
+                                        <div class="font_weight_bold text_decoration_underline no_break_line">
+                                            {{ $t("nº") }} {{ internalRowId }}
+                                        </div>
+                                    </ControlForButton>
+                                </td>
+                                <td class="width_1x100 padding_right_2">
+                                    <ControlForButton general-classes="width_1x100" input-classes="width_auto success_button no_break_line" :on-click="() => $router.history.push('/data/' + internalProject + '/' + internalTable + '/@add')">{{ $t("nuevo") }} {{ $t("#" + internalTable) }}</ControlForButton>
+                                </td>
+                                <td class="width_1x100 padding_right_2">
+                                    <ControlForButton general-classes="width_1x100" input-classes="width_auto success_button no_break_line" :on-click="() => $router.history.push('/data/' + internalProject + '/' + internalTable)">{{ $t("ir a") }} {{ $t("#" + internalTable) }} » {{ $t("#" + internalProject) }}</ControlForButton>
+                                </td>
+                                <td class="width_100x100"></td>
+                            </Horizontally>
+                        </td>
+                    </tr>
+                </tbody>
+                <template v-for="(rowProperty, rowColumn) in internalRow">
+                    <tbody v-bind:key="'row-explorer-item-for-project-' + internalProject + '-table-' + internalTable + '-column-' + rowColumn + '-row-' + internalRowId">
+                        <tr class="padding_1 margin_bottom_1 font_size_small">
+                            <td class="text_align_left width_1x100">
+                                <b>{{ rowColumn }}:</b>
+                            </td>
+                            <td class="width_100x100">
+                                <template v-if="isReferenceListInSchema(internalProject, internalTable, rowColumn)">
+                                    <span v-bind:key="'data-row-explorer-' + uid + '-as-list-column-on-project-' + internalProject + '-table-' + internalTable + '-column-' + rowColumn + '-row-' + internalRowId">
+                                        <span>[ </span>
+                                            <template v-for="(propertyValue, propertyIndex) in rowProperty">
+                                                <span v-bind:key="'row-explorer-item-for-' + internalProject + '-' + internalTable + '-' + internalRowId + '-' + rowColumn + '-row-' + internalRowId + '-list-item-' + propertyIndex">
+                                                    <span v-if="propertyIndex !== 0">, </span>
+                                                    <span class="ControlForButton">
+                                                        <button class="default_button small_button width_1x100" :class="{selected: typeof selectedItems === 'object' && typeof selectedItems[rowColumn] === 'object' && selectedItems[rowColumn].index === propertyIndex}" v-on:click="() => toggleItemFromList(rowColumn, propertyIndex, propertyValue)">{{ propertyValue }}</button>
+                                                    </span>
+                                                </span>
+                                            </template>
+                                        <span> ]</span>
+                                    </span>
+                                </template>
+                                <template v-else-if="isReferenceObjectInSchema(internalProject, internalTable, rowColumn)">
+                                    <span class="ControlForButton">
+                                        <button class="default_button small_button width_1x100" :class="{selected:typeof selectedItems[rowColumn] === 'object'}" v-on:click="() => toggleItemFromObject(rowColumn, rowProperty)" v-bind:key="'data-row-explorer-' + uid + '-as-object-column-on-project-' + internalProject + '-table-' + internalTable + '-column-' + rowColumn + '-row-' + internalRowId">{{ rowProperty }}</button>
+                                    </span>
+                                </template>
+                                <template v-else>
+                                    <span v-bind:key="'data-row-explorer-' + uid + '-as-default-column-on-project-' + internalProject + '-table-' + internalTable + '-column-' + rowColumn + '-row-' + internalRowId">
+                                        <span>{{ rowProperty }}</span>
+                                    </span>
+                                </template>
+                            </td>
+                        </tr>
+                        <tr v-if="isTypeInSchema(internalProject, internalTable, rowColumn, 'image')">
+                            <td colspan="1000">
+                                <div class="image_preview_container">
+                                    <div class="image_preview_wrapper">
+                                        <img class="image_preview" :src="$rest.getFileUrl(internalProject, internalTable, internalRowId, rowColumn)" alt="No se encontró imagen" />
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr v-if="typeof selectedItems === 'object' && typeof selectedItems[rowColumn] !== 'undefined'" v-bind:key="'data-row-explorer-' + uid + '-as-new-data-row-explorer-tr-on-project-' + internalProject + '-table-' + internalTable + '-column-' + rowColumn + '-row-' + internalRowId">
+                            <td colspan="1000">
+                                <DataRowExplorerComponent
+                                    :project="selectedItems[rowColumn].project"
+                                    :table="selectedItems[rowColumn].table"
+                                    :row-id="selectedItems[rowColumn].id"
+                                />
+                            </td>
+                        </tr>
+                    </tbody>
+                </template>
+            </table>
+        </div>
+    </div>
+} con lógica {
+    Retorno {
+        Propiedad props como {
+            Propiedad uid como {
+                Propiedad type como String.
+                Propiedad default como una función donde retorno Vue.prototype.$utilidades.getRandomId(10).
+            }.
+            Propiedad project como {
+                Propiedad type como String.
+                Propiedad required como true.
+            }.
+            Propiedad table como {
+                Propiedad type como String.
+                Propiedad required como true.
+            }.
+            Propiedad rowId como {
+                Propiedad type como Number.
+                Propiedad required como true.
+            }.
+        }.
+        Método data como una función donde {
+            Retorno {
+                Propiedad internalProject como this.project.
+                Propiedad internalTable como this.table.
+                Propiedad internalRowId como this.rowId.
+                Propiedad internalRow como undefined.
+                Propiedad selectedItems como {}.
+            }.
+        }.
+        Propiedad watch como {
+            @POR-OKKK.
+        }.
+        Propiedad methods como {
+            Método isTypeInSchema como una función con (project, table, column, isType o en su defecto "undefined") donde {
+                Si this.$root.schema.projects no contiene clave project retorno false.
+                Si this.$root.schema.projects[project].project.schema.tables no contiene clave table retorno false.
+                Si this.$root.schema.projects[project].project.schema.tables[table].columns no contiene clave column retorno false.
+                Si this.$root.schema.projects[project].project.schema.tables[table].columns[column].attributes.isType no es igual que isType retorno false.
+                Retorno true.
+            }.
+            Método toggleItemFromList como una función con (column, index, value) donde {
+                Creo props como this.$rest.getReferredProjectAndTableByColumn(this.internalProject, this.internalTable, column).
+                Creo previoEstado como Object.assign({}, this.selectedItems).
+                Asigno this.selectedItems como undefined.
+                Creo objetoModificador como {}.
+                Creo objetoEstado como Object.assign({}, previoEstado).
+                Creo objetoNuevoEstado como {}.
+                Si objetoEstado no contiene clave column {
+                    Asigno objetoModificador[column] como {
+                        Propiedad index como index.
+                        Propiedad project como props.project.
+                        Propiedad table como props.table.
+                        Propiedad id como value.
+                    }.
+                }
+                Pero si objetoEstado[column].index no es igual que index {
+                    Asigno objetoModificador[column] como {
+                        Propiedad index como index.
+                        Propiedad project como props.project.
+                        Propiedad table como props.table.
+                        Propiedad id como value.
+                    }.
+                }
+                Y si no {
+                    Elimino propiedad objetoModificador[column].
+                    Elimino propiedad objetoEstado[column].
+                }.
+                Hago Object.assign(objetoNuevoEstado, objetoEstado, objetoModificador).
+                Hago una espera de 0.1 segundos donde {
+                    Asigno this.selectedItems como objetoNuevoEstado.
+                    Hago this.$forceUpdate(true).
+                }.
+            } en errores hago this.$notificaciones.error(error).
+            Método toggleItemFromObject como una función con (column, value) donde {
+                Creo props como this.$rest.getReferredProjectAndTableByColumn(this.internalProject, this.internalTable, column).
+                Creo previoEstado como Object.assign({}, this.selectedItems).
+                Asigno this.selectedItems como undefined.
+                Hago this.$forceUpdate(true).
+                Creo objetoModificador como {}.
+                Creo objetoEstado como Object.assign({}, previoEstado).
+                Creo objetoNuevoEstado como {}.
+                Si objetoEstado no contiene clave column {
+                    Asigno objetoModificador[column] como {
+                        Propiedad project como props.project.
+                        Propiedad table como props.table.
+                        Propiedad id como value.
+                    }.
+                }
+                Pero si objetoEstado[column].id no es igual que value {
+                    Asigno objetoModificador[column] como {
+                        Propiedad project como props.project.
+                        Propiedad table como props.table.
+                        Propiedad id como value.
+                    }.
+                }
+                Y si no {
+                    Elimino propiedad objetoModificador[column].
+                    Elimino propiedad objetoEstado[column].
+                }.
+                Hago Object.assign(objetoNuevoEstado, objetoEstado, objetoModificador).
+                Hago una espera de 0 segundos donde {
+                    Asigno this.selectedItems como objetoNuevoEstado.
+                    Hago this.$forceUpdate(true).
+                }.
+            } en errores hago this.$notificaciones.error(error).
+            Método isReferenceListInSchema como una función con (projectId, tableId, columnId) donde {
+                Si columnId es igual que "id" retorno false.
+                Si this.$root.allTables no contiene clave projectId + ":" + tableId lanzo un nuevo Error("Required parameters «project» (" + projectId + ") and «table» (" + tableId + ") to conform a defined table in schema in order to «FormControl.isReferenceListInSchema»").
+                Si this.$root.allTables[projectId + ":" + tableId].columns no contiene clave columnId lanzo un nuevo Error("Required parameters «project» (" + projectId + "), «table» (" + tableId + ") and «column» (" + columnId + ") to conform a defined column in schema in order to «FormControl.isReferenceListInSchema»").
+                Retorno this.$root.allTables[projectId + ":" + tableId].columns[columnId].attributes.isType es igual que "list".
+            } en errores hago this.$notificaciones.error(error).
+            Método isReferenceObjectInSchema como una función con (projectId, tableId, columnId) donde {
+                Si columnId es igual que "id" retorno false.
+                Si this.$root.allTables no contiene clave projectId + ":" + tableId lanzo un nuevo Error("Required parameters «project» (" + projectId + ") and «table» (" + tableId + ") to conform a defined table in schema in order to «FormControl.isReferenceObjectInSchema»").
+                Si this.$root.allTables[projectId + ":" + tableId].columns no contiene clave columnId lanzo un nuevo Error("Required parameters «project» (" + projectId + "), «table» (" + tableId + ") and «column» (" + columnId + ") to conform a defined column in schema in order to «FormControl.isReferenceObjectInSchema»").
+                Retorno this.$root.allTables[projectId + ":" + tableId].columns[columnId].attributes.isType es igual que "object".
+            } en errores hago this.$notificaciones.error(error).
+        }.
+        Método mounted como una función asíncrona donde {
+            Creo respuestaSelect como asíncronamente this.$rest.select(
+                this.internalProject,
+                this.internalTable,
+                [[ "id", "=", this.internalRowId ]],
+                [],
+                [],
+                ""
+            ).
+            Asigno this.internalRow como respuestaSelect.data.data.items[0].
+        } en errores hago this.$notificaciones.error(error).
+    }.
+}.
+
+@SECCIÓN 2.*. Componente de DataRowPage:
+
+Creo DataRowPage como un componente vue con nombre "DataRowPage" con plantilla {
+    <div class="DataRowPage">
+        <template v-if="isLoaded">
+            <div v-bind:key="'data-row-page-for-' + project + '-table-' + table + '-id-' + (id ? id : '@add')">
+                <TitleOfPage>
+                    <Horizontally>
+                        <td class="width_auto"><BackButton /></td>
+                        <td class="width_100x100">{{ $t("Dato") }} {{ table }}: {{ id || $t("nuevo") }}</td>
+                    </Horizontally>
+                </TitleOfPage>
+                <hr/>
+                <div class="padding_2 padding_top_0" v-if="definition && row">
+                    <div class="form_group" v-if="row">
+                        <div v-if="['file', 'image'].indexOf(column.attributes.isType) === -1" class="form_item" v-for="(column, columnId) in definition.columns" v-bind:key="'data-row-page-item-form-property-for-' + project + '-table-' + table + '-id-' + (id ? id : '@add') + '-column-' + columnId">
+                            <div>
+                                <FormControl
+                                    :full-row="{ getProperty: p => row[p], getRow: () => row }"
+                                    :project-id="project"
+                                    :table-id="table"
+                                    :table-metadata="definition"
+                                    :column-id="columnId"
+                                    :initial-value="row[columnId]"
+                                    :on-change="v => { row[columnId] = v; }"
+                                />
+                            </div>
+                        </div>
+                        <template v-if="operation === 'edit'">
+                            <template v-for="(column, columnId) in definition.columns">
+                                <div class="form_item" v-if="['file', 'image'].indexOf(column.attributes.isType) !== -1" v-bind:key="'data-row-page-item-form-file-for-' + project + '-table-' + table + '-id-' + (id ? id : '@add') + '-column-' + columnId">
+                                    <div>
+                                        <FormControl
+                                            :full-row="{ getProperty: p => row[p], getRow: () => row }"
+                                            :project-id="project"
+                                            :table-id="table"
+                                            :table-metadata="definition"
+                                            :item-id="id"
+                                            :column-id="columnId"
+                                            :initial-value="row[columnId]"
+                                            :on-change="v => { row[columnId] = v; }"
+                                            :ref="'form-control-reference-for-' + project + '-table-' + table + '-id-' + id + '-column-' + columnId"
+                                        />
+                                    </div>
+                                </div>
+                            </template>
+                        </template>
+                        <div class="form_item padding_top_2">
+                            <Horizontally>
+                                <td class="width_1x100">
+                                    <ControlForButton :on-click="sendFormToDelete" v-if="operation === 'edit'" input-classes="danger_button">
+                                        {{ $t("Eliminar") }}
+                                    </ControlForButton>
+                                </td>
+                                <td class="width_100x100"></td>
+                                <td class="width_1x100">
+                                    <ControlForButton :on-click="sendFormToSave" input-classes="success_button">
+                                        {{ (operation === 'add') ? $t("Añadir") : (operation === 'edit') ? $t("Guardar") : $t("Enviar") }}
+                                    </ControlForButton>
+                                </td>
+                            </Horizontally>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </div>
+} con lógica {
+    Retorno {
+        Propiedad props como {
+            Propiedad operation como {
+                Propiedad type como String.
+                Propiedad default como "add".
+            }.
+        }.
+        Método data como una función donde {
+            Retorno {
+                Propiedad project como this.$route.params.project.
+                Propiedad table como this.$route.params.table.
+                Propiedad id como this.$route.params.id o undefined.
+                Propiedad row como undefined.
+                Propiedad definition como undefined.
+                Propiedad isLoaded como false.
+            }.
+        }.
+        Propiedad watch como {
+            Método $route como una función asíncrona con (nuevoValor) donde {
+                Asigno this.project como nuevoValor.params.project.
+                Asigno this.table como nuevoValor.params.table.
+                Asigno this.id como nuevoValor.params.id o undefined.
+                Hago asíncronamente this.loadRow().
+            } en errores hago this.$notificaciones.error(error).
+        }.
+        Propiedad methods como {
+            
+            Método loadRow como una función asíncrona donde {
+                Asigno this.isLoaded como false.
+                Asigno this.definition como this.$root.schema.projects[this.project].project.schema.tables[this.table].
+                Si this.operation es igual que "add" {
+                    Asigno this.row como {}.
+                    Asigno this.isLoaded como true.
+                    Retorno.
+                }.
+                Creo responseSelect como asíncronamente this.$rest.select(
+                    this.project,
+                    this.table,
+                    [[ "id", "=", this.id numerizado ]],
+                    [],
+                    [],
+                    undefined
+                ).
+                Si responseSelect.data.status no es igual que "success" lanzo un nuevo Error("Hubo errores para cargar el dato").
+                Asigno this.row como responseSelect.data.data.items[0].
+                Asigno this.isLoaded como true.
+            } en errores hago this.$notificaciones.error(error).
+
+            Método sendFormToSave como una función asíncrona donde {
+                Si this.operation es igual que "add" {
+                    Creo responseInsert como asíncronamente this.$rest.insert(
+                        this.project,
+                        this.table,
+                        this.row
+                    ).
+                    Hago this.$router.history.push("/data/" + this.project + "/" + this.table + "/" + responseInsert.data.data.item.id).
+                }
+                Pero si this.operation es igual que "edit" {
+                    Creo responseUpdate como asíncronamente this.$rest.update(
+                        this.project,
+                        this.table,
+                        this.id numerizado,
+                        this.row
+                    ).
+                    Creo responseFiles como [].
+                    Itero como objeto this.definition.columns creando constante columnId donde {
+                        Creo columnData como this.definition.columns[columnId].
+                        Si ["file", "image"] no contiene valor columnData.attributes.isType continúo proceso.
+                        Creo columnRefs como this.$refs["form-control-reference-for-" + this.project + "-table-" + this.table + "-id-" + this.id + "-column-" + columnId].
+                        Creo columnRef como columnRefs[0].  # Obligado por vue2 quizá a devolver un array de refs siempre
+                        Creo fileInputs como columnRef.getFiles().
+                        Creo responseFile como asíncronamente this.$rest.setFile(
+                            this.project,
+                            this.table,
+                            this.id numerizado,
+                            columnId,
+                            fileInputs
+                        ).
+                        Hago responseFiles.push(responseFile).
+                    }.
+                    Hago this.loadRow().
+                }.
+            } en errores hago this.$notificaciones.error(error).
+            
+            Método sendFormToDelete como una función asíncrona donde {
+                Creo responseDelete como asíncronamente this.$rest.delete(
+                    this.project,
+                    this.table,
+                    this.id numerizado
+                ).
+            } en errores hago this.$notificaciones.error(error).
+
+        }.
+        Método mounted como una función asíncrona donde {
+            Hago asíncronamente this.loadRow().
+        } en errores hago this.$notificaciones.error(error).
+    }.
+}.
+
+@SECCIÓN 2.*. Componente de DataPage:
+
+Creo DataPage como un componente vue con nombre "DataPage" con plantilla {
+    <div class="DataPage">
+        <TitleOfPage>
+            <Horizontally>
+                <td class="width_auto"><BackButton /></td>
+                <td class="width_100x100">{{ $t("Esquema") }}</td>
+            </Horizontally>
+        </TitleOfPage>
+        <div class="padding_0 overflow_x_scroll">
+            <table v-if="allTables">
+                <tbody>
+                    <template v-for="(table, tableId) in allTables">
+                        <template v-if="(!table.attributes) || (!table.attributes.isExternalizedBy)">
+                            <tr class="remarked_row" v-bind:key="'table-main-row-of-' + tableId">
+                                <td class="width_1x100 text_align_right padding_horizontal_2">
+                                    <div class="ControlForButton">
+                                        <button class="link_text" v-on:click="() => $router.history.push('/data/' + getProjectFromTableId(tableId) + '/' + getTableFromTableId(tableId))">{{ $t('#' + $utilidades.capitalizeString(getTableFromFullTableId(tableId))) }}</button>
+                                    </div>
+                                </td>
+                                <td class="width_100x100 text_align_right vertical_align_middle">
+                                    <span class="font_size_small">{{ $t("#" + getProjectFromFullTableId(tableId) )}}</span>
+                                </td>
+                                <td class="width_1x100 padding_right_2 vertical_align_middle">
+                                    <span class="ControlForButton display_inline_block width_auto" v-bind:key="'data-page-uid-' + uid + '-table-' + tableId + '-show-button'" v-if="selectedTables.indexOf(tableId) === -1">
+                                        <button class="default_button" v-on:click="() => toggleTable(tableId)">...</button>
+                                    </span>
+                                    <span class="ControlForButton display_inline_block width_auto" v-bind:key="'data-page-uid-' + uid + '-table-' + tableId + '-hide-button'" v-else>
+                                        <button class="default_button selected" v-on:click="() => toggleTable(tableId)"> - </button>
+                                    </span>
+                                </td>
+                            </tr>
+                            <template v-if="selectedTables.indexOf(tableId) !== -1">
+                                <tr class="remarked_row">
+                                    <td colspan="1000" class="text_align_right">
+                                        <span class="width_auto display_inline_block padding_horizontal_2">
+                                            <span class="ControlForButton display_inline_block width_auto">
+                                                <button class="default_button width_auto" :class="{selected: selectedTableAttributesList.indexOf(tableId) !== -1}" v-on:click="() => toggleTableAttributesOf(tableId)">{{ $t("Atributos") }}</button>
+                                            </span>
+                                            <span class="ControlForButton display_inline_block width_auto">
+                                                <button class="default_button width_auto" :class="{selected: selectedTableColumnsList.indexOf(tableId) !== -1}" v-on:click="() => toggleTableColumnsOf(tableId)">{{ $t("Columnas") }}</button>
+                                            </span>
+                                            <span class="ControlForButton display_inline_block width_auto">
+                                                <button class="default_button width_auto" :class="{selected: selectedTableProtectorsList.indexOf(tableId) !== -1}" v-on:click="() => toggleTableProtectorsOf(tableId)">{{ $t("Protectores") }}</button>
+                                            </span>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <template v-if="selectedTableAttributesList.indexOf(tableId) !== -1">
+                                    <tr class="" v-bind:key="'table-attributes-row-of-' + tableId" v-if="selectedTables.indexOf(tableId) !== -1">
+                                        <td colspan="100">
+                                            <table class="width_100x100">
+                                                <template v-for="(attribute, attributeId) in table.attributes">
+                                                    <template v-if="attributeId !== 'hasProtectors'">
+                                                        <tr class="remarked_row" v-bind:key="'table-attribute-key-row-of-' + tableId + '-attribute-' + attributeId">
+                                                            <td class="width_100x100 padding_horizontal_2">{{ $t('@' + attributeId) }}</td>
+                                                            <td class="width_1x100 padding_horizontal_2">
+                                                                <span class="ControlForButton display_inline_block width_auto " v-bind:key="'data-page-uid-' + uid + '-table-' + tableId + '-attribute-' + attributeId + '-show-button'" v-if="selectedTableAttributes.indexOf(tableId + '/' + attributeId) === -1">
+                                                                    <button class="default_button" v-on:click="() => toggleTableAttribute(tableId, attributeId)">...</button>
+                                                                </span>
+                                                                <span class="ControlForButton display_inline_block width_auto " v-bind:key="'data-page-uid-' + uid + '-table-' + tableId + '-attribute-' + attributeId + '-hide-button'" v-else>
+                                                                    <button class="default_button selected" v-on:click="() => toggleTableAttribute(tableId, attributeId)"> - </button>
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="remarked_row" v-bind:key="'table-attribute-value-row-of-' + tableId + '-attribute-' + attributeId" v-if="selectedTableAttributes.indexOf(tableId + '/' + attributeId) !== -1">
+                                                            <td class="width_100x100" colspan="100">
+                                                                <div>
+                                                                    <div class="margin_1 font_size_small">{{ attribute }}</div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </template>
+                                                </template>
+                                                <tr class="remarked_row" v-if="$root.isProjectAdministrator()">
+                                                    <td class="width_100x100 text_align_right padding_horizontal_2" colspan="100">
+                                                        <ControlForButton general-classes="" input-classes="width_auto padding_0" :on-click="() => goToEditAttributes(tableId)">{{ $t("Editar atributos de") }} {{ $t("#" + tableId) }}</ControlForButton>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </template>
+                                <template v-if="selectedTableProtectorsList.indexOf(tableId) !== -1">
+                                    <tr class="" v-bind:key="'table-protectors-row-of-' + tableId">
+                                        <td colspan="100">
+                                            <table class="width_100x100">
+                                                <template v-for="(protector, protectorId) in table.attributes.hasProtectors">
+                                                    <tr class="remarked_row" v-bind:key="'table-protector-value-row-of-' + tableId + '-protector-' + protectorId">
+                                                        <td class="width_100x100 padding_2" colspan="100">
+                                                            <div class="info_group">
+                                                                <div class="padding_2">{{ protector.id }}</div>
+                                                                <template v-for="(protectorValue, protectorKey) in protector">
+                                                                    <div class="font_size_small border_on_top" v-bind:key="'table-protector-property-of-' + tableId + '-protector-' + protectorId + '-property-' + protectorKey">
+                                                                        <span class="display_inline_block padding_2 font_weight_bold">{{ $t(protectorKey) }}: </span>
+                                                                        <span class="display_inline_block padding_2 ">{{ protectorValue }}</span>
+                                                                    </div>
+                                                                </template>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </template>
+                                                <tr class="remarked_row" v-if="$root.isProjectAdministrator()">
+                                                    <td class="width_100x100 text_align_right padding_horizontal_2" colspan="100">
+                                                        <ControlForButton input-classes="width_auto" :on-click="() => goToEditProtectors(tableId)">{{ $t("Editar protectores de") }} {{ $t("#" + tableId) }}</ControlForButton>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </template>
+                                <template v-if="selectedTableColumnsList.indexOf(tableId) !== -1">
+                                    <tr class="" v-bind:key="'table-columns-row-of-' + tableId">
+                                        <td colspan="100">
+                                            <table class="width_100x100">
+                                                <template v-for="(column, columnId) in table.columns">
+                                                    <tr class="remarked_row" v-bind:key="'table-column-key-row-of-' + tableId + '-column-' + columnId">
+                                                        <td class="width_100x100 padding_horizontal_2">{{ $t('#' + columnId) }}</td>
+                                                        <td class="width_1x100 padding_horizontal_2">
+                                                            <span class="ControlForButton display_inline_block width_auto" v-bind:key="'data-page-uid-' + uid + '-table-' + tableId + '-column-' + columnId + '-show-button'" v-if="selectedTableColumns.indexOf(tableId + '/' + columnId) === -1">
+                                                                <button class="default_button" v-on:click="() => toggleTableColumn(tableId, columnId)">...</button>
+                                                            </span>
+                                                            <span class="ControlForButton display_inline_block width_auto" v-bind:key="'data-page-uid-' + uid + '-table-' + tableId + '-column-' + columnId + '-hide-button'" v-else>
+                                                                <button class="default_button selected" v-on:click="() => toggleTableColumn(tableId, columnId)"> - </button>
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                    <template v-if="selectedTableColumns.indexOf(tableId + '/' + columnId) !== -1">
+                                                        <tr class="" v-bind:key="'table-column-value-row-of-' + tableId + '-column-' + columnId">
+                                                            <td class="width_100x100" colspan="100">
+                                                                <div class="">
+                                                                    <table class="width_100x100">
+                                                                        <template v-for="(attribute, attributeId) in column.attributes">
+                                                                            <tr class="remarked_row" v-bind:key="'column-attribute-key-row-of-' + tableId + '-' + columnId + '-attribute-' + attributeId">
+                                                                                <td class="width_100x100 padding_horizontal_3 font_size_small">
+                                                                                    {{ $t( "@" + attributeId ) }} ({{ $t('#' + columnId) }})
+                                                                                </td>
+                                                                                <td class="width_1x100 padding_horizontal_2">
+                                                                                    <span class="ControlForButton display_inline_block width_auto" v-bind:key="'data-page-uid-' + uid + '-table-' + tableId + '-column-' + columnId + '-attribute-' + attributeId + '-show-button'" v-if="selectedTableColumnAttributes.indexOf(tableId + '/' + columnId + '/' + attributeId) === -1">
+                                                                                        <button class="default_button" v-on:click="() => toggleTableColumnAttribute(tableId, columnId, attributeId)">...</button>
+                                                                                    </span>
+                                                                                    <span class="ControlForButton display_inline_block width_auto" v-bind:key="'data-page-uid-' + uid + '-table-' + tableId + '-column-' + columnId + '-attribute-' + attributeId + '-hide-button'" v-else>
+                                                                                        <button class="default_button selected" v-on:click="() => toggleTableColumnAttribute(tableId, columnId, attributeId)"> - </button>
+                                                                                    </span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr class="remarked_row" v-bind:key="'column-attribute-value-row-of-' + tableId + '-' + columnId + '-attribute-' + attributeId" v-if="selectedTableColumnAttributes.indexOf(tableId + '/' + columnId + '/' + attributeId) !== -1">
+                                                                                <td colspan="100" class="padding_horizontal_3 padding_vertical_2">
+                                                                                    <div class="font_size_small">{{ attribute }}</div>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </template>
+                                                                    </table>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="remarked_row" v-if="$root.isProjectAdministrator()">
+                                                            <td class="width_100x100 text_align_right padding_horizontal_2" colspan="100">
+                                                                <ControlForButton input-classes="width_auto" :on-click="() => goToEditColumn(tableId, columnId)">
+                                                                    {{ $t("Editar columna") }} {{ $t('#' + columnId) }}
+                                                                </ControlForButton>
+                                                            </td>
+                                                        </tr>
+                                                    </template>
+                                                </template>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr class="remarked_row" v-if="$root.isProjectAdministrator()">
+                                        <td class="width_100x100 text_align_right padding_horizontal_2" colspan="100">
+                                            <ControlForButton input-classes="width_auto" :on-click="() => goToAddColumn(tableId)">{{ $t("Añadir columna a") }} {{ $t("#" + tableId) }}</ControlForButton>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </template>
+                        </template>
+                    </template>
+                    <tr class="remarked_row text_align_right" v-if="$root.isProjectAdministrator()">
+                        <td class="width_100x100 padding_2 text_align_right" colspan="100">
+                            <ControlForButton :on-click="() => goToAddTable()" general-classes="display_inline_block" input-classes="width_auto">
+                                <span class="no_break_line">{{ $t("Añadir tabla") }}</span>
+                            </ControlForButton>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+} con lógica {
+    Retorno {
+        Propiedad props como {
+            Propiedad uid como {
+                Propiedad type como String.
+                Propiedad default como una función donde retorno Vue.prototype.$utilidades.getRandomId(10).
+            }.
+        }.
+        Método data como una función donde {
+            Retorno {
+                Propiedad schema como undefined.
+                Propiedad allTables como undefined.
+                Propiedad selectedTables como [].
+                Propiedad selectedTableAttributesList como [].
+                Propiedad selectedTableAttributes como [].
+                Propiedad selectedTableProtectorsList como [].
+                Propiedad selectedTableColumnsList como [].
+                Propiedad selectedTableColumns como [].
+                Propiedad selectedColumnsAttributes como [].
+                Propiedad selectedTableColumnAttributes como [].
+            }.
+        }.
+        Propiedad methods como {
+            Método getTableFromFullTableId como una función con (tableId) donde {
+                Retorno tableId.split(":")[1].
+            }.
+            Método getProjectFromFullTableId como una función con (tableId) donde {
+                Retorno tableId.split(":")[0].
+            }.
+            Método removeTableAttributesOf como una función con (tableId) donde {
+                Creo posicionTable como this.selectedTableAttributesList.indexOf(tableId).
+                Si posicionTable no es igual que 0-1 hago this.selectedTableAttributesList.splice(posicionTable, 1).
+            }.
+            Método removeTableProtectorsOf como una función con (tableId) donde {
+                Creo posicionTable como this.selectedTableProtectorsList.indexOf(tableId).
+                Si posicionTable no es igual que 0-1 hago this.selectedTableProtectorsList.splice(posicionTable, 1).
+            }.
+            Método removeTableColumnsOf como una función con (tableId) donde {
+                Creo posicionTable como this.selectedTableColumnsList.indexOf(tableId).
+                Si posicionTable no es igual que 0-1 hago this.selectedTableColumnsList.splice(posicionTable, 1).
+            }.
+            Método toggleTable como una función con (tableId) donde {
+                Hago this.removeTableAttributesOf(tableId).
+                Hago this.removeTableProtectorsOf(tableId).
+                Hago this.removeTableColumnsOf(tableId).
+                Creo posicionTable como this.selectedTables.indexOf(tableId).
+                Si posicionTable es igual que 0-1 hago this.selectedTables.push(tableId);
+                Y si no hago this.selectedTables.splice(posicionTable, 1).
+            }.
+            Método toggleTableAttributesOf como una función con (tableId) donde {
+                Hago this.removeTableProtectorsOf(tableId).
+                Hago this.removeTableColumnsOf(tableId).
+                Creo posicionTable como this.selectedTableAttributesList.indexOf(tableId).
+                Si posicionTable es igual que 0-1 hago this.selectedTableAttributesList.push(tableId);
+                Y si no hago this.selectedTableAttributesList.splice(posicionTable, 1).
+            }.
+            Método toggleTableProtectorsOf como una función con (tableId) donde {
+                Hago this.removeTableAttributesOf(tableId).
+                Hago this.removeTableColumnsOf(tableId).
+                Creo posicionTable como this.selectedTableProtectorsList.indexOf(tableId).
+                Si posicionTable es igual que 0-1 hago this.selectedTableProtectorsList.push(tableId);
+                Y si no hago this.selectedTableProtectorsList.splice(posicionTable, 1).
+            }.
+            Método toggleTableColumnsOf como una función con (tableId) donde {
+                Hago this.removeTableAttributesOf(tableId).
+                Hago this.removeTableProtectorsOf(tableId).
+                Creo posicionTable como this.selectedTableColumnsList.indexOf(tableId).
+                Si posicionTable es igual que 0-1 hago this.selectedTableColumnsList.push(tableId);
+                Y si no hago this.selectedTableColumnsList.splice(posicionTable, 1).
+            }.
+            Método toggleTableAttribute como una función con (tableId, attributeId) donde {
+                Creo posicionTableAttribute como this.selectedTableAttributes.indexOf(tableId + "/" + attributeId).
+                Si posicionTableAttribute es igual que 0-1 hago this.selectedTableAttributes.push(tableId + "/" + attributeId);
+                Y si no hago this.selectedTableAttributes.splice(posicionTableAttribute, 1).
+            }.
+            Método toggleTableColumn como una función con (tableId, columnId) donde {
+                Creo posicionTableColumn como this.selectedTableColumns.indexOf(tableId + "/" + columnId).
+                Si posicionTableColumn es igual que 0-1 hago this.selectedTableColumns.push(tableId + "/" + columnId);
+                Y si no hago this.selectedTableColumns.splice(posicionTableColumn, 1).
+            }.
+            Método toggleTableColumnAttribute como una función con (tableId, columnId, attributeId) donde {
+                Creo posicionTableColumn como this.selectedTableColumnAttributes.indexOf(tableId + "/" + columnId + "/" + attributeId).
+                Si posicionTableColumn es igual que 0-1 hago this.selectedTableColumnAttributes.push(tableId + "/" + columnId + "/" + attributeId);
+                Y si no hago this.selectedTableColumnAttributes.splice(posicionTableColumn, 1).
+            }.
+            Método goToEditAttributes como una función con (tableId) donde {
+                Retorno this.$router.history.push("/data/@edit-table/" + tableId).
+            }.
+            Método goToEditProtectors como una función con (tableId) donde {
+                Retorno this.$router.history.push("/data/@edit-protectors/" + tableId).
+            }.
+            Método goToEditColumn como una función con (tableId, columnId) donde {
+                Retorno this.$router.history.push("/data/@edit-column/" + tableId + "/" + columnId).
+            }.
+            Método goToAddColumn como una función con (tableId) donde {
+                Retorno this.$router.history.push("/data/@add-column/" + tableId).
+            }.
+            Método goToAddTable como una función con () donde {
+                Retorno this.$router.history.push("/data/@add-table").
+            }.
+            Método getProjectFromTableId como una función con (tableId) donde {
+                Retorno tableId.split(":")[0].
+            }.
+            Método getTableFromTableId como una función con (tableId) donde {
+                Retorno tableId.split(":")[1].
+            }.
+        }.
+        Método mounted como una función donde {
+            Asigno this.schema como this.$root.schema.
+            Asigno this.allTables como this.$root.allTables.
+        }.
+        Propiedad watch como {}.
+    }.
+}.
+
+@SECCIÓN 2.*. Componente de DataAddEditTablePage:
+
+Creo DataAddEditTablePage como un componente vue con nombre "DataAddEditTablePage" con plantilla {
+    <div class="DataAddEditTablePage">
+        <TitleOfPage>
+            <Horizontally>
+                <td class="width_auto"><BackButton :levels="(internalOperation === 'add') ? 1 : 2" /></td>
+                <td class="width_100x100">
+                    <template v-if="internalOperation === 'add'">{{ $t("Añadir tabla") }}</template>
+                    <template v-else>{{ $t("Editar atributos de tabla") }} {{ $t("#" + $route.params.table ) }}</template>
+                </td>
+            </Horizontally>
+        </TitleOfPage>
+        <hr />
+        <div class="padding_2" v-if="isLoaded">
+            <template>
+                <div v-if="internalOperation === 'add'" class="padding_vertical_2"><span>{{ $t("Nueva tabla") }}</span></div>
+                <div v-else-if="internalOperation === 'edit'" class="padding_vertical_2"><span>{{ $t("Tabla:") }} {{ $t("#" + table) }}</span></div>
+                <hr />
+                <div>
+                    <template v-if="internalOperation === 'add'">
+                        <div class="ControlForSelect padding_top_2">
+                            <span>{{ $t("Proyecto") }}:</span>
+                            <select class="" v-model="internalTableProject">
+                                <option :value="projectId" v-for="(projectData, projectId) in $root.schema.projects" v-bind:key="'data-add-edit-table-page-add-table-project-option-' + projectId">{{ projectId }}</option>
+                            </select>
+                        </div>
+                        <hr class="margin_top_2" />
+                        <div class="padding_top_2">
+                            <ControlForText :on-change="v => internalTableName = v" label="Nombre de tabla:" general-classes="padding_top_2" />
+                        </div>
+                        <hr class="margin_top_2" />
+                    </template>
+                    <div class="padding_top_2"><span class="display_inline_block">{{ $t("Atributos") }}</span></div>
+                    <hr class="margin_top_2" />
+                    <template v-for="(attribute, attributeId) in internalAttributesChanged">
+                        <div class="info_group padding_horizontal_2 padding_bottom_2 margin_top_2" v-bind:key="'data-add-edit-table-page-attribute-' + attributeId">
+                            <div>
+                                <Horizontally>
+                                    <td class="width_100x100">
+                                        <ControlForText label="Nombre de atributo:" :on-change="v => internalAttributesChanged[attributeId].name = v" general-classes="padding_top_2" :initial-value="internalAttributesChanged[attributeId].name" />
+                                    </td>
+                                    <td class="width_1x100" style="min-width: 70px;">
+                                        <div class="ControlForSelect padding_top_2">
+                                            <span>{{ $t("Tipo") }}:</span>
+                                            <select class="" v-model="internalAttributesChanged[attributeId].type">
+                                                <option value="json">JSON</option>
+                                                <option value="text">{{ $t("Texto") }}</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                </Horizontally>
+                                <ControlForText label="Valor de atributo:" :on-change="v => internalAttributesChanged[attributeId].value = internalAttributesChanged[attributeId].type === 'json' ? JSON.stringify(v) : v" general-classes="padding_top_2 margin_bottom_2" :has-multiple-rows="true" :initial-value="internalAttributesChanged[attributeId].value" />
+                                <Horizontally>
+                                    <td class="width_100x100"></td>
+                                    <td class="width_1x100">
+                                        <ControlForButton input-classes="danger_button no_break_line" :on-click="() => deleteAttribute(attributeId)">{{ $t("Eliminar atributo") }}</ControlForButton>
+                                    </td>
+                                </Horizontally>
+                            </div>
+                        </div>
+                    </template>
+                    <ControlForButton general-classes="margin_top_2" input-classes="default_button no_break_line" :on-click="() => addAttribute()">{{ $t("Añadir atributo") }}</ControlForButton>
+                    <hr class="margin_top_2" />
+                    <span class="display_inline_block padding_top_2">{{ $t("Propiedades") }}</span>
+                    <hr class="margin_top_2" />
+                    <template v-for="(property, propertyId) in internalPropertiesChanged">
+                        <div class="info_group padding_horizontal_2 padding_bottom_2 margin_top_2" v-bind:key="'data-add-edit-table-page-property-' + propertyId">
+                            <div>
+                                <Horizontally>
+                                    <td class="width_100x100">
+                                        <ControlForText label="Nombre de propiedad:" :on-change="v => internalPropertiesChanged[propertyId].name = v" general-classes="padding_top_2" :initial-value="internalPropertiesChanged[propertyId].name" />
+                                    </td>
+                                    <td class="width_1x100" style="min-width: 70px;">
+                                        <div class="ControlForSelect padding_top_2">
+                                            <span>{{ $t("Tipo") }}:</span>
+                                            <select class="" v-model="internalPropertiesChanged[propertyId].type">
+                                                <option value="json">JSON</option>
+                                                <option value="text">{{ $t("Texto") }}</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                </Horizontally>
+                                <ControlForText label="Valor de propiedad:" :on-change="v => internalPropertiesChanged[propertyId].value = internalPropertiesChanged[propertyId].type === 'json' ? JSON.stringify(v) : v" general-classes="padding_top_2 margin_bottom_2" :has-multiple-rows="true" :initial-value="internalPropertiesChanged[propertyId].value" />
+                                <Horizontally>
+                                    <td class="width_100x100"></td>
+                                    <td class="width_1x100">
+                                        <ControlForButton input-classes="danger_button no_break_line" :on-click="() => deleteProperty(propertyId)">{{ $t("Eliminar propiedad") }}</ControlForButton>
+                                    </td>
+                                </Horizontally>
+                            </div>
+                        </div>
+                    </template>
+                    <ControlForButton general-classes="margin_top_2" input-classes="default_button no_break_line" :on-click="() => addProperty()">{{ $t("Añadir propiedad") }}</ControlForButton>
+                    <hr class="margin_top_2" />
+                    <div v-if="internalOperation === 'edit'">
+                        <ControlForButton general-classes="margin_top_2" :on-click="() => commitEditTable()">{{ $t("Guardar") }}</ControlForButton>
+                    </div>
+                    <div v-else-if="internalOperation === 'add'">
+                        <ControlForButton general-classes="margin_top_2" :on-click="() => commitAddTable()">{{ $t("Crear") }}</ControlForButton>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+} con lógica {
+    Retorno {
+        Propiedad props como {
+            Propiedad operation como {
+                Propiedad type como String.
+                Propiedad default como "add".
+            }.
+            Propiedad table como {
+                Propiedad type como String.
+                Propiedad default como una función donde retorno this.$route.params.table o undefined.
+            }.
+        }.
+        Método data como una función donde {
+            Retorno {
+                Propiedad internalOperation como this.operation.
+                Propiedad internalTable como this.table.
+                Propiedad internalTableName como undefined.
+                Propiedad internalTableProject como undefined.
+                Propiedad internalTableDefinition como this.table.
+                Propiedad internalAttributes como {}.
+                Propiedad internalAttributesChanged como [].
+                Propiedad internalProperties como {}.
+                Propiedad internalPropertiesChanged como [].
+                Propiedad internalColumns como {}.
+                Propiedad isLoaded como false.
+            }.
+        }.
+        Propiedad methods como {
+            Método loadDefinition como una función donde {
+                Si this.operation es igual que "add" {
+                    Asigno this.isLoaded como true.
+                    Retorno.
+                }.
+                Si this.$root.allTables no es tipo objeto lanzo un nuevo Error("Required «schema» to be loaded in order to «DataAddEditTablePage.loadDefinition»").
+                Si this.$root.allTables no contiene clave this.internalTable lanzo un nuevo Error("Required «schema» to contain table «" + this.internalTable + "» in order to «DataAddEditTablePage.loadTable»").
+                Asigno this.internalTableDefinition como this.$root.allTables[this.internalTable].
+                Asigno this.internalAttributes como Object.assign({}, this.internalTableDefinition.attributes).
+                Asigno this.internalProperties como Object.assign({}, this.internalTableDefinition.properties).
+                Asigno this.internalColumns como Object.assign({}, this.internalTableDefinition.columns).
+                Itero como objeto this.internalAttributes creando atributoId donde {
+                    Creo atributo como this.internalAttributes[atributoId].
+                    Si atributoId no es igual que "hasProtectors" hago this.internalAttributesChanged.push({
+                        Propiedad name como atributoId.
+                        Propiedad type como cuando atributo es tipo texto entonces "text" si no "json".
+                        Propiedad value como cuando atributo es tipo texto entonces atributo si no atributo textualizado.
+                    }).
+                }.
+                Itero como objeto this.internalProperties creando propiedadId donde {
+                    Creo propiedad como this.internalProperties[propiedadId].
+                    Si propiedadId no es igual que "hasProtectors" hago this.internalPropertiesChanged.push({
+                        Propiedad name como propiedadId.
+                        Propiedad type como cuando propiedad es tipo texto entonces "text" si no "json".
+                        Propiedad value como cuando propiedad es tipo texto entonces propiedad si no propiedad textualizado.
+                    }).
+                }.
+                Asigno this.isLoaded como true.
+            } en errores hago this.$notificaciones.error(error).
+            Método commitEditTable como una función asíncrona donde {
+                Desacoplo constantes [ projectId, tableId ] a partir de this.internalTable.split(":").
+                Creo attributes como this.internalAttributesChanged.reduce(una función con (output, attributeChanged) donde {
+                    Asigno output[attributeChanged.name] como cuando attributeChanged.type es igual que "json" entonces JSON.parse(attributeChanged.value) si no attributeChanged.value.
+                    Retorno output.
+                }, {}).
+                Creo properties como this.internalPropertiesChanged.reduce(una función con (output, propertyChanged) donde {
+                    Asigno output[propertyChanged.name] como cuando propertyChanged.type es igual que "json" entonces JSON.parse(propertyChanged.value) si no propertyChanged.value.
+                    Retorno output.
+                }, {}).
+                Creo respuestaUpdateTable como asíncronamente this.$rest.updateTable(projectId, tableId, attributes, properties).
+                Hago asíncronamente this.$rest.schema(true).
+                Hago this.$router.history.push("/data").
+                Retorno respuestaUpdateTable.
+            } en errores hago this.$notificaciones.error(error).
+            Método commitAddTable como una función asíncrona donde {
+                Hago asíncronamente this.$rest.insertTable(this.internalTableProject, this.internalTableName).
+                Asigno this.internalProject como this.internalTableProject.
+                Asigno this.internalTable como this.internalTableProject + ":" + this.internalTableName.
+                Retorno asíncronamente this.commitEditTable().
+            } en errores hago this.$notificaciones.error(error).
+            Método addAttribute como una función donde {
+                Hago this.internalAttributesChanged.push({
+                    Propiedad name como "".
+                    Propiedad type como "text".
+                    Propiedad value como "".
+                }).
+            }.
+            Método addProperty como una función donde {
+                Hago this.internalPropertiesChanged.push({
+                    Propiedad name como "".
+                    Propiedad type como "text".
+                    Propiedad value como "".
+                }).
+            }.
+            Método deleteAttribute como una función con (index) donde {
+                Hago this.internalAttributesChanged.splice(index, 1).
+            }.
+            Método deleteProperty como una función con (index) donde {
+                Hago this.internalPropertiesChanged.splice(index, 1).
+            }.
+        }.
+        Método mounted como una función donde {
+            Hago this.loadDefinition().
+            Asigno window.dataAddEditTablePage como this.
+        }.
+    }.
+}.
+
+@SECCIÓN 2.*. Componente de DataAddEditColumnPage:
+
+Creo DataAddEditColumnPage como un componente vue con nombre "DataAddEditColumnPage" con plantilla {
+    <div class="DataAddEditColumnPage">
+        <TitleOfPage>
+            <Horizontally>
+                <td class="width_auto"><BackButton :levels="(internalOperation === 'add') ? 2 : 3" /></td>
+                <td class="width_100x100">{{ $t(internalOperation === 'add' ? "Añadir columna" : "Editar columna") }}</td>
+            </Horizontally>
+        </TitleOfPage>
+        <hr />
+        <div class="padding_2">
+            <div class=""></div>
+        </div>
+    </div>
+} con lógica {
+    Retorno {
+        Propiedad props como {
+            Propiedad operation como {
+                Propiedad type como String.
+                Propiedad default como "add".
+            }.
+        }.
+        Método data como una función donde {
+            Retorno {
+                Propiedad internalOperation como this.operation.
+                Propiedad internalProject como this.$route.params.table.split(":")[0].
+                Propiedad internalTableId como this.$route.params.table.
+                Propiedad internalTable como this.$route.params.table.split(":")[1].
+            }.
+        }.
+        Propiedad methods como {}.
+        #
+    }.
+}.
+
+@SECCIÓN 2.*. Componente de DataEditProtectorsPage:
+
+Creo DataEditProtectorsPage como un componente vue con nombre "DataEditProtectorsPage" con plantilla {
+    <div class="DataEditProtectorsPage">
+        <TitleOfPage>
+            <Horizontally>
+                <td class="width_auto"><BackButton :levels="2" /></td>
+                <td class="width_100x100">{{ $t("Editar protectores") }}</td>
+            </Horizontally>
+        </TitleOfPage>
+        <hr />
+        <div class="padding_2">
+            ...
+        </div>
+    </div>
+} con lógica {
+    Retorno {}.
+}.
+
+@SECCIÓN 2.*. Componente de SettingsPage:
+
+Creo SettingsPage como un componente vue con nombre "SettingsPage" con plantilla {
+    <div class="SettingsPage">
+        <TitleOfPage>
+            <Horizontally>
+                <td class="width_auto"><BackButton /></td>
+                <td class="width_100x100">{{ $t("Configuraciones") }}</td>
+            </Horizontally>
+        </TitleOfPage>
+        <hr />
+        <div class="padding_2 padding_left_0 padding_bottom_0">
+            <ul class="BigMenuSquaresList">
+                <li class="margin_bottom_2" v-on:click="() => $router.history.push('/settings/language')">
+                    <span class="link_text">{{ $t("Idioma") }}</span>
+                </li>
+                <li class="margin_bottom_2" v-on:click="() => $router.history.push('/settings/session')">
+                    <span class="link_text">{{ $t("Sesión") }}</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+} con lógica {
+    Retorno {}.
+}.
+
+@SECCIÓN 2.*. Componente de LanguageSettingsPage:
+
+Creo LanguageSettingsPage como un componente vue con nombre "LanguageSettingsPage" con plantilla {
+    <div class="LanguageSettingsPage">
+        <TitleOfPage>
+            <Horizontally>
+                <td class="width_auto"><BackButton /></td>
+                <td class="width_100x100">{{ $t("Idioma") }}</td>
+            </Horizontally>
+        </TitleOfPage>
+        <hr />
+        <div class="padding_2">
+            <LanguageSelector />
+        </div>
+    </div>
+} con lógica {
+    Retorno {}.
+}.
+
+@SECCIÓN 2.*. Componente de SessionSettingsPage:
+
+Creo SessionSettingsPage como un componente vue con nombre "SessionSettingsPage" con plantilla {
+    <div class="SessionSettingsPage">
+        <TitleOfPage>
+            <Horizontally>
+                <td class="width_auto"><BackButton /></td>
+                <td class="width_100x100">{{ $t("Sesión") }}</td>
+            </Horizontally>
+        </TitleOfPage>
+        <hr />
+        <div class="padding_2">
+            <div>
+                <span class="font_weight_bold">{{ $t("Usuario:") }} </span>
+                <span>{{ $root.authentication.user.name }}</span>
+            </div>
+            <div>
+                <span class="font_weight_bold">{{ $t("Email de usuario:") }} </span>
+                <span>{{ $root.authentication.user.email }}</span>
+            </div>
+            <div>
+                <span class="font_weight_bold">{{ $t("Grupos:") }} </span>
+                <ul class="padding_bottom_2">
+                    <li class="no_margin" v-for="grupo in grupos" v-bind:key="'auth-grupos-grupo-id-' + grupo.id">
+                        <ul class="padding_top_2">
+                            <div class="info_group remarked_row padding_2">
+                                <li class="no_margin">
+                                    <span class="font_weight_bold">{{ $t("Grupo:" )}} </span>
+                                    <span class="font_size_small">{{ grupo.name }} [{{ grupo.id }}]</span>
+                                </li>
+                                <li class="no_margin">
+                                    <span class="font_weight_bold">{{ $t("Descripción:" )}} </span>
+                                    <span class="font_size_small">{{ grupo.description }}</span>
+                                </li>
+                                <li class="no_margin">
+                                    <span class="font_weight_bold">{{ $t("Privilegios:" )}} </span>
+                                    <span class="font_size_small">{{ grupo.privileges }}</span>
+                                </li>
+                            </div>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <span class="font_weight_bold">{{ $t("Privilegios:") }} </span>
+                <ul class="padding_bottom_2">
+                    <li class="no_margin" v-for="privilegio in privilegios" v-bind:key="'auth-privilegios-privilegio-id-' + privilegio.id">
+                        <ul class="padding_top_2">
+                            <div class="info_group remarked_row padding_2">
+                                <li class="no_margin">
+                                    <span class="font_weight_bold">{{ $t("Privilegio:" )}} </span>
+                                    <span class="font_size_small">{{ privilegio.name }} [{{ privilegio.id }}]</span>
+                                </li>
+                                <li class="no_margin">
+                                    <span class="font_weight_bold">{{ $t("Descripción:" )}} </span>
+                                    <span class="font_size_small">{{ privilegio.description }}</span>
+                                </li>
+                            </div>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <span class="font_weight_bold">{{ $t("Token de sesión:") }} </span>
+                <div class=" margin_top_2 remarked_text info_group long_word font_family_monospace font_size_small">{{ $root.authentication.token }}</div>
+            </div>
+        </div>
+    </div>
+} con lógica {
+    Retorno {
+        Propiedad data como una función donde {
+            Creo grupos como this.$root.authentication.user.groups.map(una lambda con (idDeGrupo) donde {
+                Retorno this.$root.authentication.groups.filter(una lambda con (datosDeGrupo) donde {
+                    Retorno datosDeGrupo.id es igual que idDeGrupo.
+                })[0].
+            }).
+            Creo privilegiosDeGrupo como grupos.map(una lambda con (grupo) donde retorno grupo.privileges).flat().
+            Creo privilegiosDeUsuario como this.$root.authentication.user.privileges.
+            Creo privilegiosUnicos como [].
+            Hago [].concat(privilegiosDeUsuario).concat(privilegiosDeGrupo).forEach(una lambda con (privilegioId) donde {
+                Si privilegiosUnicos.indexOf(privilegioId) es igual que 0-1 hago privilegiosUnicos.push(privilegioId).
+            }).
+            Creo privilegios como privilegiosUnicos.map(una lambda con (privilegioId) donde retorno this.$root.authentication.privileges.filter(una lambda con (privilegio) donde retorno privilegioId es igual que privilegio.id)[0]).
+            Retorno {
+                Propiedad grupos como grupos.
+                Propiedad privilegios como privilegios.
+            }.
+        }.
+    }.
+}.
+
+@SECCIÓN 2.*. Componente de QueryBuilderPage:
+
+Creo QueryBuilderPage como un componente vue con nombre "QueryBuilderPage" con plantilla {
+    <div class="QueryBuilderPage">
+        <TitleOfPage>
+            <Horizontally>
+                <td class="width_auto"><BackButton /></td>
+                <td class="width_100x100">{{ $t("Analíticas") }}</td>
+            </Horizontally>
+        </TitleOfPage>
+        <hr />
+        <div class="padding_2">
+            <div v-for="(query, queryIndex) in available_queries" v-bind:key="'querybuilder-page-available-query-' + queryIndex">
+                <Horizontally>
+                    <td class="width_1x100">
+                        <ControlForButton :on-click="() => goToOpenQuery(queryIndex)" input-classes="no_break_line">{{ $t("Consultar") }}</ControlForButton>
+                    </td>
+                    <td class="width_1x100">
+                        <ControlForButton :on-click="() => goToEditQuery(queryIndex)" input-classes="no_break_line">{{ $t("Editar") }}</ControlForButton>
+                    </td>
+                    <td class="width_1x100 no_break_line padding_2">nº {{ queryIndex }}</td>
+                    <td class="width_100x100 no_break_line padding_2">«{{ query.name }}» {{ $t("con") }} {{ query.operations.length }} {{ $t("operaciones.") }}</td>
+                </Horizontally>
+            </div>
+            <ControlForButton :on-click="() => goToCreateQuery()">{{ $t("Crear query") }}</ControlForButton>
+        </div>
+    </div>
+} con lógica {
+    Retorno {
+        Propiedad data como una función donde {
+            Retorno {
+                Propiedad available_queries como [].
+            }.
+        }.
+        Propiedad methods como {
+            Método loadQueries como una función asíncrona donde {
+                Selecciono en modelo "analiticas_nativas" creando variable analiticas.
+                Asigno this.available_queries como analiticas.
+                Hago this.$forceUpdate(true).
+            } en errores hago this.$notificaciones.error(error, "QueryBuilderPage.loadQueries").
+            Método goToOpenQuery como una función con (queryIndex) donde {
+                Hago this.$router.history.push("/analysis/@use/" + queryIndex).
+            }.
+            Método goToEditQuery como una función con (queryIndex) donde {
+                Hago this.$router.history.push("/analysis/@edit/" + queryIndex).
+            } en errores hago this.$notificaciones.error(error, "QueryBuilderPage.goToEditQuery").
+            Método goToCreateQuery como una función donde {
+                Hago this.$router.history.push("/analysis/@add").
+            } en errores hago this.$notificaciones.error(error, "QueryBuilderPage.goToAddQuery").
+        }.
+        Método mounted como una función donde {
+            Hago this.loadQueries().
+        }.
+    }.
+}.
+
+@SECCIÓN 2.*. Componente de QueryBuilderAddEditQueryPage:
+
+Creo QueryBuilderAddEditQueryPage como un componente vue con nombre "QueryBuilderAddEditQueryPage" con plantilla {
+    <div class="QueryBuilderAddEditQueryPage">
+        <TitleOfPage>
+            <Horizontally>
+                <td class="width_auto"><BackButton :levels="(operation === 'add') ? 1 : 2" /></td>
+                <td class="width_100x100">{{ (operation === "add") ? $t("Crear analítica") : ($t("Editar analítica") + " " + $route.params.query) }}</td>
+            </Horizontally>
+        </TitleOfPage>
+        <hr />
+        <div class="padding_2">
+            <ControlForText label="Título de la analítica:" :on-change="v => selected_query_name = v" />
+            <div class="Card" v-for="(operation, operationIndex) in selected_query_operations" v-bind:key="'query-builder-add-edit-query-page-operation-' + operationIndex">
+                <div>{{ $t("Operación nº") }} {{ operationIndex }}</div>
+                <div class="ControlForText">
+                    <label>{{ $t("Nombre de la operación") }}</label>
+                    <input class="" type="text" v-model="selected_query_operations[operationIndex].name" />
+                </div>
+                <div>
+                    <ControlForButton input-classes="danger_button" :on-click="() => deleteOperation(operationIndex)">{{ $t("Eliminar operación") }}</ControlForButton>
+                </div>
+            </div>
+            <ControlForButton :on-click="() => addOperation()">{{ $t("Agregar operación") }}</ControlForButton>
+            <ControlForButton :on-click="() => createQuery()" v-if="operation === 'add'">{{ $t("Crear analítica") }}</ControlForButton>
+        </div>
+    </div>
+} con lógica {
+    Retorno {
+        Propiedad props como {
+            Propiedad operation como {
+                Propiedad type como String.
+                Propiedad default como una función donde retorno "add".
+            }.
+        }.
+        Método data como una función donde retorno {
+            Propiedad selected_query_name como "".
+            Propiedad selected_query_operations como [].
+        }.
+        Propiedad methods como {
+            Método loadQuery como una función donde {
+                Si this.operation es igual que "edit" {
+                    Selecciono en modelo "analiticas_nativas" creando variable analiticas.
+                    Creo analitica como analiticas[this.$route.params.analysis].
+                    Asigno this.selected_query_name como analitica.name.
+                    Asigno this.selected_query_operations como analitica.operations.
+                }
+                Y si no {
+                    Asigno this.selected_query_name como "".
+                    Asigno this.selected_query_operations como [].
+                }.
+                Hago this.$forceUpdate(true).
+            } en errores hago this.$notificaciones.error(error, "QueryBuilderAddEditQueryPage.loadQuery").
+            Método addOperation como una función donde {
+                Selecciono en modelo "analiticas_nativas" creando variable analiticas.
+                Creo analitica como analiticas[this.$route.params.analysis].
+                Actualizo en modelo "analiticas_nativas" de registro this.$route.params.analysis numerizado con valor {
+                    name: analitica.name,
+                    operations: analitica.operations concatenado por [{}]
+                }.
+                Hago this.loadQuery().
+            } en errores hago this.$notificaciones.error(error, "QueryBuilderAddEditQueryPage.createQuery").
+            Método deleteOperation como una función con (indexOperation) donde {
+                Selecciono en modelo "analiticas_nativas" creando variable analiticas.
+                Creo analitica como analiticas[this.$route.params.analysis].
+                Actualizo en modelo "analiticas_nativas" de registro this.$route.params.analysis numerizado con valor {
+                    name: analitica.name,
+                    operations: analitica.operations.splice(indexOperation, 1)
+                }.
+                Hago this.loadQuery().
+            } en errores hago this.$notificaciones.error(error, "QueryBuilderAddEditQueryPage.createQuery").
+            Método createQuery como una función donde {
+                Inserto en modelo "analiticas_nativas" con valor { name: this.selected_query_name, operations: this.selected_query_operations } creando constante id.
+                Hago this.$router.history.push("/analysis/@edit/" + id).
+            } en errores hago this.$notificaciones.error(error, "QueryBuilderAddEditQueryPage.createQuery").
+            Método saveQuery como una función donde {
+                Creo item como { name: this.selected_query_name, operations: this.selected_query_operations }.
+                Imprimo "insertando item:".
+                Imprimo item.
+                Actualizo en modelo "analiticas_nativas" de registro this.$route.params.analysis numerizado con valor item.
+                Hago this.loadQuery().
+            } en errores hago this.$notificaciones.error(error, "QueryBuilderAddEditQueryPage.saveQuery").
+        }.
+        Método mounted como una función donde {
+            Hago this.loadQuery().
+        }.
+    }.
+}.
+
+@SECCIÓN 2.*. Componente de QueryBuilderUseQueryPage:
+
+Creo QueryBuilderUseQueryPage como un componente vue con nombre "QueryBuilderUseQueryPage" con plantilla {
+    <div class="QueryBuilderUseQueryPage">
+        <TitleOfPage>
+            <Horizontally>
+                <td class="width_auto"><BackButton :levels="2" /></td>
+                <td class="width_100x100">{{ $t("Analítica") }} {{ $route.params.query }} </td>
+            </Horizontally>
+        </TitleOfPage>
+        <hr />
+        <div class="padding_2">
+            ...
+        </div>
+    </div>
+} con lógica {
+    Retorno {
+        Método data como una función donde retorno {}.
+        Propiedad methods como {}.
+    }.
+}.
+
+@SECCIÓN DE HOOK: nativo.componentes
+
+@SECCIÓN 3.*. Rutas:
+
+Creo routes como [{
+    Propiedad name como "Inicio".
+    Propiedad path como "/home".
+    Propiedad component como HomePage.
+}, {
+    Propiedad name como "Login".
+    Propiedad path como "/login".
+    Propiedad component como LoginPage.
+}, {
+    Propiedad name como "Logout".
+    Propiedad path como "/logout".
+    Propiedad component como LogoutPage.
+}, {
+    Propiedad name como "DataAddEditTable".
+    Propiedad path como "/data/@add-table".
+    Propiedad props como { operation: "add" }.
+    Propiedad component como DataAddEditTablePage.
+}, {
+    Propiedad name como "DataAddEditTable".
+    Propiedad path como "/data/@edit-table/:table".
+    Propiedad props como { operation: "edit" }.
+    Propiedad component como DataAddEditTablePage.
+}, {
+    Propiedad name como "DataAddEditColumn".
+    Propiedad path como "/data/@add-column/:table".
+    Propiedad props como { operation: "add" }.
+    Propiedad component como DataAddEditColumnPage.
+}, {
+    Propiedad name como "DataAddEditColumn".
+    Propiedad path como "/data/@edit-column/:table/:column".
+    Propiedad props como { operation: "edit" }.
+    Propiedad component como DataAddEditColumnPage.
+}, {
+    Propiedad name como "DataEditProtectors".
+    Propiedad path como "/data/@edit-protectors/:table".
+    Propiedad props como { operation: "edit" }.
+    Propiedad component como DataEditProtectorsPage.
+}, {
+    Propiedad name como "DataRow".
+    Propiedad path como "/data/:project/:table/@add".
+    Propiedad props como { operation: "add" }.
+    Propiedad component como DataRowPage.
+}, {
+    Propiedad name como "DataRow".
+    Propiedad path como "/data/:project/:table/:id".
+    Propiedad props como { operation: "edit" }.
+    Propiedad component como DataRowPage.
+}, {
+    Propiedad name como "DataTable".
+    Propiedad path como "/data/:project/:table".
+    Propiedad component como DataTablePage.
+}, {
+    Propiedad name como "Data".
+    Propiedad path como "/data".
+    Propiedad component como DataPage.
+}, {
+    Propiedad name como "Settings".
+    Propiedad path como "/settings".
+    Propiedad component como SettingsPage.
+}, {
+    Propiedad name como "LanguageSettings".
+    Propiedad path como "/settings/language".
+    Propiedad component como LanguageSettingsPage.
+}, {
+    Propiedad name como "SessionSettings".
+    Propiedad path como "/settings/session".
+    Propiedad component como SessionSettingsPage.
+}, {
+    Propiedad name como "QueryBuilder".
+    Propiedad path como "/analysis/@edit/:analysis".
+    Propiedad props como { operation: "edit" }.
+    Propiedad component como QueryBuilderAddEditQueryPage.
+}, {
+    Propiedad name como "QueryBuilder".
+    Propiedad path como "/analysis/@add".
+    Propiedad props como { operation: "add" }.
+    Propiedad component como QueryBuilderAddEditQueryPage.
+}, {
+    Propiedad name como "QueryBuilder".
+    Propiedad path como "/analysis/@use".
+    Propiedad props como { operation: "use" }.
+    Propiedad component como QueryBuilderUseQueryPage.
+}, {
+    Propiedad name como "QueryBuilder".
+    Propiedad path como "/analysis".
+    Propiedad component como QueryBuilderPage.
+}].
+
+@SECCIÓN DE HOOK: nativo.rutas
+
+@SECCIÓN 4.*. Dependencias globales de Vue:
+
+Asigno Vue.prototype.$window como window.
+Asigno Vue.prototype.$rest como window.$restologia.
+Asigno Vue.prototype.$almacenamiento como window.$almacenamiento.
+Asigno Vue.prototype.$utilidades como window.$utilidades.
+Asigno Vue.prototype.$console como console.
+
+@SECCIÓN DE HOOK: nativo.dependencias_globales
+
+@SECCIÓN 5.*. Aplicación:
+
+Hago una aplicación vue con nombre "App" con rutas routes con traducciones window.$translations con plantilla {
+    <div class="App">
+        <Topbar />
+        <hr />
+        <div class="main_contents_container padding_horizontal_2 padding_top_2">
+            <div class="main_contents">
+                <div v-if="authentication">
+                    <div class="">
+                        <router-view></router-view>
+                    </div>
+                </div>
+                <div v-else class="">
+                    <LoginPage />
+                </div>
+            </div>
+        </div>
+        <Notificaciones ref="Notificaciones" />
+    </div>
+} con estilos {
+    .app {}
+} con lógica donde {
+    Retorno {
+        Propiedad name como "App".
+        Método data como una función donde {
+            Retorno {
+                Propiedad schema como undefined.
+                Propiedad allTables como undefined.
+                Propiedad authentication como undefined.
+                Propiedad metadata como {}.
+            }.
+        }.
+        Método beforeMount como una función donde {
+            Asigno Vue.prototype.$root como this.
+        }.
+        Método mounted como una función donde {
+            Asigno Vue.prototype.$notificaciones como un nuevo window.$Notificaciones(this.$refs.Notificaciones).
+        }.
+        Propiedad watch como {
+            Método schema como una función con (nuevoValor) donde {
+                Creo allTables como {}.
+                Itero como objeto nuevoValor.projects creando projectName donde {
+                    Creo projectData como nuevoValor.projects[projectName].
+                    Itero como objeto projectData.project.schema.tables creando tableId donde {
+                        Creo tableData como projectData.project.schema.tables[tableId].
+                        Asigno allTables[projectName + ":" + tableId] como tableData.
+                    }.
+                }.
+                Asigno this.allTables como allTables.
+            }.
+        }.
+        Propiedad methods como {
+            Método isProjectAdministrator como una función donde {
+                Si no this.authentication retorno false.
+                Retorno this.authentication.privileges.filter(una función con (privilegio) donde retorno privilegio.name es igual que "to administrate").length es mayor que 0.
+            }.
+        }.
+    }.
+} montada en "#app".

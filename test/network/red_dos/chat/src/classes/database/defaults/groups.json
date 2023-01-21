@@ -1,0 +1,11 @@
+{
+    "id": 2,
+    "data": {
+        "1": {
+            "id": 1,
+            "name": "administrator",
+            "description": "It is the first and main group of any project.",
+            "privileges": [1]
+        }
+    }
+}

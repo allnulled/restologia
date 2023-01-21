@@ -1,0 +1,63 @@
+input, textarea, select, button { border-radius: 0pt; padding: 3px; border: 1px solid #333; min-width: 30px; }
+
+.main_contents_container {  }
+
+.main_contents { max-width: 680px; border: 1px solid black; background-color: #FFF; }
+
+.remarked_text { border: 1px solid #333; padding: 10px; background-color: #AADDAA; }
+
+.long_word { word-break: break-all; word-wrap: nowrap; }
+
+.info_group { border: 1px solid #333; }
+
+.default_button { }
+.default_button.selected { border: 2px solid #222; background-color: #333; color: white; }
+
+.success_button { border: 1px solid #333; border-radius: 0pt; background-color: #AADDAA; }
+.success_button.selected { border: 1px solid rgb(5, 133, 5); border-radius: 0pt; background-color: #275227; color: white; }
+
+.danger_button { border: 1px solid #333; border-radius: 0pt; background-color: #DDAAAA; }
+
+.font_size_small { font-size: 10px; }
+
+.small_button { text-align: center; padding: 0px; margin: 0px; display: inline-block; }
+
+.default_row { background-color: #FFFFFF; }
+
+.remarked_row { background-color: #D0D0D0; }
+.remarked_row:hover { background-color: #DDDDDD; }
+
+.remarked_row.secondary { background-color: #EBEBEB; }
+.remarked_row.secondary:hover { background-color: #EFEFEF; }
+
+.remarked_row > td { border-bottom: 2px dotted #FFFFFF; }
+
+.BigMenuSquaresList {}
+
+.BigMenuSquaresList > li { width: 90px; height: 90px; border: 1px solid #333; display: inline-block; font-size: 10px; text-align: center; padding-top: 25px; background-color: #D0D0D0; cursor: pointer; }
+
+.BigMenuSquaresList > li:hover { background-color: #DDDDDD; }
+
+.text_style_as_two { color: #333; }
+
+.text_style_as_three { color: #888; }
+
+.form_item { }
+
+.calendar_cell { padding-bottom: 2px; }
+.calendar_cell_content { border: 1px solid #333; padding: 2px; cursor: pointer; width: 100%; display: inline-block; text-align: center; }
+.calendar_cell_content:hover { }
+.calendar_cell.selected { }
+.calendar_cell.selected > .calendar_cell_content { background-color: #333; color: white; }
+
+.selectable_reference { display: inline-block; cursor: pointer; color: blue; text-align: center; min-width: 20px; min-height:20px; text-decoration: underline; border: 1px solid blue; border-radius: 0px; background-color: blue; color: white; }
+.selectable_reference.selected { background-color: white; color: blue; }
+
+.border_left_marked { border-left: 2px solid #CCC; }
+
+.form_control_input { border: 1px solid #333; border-radius: 0pt; color: #666; padding: 3px; }
+.image_preview_container { display: block; text-align: center; min-height: 205px; position: relative; }
+.image_preview_wrapper { display: inline-block; position: absolute; top: 0; left: 0; bottom: auto; right: auto; padding-top: 5px; padding-bottom: 5px; border: 1px dashed #666;}
+.image_preview { display: inline-block; width: auto; max-height: 180px; }
+
+.textarea_input { resize: vertical; min-height: 70px; }

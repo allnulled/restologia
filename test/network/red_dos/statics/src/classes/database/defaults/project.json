@@ -1,0 +1,411 @@
+{
+    "schema": {
+        "attributes": {
+            "hasEnabledProcesses": {
+                "restologia.official.org/common/os": false,
+                "restologia.official.org/common/ping": true
+            }
+        },
+        "tables": {
+            "users": {
+                "attributes": {
+                    "hasDescription": "It stores users that can log into the app.",
+                    "hasProtectors": [{
+                        "id": "ForbidItemPersister",
+                        "fixed": true,
+                        "parameters": {
+                            "Allowed user column": "id",
+                            "Allowed privileges": "to administrate"
+                        }
+                    }, {
+                        "id": "ForbidItemViewer",
+                        "fixed": true,
+                        "parameters": {
+                            "Allowed user column": "id",
+                            "Allowed privileges": "to administrate"
+                        }
+                    }, {
+                        "id": "ForbidFieldsViewer",
+                        "fixed": true,
+                        "parameters": {
+                            "Forbid fields": "password",
+                            "Allowed user column": null,
+                            "Allowed privileges": null
+                        }
+                    }, {
+                        "id": "ForbidFieldsPersister",
+                        "fixed": true,
+                        "parameters": {
+                            "Forbid fields": "groups,privileges",
+                            "Allowed user column": null,
+                            "Allowed privileges": "to administrate"
+                        }
+                    }]
+                },
+                "columns": {
+                    "name": {
+                        "attributes": {
+                            "isUnique": true,
+                            "isType": "string",
+                            "isSubtype": null,
+                            "isEncrypted": false,
+                            "isReferenceOf": null,
+                            "isNullable": false,
+                            "hasDefault": null,
+                            "hasMinimum": 6,
+                            "hasMaximum": 100,
+                            "hasPattern": "^[A-Za-z0-9\\-_$\\.]$",
+                            "hasPatternErrorMessage": "Parameter «users.name» only allows letters, numbers, '-', '_', '$' and '.'",
+                            "hasDescription": "It represents the name of the user"
+                        }
+                    },
+                    "password": {
+                        "attributes": {
+                            "isUnique": false,
+                            "isType": "string",
+                            "isSubtype": "password",
+                            "isEncrypted": true,
+                            "isReferenceOf": null,
+                            "isNullable": false,
+                            "hasDefault": null,
+                            "hasMinimum": 6,
+                            "hasMaximum": 100,
+                            "hasPattern": false,
+                            "hasPatternErrorMessage": false,
+                            "hasDescription": "It represents the password of the user"
+                        }
+                    },
+                    "email": {
+                        "attributes": {
+                            "isUnique": true,
+                            "isType": "string",
+                            "isSubtype": "email",
+                            "isEncrypted": false,
+                            "isReferenceOf": null,
+                            "isNullable": false,
+                            "hasDefault": null,
+                            "hasMinimum": 5,
+                            "hasMaximum": 100,
+                            "hasPattern": false,
+                            "hasPatternErrorMessage": false,
+                            "hasDescription": "It represents the email of the user"
+                        }
+                    },
+                    "profile_image": {
+                        "attributes": {
+                            "isUnique": false,
+                            "isType": "image",
+                            "isSubtype": null,
+                            "isEncrypted": false,
+                            "isReferenceOf": null,
+                            "isNullable": true,
+                            "hasDefault": null,
+                            "hasMinimum": 5,
+                            "hasMaximum": 100,
+                            "hasPattern": false,
+                            "hasPatternErrorMessage": false,
+                            "hasDescription": "It represents the image of the user"
+                        }
+                    },
+                    "groups": {
+                        "attributes": {
+                            "isUnique": false,
+                            "isType": "list",
+                            "isSubtype": null,
+                            "isEncrypted": false,
+                            "isReferenceOf": "groups",
+                            "isNullable": true,
+                            "hasDefault": [],
+                            "hasDescription": "It represents the groups that the user belongs to"
+                        }
+                    },
+                    "privileges": {
+                        "attributes": {
+                            "isUnique": false,
+                            "isType": "list",
+                            "isSubtype": null,
+                            "isEncrypted": false,
+                            "isReferenceOf": "privileges",
+                            "isNullable": true,
+                            "hasDefault": [],
+                            "hasDescription": "It represents the privileges that the user owns by itself and not by belonging to a group"
+                        }
+                    },
+                    "created_at": {
+                        "attributes": {
+                            "isUnique": false,
+                            "isType": "time",
+                            "isSubtype": "on_created",
+                            "isEncrypted": false,
+                            "isReferenceOf": null,
+                            "isNullable": true,
+                            "hasDefault": null,
+                            "hasMinimum": false,
+                            "hasMaximum": false,
+                            "hasDescription": "It represents the moment the user was created"
+                        }
+                    },
+                    "updated_at": {
+                        "attributes": {
+                            "isUnique": false,
+                            "isType": "time",
+                            "isSubtype": "on_updated",
+                            "isEncrypted": false,
+                            "isReferenceOf": null,
+                            "isNullable": true,
+                            "hasDefault": null,
+                            "hasMinimum": false,
+                            "hasMaximum": false,
+                            "hasDescription": "It represents the moment the user was lastly updated"
+                        }
+                    }
+                }
+            },
+            "groups": {
+                "attributes": {
+                    "hasDescription": "It stores groups that users can belong to.",
+                    "hasProtectors": [{
+                        "id": "ForbidItemPersister",
+                        "fixed": true,
+                        "parameters": {
+                            "Allowed user column": null,
+                            "Allowed privileges": "to administrate"
+                        }
+                    }]
+                },
+                "columns": {
+                    "name": {
+                        "attributes": {
+                            "isUnique": true,
+                            "isType": "string",
+                            "isSubtype": null,
+                            "isEncrypted": false,
+                            "isReferenceOf": null,
+                            "isNullable": false,
+                            "hasDefault": null,
+                            "hasMinimum": 1,
+                            "hasMaximum": 100,
+                            "hasPattern": false,
+                            "hasPatternErrorMessage": false,
+                            "hasDescription": "It represents the name of the group"
+                        }
+                    },
+                    "description": {
+                        "attributes": {
+                            "isUnique": false,
+                            "isType": "string",
+                            "isSubtype": null,
+                            "isEncrypted": false,
+                            "isReferenceOf": null,
+                            "isNullable": false,
+                            "hasDefault": null,
+                            "hasMinimum": 1,
+                            "hasMaximum": 1000,
+                            "hasPattern": false,
+                            "hasPatternErrorMessage": false,
+                            "hasDescription": "It represents the description of the group"
+                        }
+                    },
+                    "privileges": {
+                        "attributes": {
+                            "isUnique": false,
+                            "isType": "list",
+                            "isSubtype": null,
+                            "isEncrypted": false,
+                            "isReferenceOf": "privileges",
+                            "isNullable": true,
+                            "hasDefault": [],
+                            "hasDescription": "It represents the privileges the group has by itself"
+                        }
+                    },
+                    "created_at": {
+                        "attributes": {
+                            "isUnique": false,
+                            "isType": "time",
+                            "isSubtype": "on_created",
+                            "isEncrypted": false,
+                            "isReferenceOf": null,
+                            "isNullable": true,
+                            "hasDefault": null,
+                            "hasMinimum": false,
+                            "hasMaximum": false,
+                            "hasDescription": "It represents the moment the session was created"
+                        }
+                    },
+                    "updated_at": {
+                        "attributes": {
+                            "isUnique": false,
+                            "isType": "time",
+                            "isSubtype": "on_updated",
+                            "isEncrypted": false,
+                            "isReferenceOf": null,
+                            "isNullable": true,
+                            "hasDefault": null,
+                            "hasMinimum": false,
+                            "hasMaximum": false,
+                            "hasDescription": "It represents the moment the session was lastly updated"
+                        }
+                    }
+                }
+            },
+            "privileges": {
+                "attributes": {
+                    "hasDescription": "It stores privileges that users and groups can own.",
+                    "hasProtectors": [{
+                        "id": "ForbidItemPersister",
+                        "fixed": true,
+                        "parameters": {
+                            "Allowed user column": null,
+                            "Allowed privileges": "to administrate"
+                        }
+                    }]
+                },
+                "columns": {
+                    "name": {
+                        "attributes": {
+                            "isUnique": true,
+                            "isType": "string",
+                            "isSubtype": null,
+                            "isEncrypted": false,
+                            "isReferenceOf": null,
+                            "isNullable": false,
+                            "hasDefault": null,
+                            "hasMinimum": 1,
+                            "hasMaximum": 100,
+                            "hasPattern": false,
+                            "hasPatternErrorMessage": false,
+                            "hasDescription": "It represents the name of the privilege"
+                        }
+                    },
+                    "description": {
+                        "attributes": {
+                            "isUnique": false,
+                            "isType": "string",
+                            "isSubtype": null,
+                            "isEncrypted": false,
+                            "isReferenceOf": null,
+                            "isNullable": false,
+                            "hasDefault": null,
+                            "hasMinimum": 1,
+                            "hasMaximum": 1000,
+                            "hasPattern": false,
+                            "hasPatternErrorMessage": false,
+                            "hasDescription": "It represents the description of the privilege"
+                        }
+                    },
+                    "created_at": {
+                        "attributes": {
+                            "isUnique": false,
+                            "isType": "time",
+                            "isSubtype": "on_created",
+                            "isEncrypted": false,
+                            "isReferenceOf": null,
+                            "isNullable": true,
+                            "hasDefault": null,
+                            "hasMinimum": false,
+                            "hasMaximum": false,
+                            "hasDescription": "It represents the moment the privilege was created"
+                        }
+                    },
+                    "updated_at": {
+                        "attributes": {
+                            "isUnique": false,
+                            "isType": "time",
+                            "isSubtype": "on_updated",
+                            "isEncrypted": false,
+                            "isReferenceOf": null,
+                            "isNullable": true,
+                            "hasDefault": null,
+                            "hasMinimum": false,
+                            "hasMaximum": false,
+                            "hasDescription": "It represents the moment the privilege was lastly updated"
+                        }
+                    }
+                }
+            },
+            "sessions": {
+                "attributes": {
+                    "hasDescription": "It stores alive user sessions of the app.",
+                    "hasProtectors": [{
+                        "id": "ForbidItemPersister",
+                        "fixed": true,
+                        "parameters": {
+                            "Allowed user column": null,
+                            "Allowed privileges": "to administrate"
+                        }
+                    }, {
+                        "id": "ForbidItemViewer",
+                        "fixed": true,
+                        "parameters": {
+                            "Forbid fields": "token",
+                            "Allowed user column": "user",
+                            "Allowed privileges": "to administrate"
+                        }
+                    }, {
+                        "id": "ForbidFieldsViewer",
+                        "fixed": true,
+                        "parameters": {
+                            "Forbid fields": "token",
+                            "Allowed user column": null,
+                            "Allowed privileges": "to administrate"
+                        }
+                    }]
+                },
+                "columns": {
+                    "user": {
+                        "attributes": {
+                            "isUnique": true,
+                            "isType": "object",
+                            "isSubtype": null,
+                            "isEncrypted": false,
+                            "isReferenceOf": "users",
+                            "isNullable": false,
+                            "hasDefault": null,
+                            "hasDescription": "It represents the user that belongs this session to"
+                        }
+                    },
+                    "token": {
+                        "attributes": {
+                            "isUnique": false,
+                            "isType": "string",
+                            "isSubtype": "token",
+                            "isEncrypted": false,
+                            "isReferenceOf": null,
+                            "isNullable": false,
+                            "hasDefault": null,
+                            "hasMinimum": 100,
+                            "hasMaximum": 100,
+                            "hasPattern": false,
+                            "hasPatternErrorMessage": false,
+                            "hasDescription": "It represents the token this session uses to authenticate itself"
+                        }
+                    },
+                    "created_at": {
+                        "attributes": {
+                            "isUnique": false,
+                            "isType": "time",
+                            "isSubtype": "on_created",
+                            "isEncrypted": false,
+                            "isReferenceOf": null,
+                            "isNullable": false,
+                            "hasDefault": null,
+                            "hasDescription": "It represents the moment the session was created"
+                        }
+                    },
+                    "updated_at": {
+                        "attributes": {
+                            "isUnique": false,
+                            "isType": "time",
+                            "isSubtype": "on_updated",
+                            "isEncrypted": false,
+                            "isReferenceOf": null,
+                            "isNullable": false,
+                            "hasDefault": null,
+                            "hasDescription": "It represents the moment the session was lastly updated"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

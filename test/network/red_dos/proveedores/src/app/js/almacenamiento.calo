@@ -1,0 +1,17 @@
+Asigno window.$almacenamiento como {}.
+
+Asigno window.$almacenamiento.ID_ALMACENAMIENTO como "Restologia".
+
+Asigno window.$almacenamiento.persistir como una función con (clave, valor) donde {
+    Creo datosJSON como localStorage[window.$almacenamiento.ID_ALMACENAMIENTO].
+    Creo datos como un hecho donde retorno JSON.parse(datosJSON) en errores retorno {}.
+    Asigno datos[clave] como valor.
+    Asigno localStorage[window.$almacenamiento.ID_ALMACENAMIENTO] como datos textualizado.
+    Retorno datos.
+}.
+
+Asigno window.$almacenamiento.obtener como una función con (clave, porDefecto o en su defecto undefined) donde {
+    Creo datosJSON como localStorage[window.$almacenamiento.ID_ALMACENAMIENTO].
+    Creo datos como un hecho donde retorno JSON.parse(datosJSON) en errores retorno {}.
+    Retorno cuando datos contiene clave clave entonces datos[clave] si no porDefecto.
+}.

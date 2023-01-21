@@ -1,0 +1,1 @@
+module.exports = Castelog.metodos.un_modulo_importado_o_exportado("módulo es5", "importado", __dirname + "/src/index.js")

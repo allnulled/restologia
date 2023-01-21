@@ -1,0 +1,20 @@
+Asigno window.$Notificaciones como una clase donde {
+
+    Método constructor con (componenteNotificaciones) donde {
+        Asigno this.componente como componenteNotificaciones.
+    }.
+
+    Método error con (error, trace o en su defecto undefined) donde {
+        Hago this.componente.addNotification({
+            Propiedad type como "error".
+            Propiedad name como error.name.
+            Propiedad message como error.message.
+            Propiedad trace como trace.
+        }).
+    }.
+
+    Método mensaje con (mensaje) donde {
+        Imprimo mensaje.
+    }.
+
+}.

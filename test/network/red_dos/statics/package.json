@@ -1,0 +1,23 @@
+{
+  "name": "restologia",
+  "version": "0.0.1",
+  "description": "Automatic HTTP JSON REST API made easy and scalable.",
+  "main": "./api.js",
+  "scripts": {
+    "build:generator": "npm run clean:tests && node bin/build-generator.js",
+    "build:syntax": "bash build-syntax.sh",
+    "build:network": "bash build-network.sh",
+    "clean:tests": "node bin/clean-tests.js",
+    "start": "node src/start.js",
+    "app": "node src/app.js",
+    "start:dev": "nodemon --watch 'src' -e 'js' -x 'npm run start'",
+    "test:monolith": "node test/monolith.js",
+    "test:pluralith": "node test/pluralith.js",
+    "test:network": "node test/network.js",
+    "test:app": "bash neto.sh",
+    "stop:server": "node bin/stop-server.js"
+  },
+  "keywords": ["http", "api", "rest", "automatic", "dependency-free", "json"],
+  "author": "https://github.com/allnulled",
+  "license": "WTFPL"
+}

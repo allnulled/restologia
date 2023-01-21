@@ -1,0 +1,15 @@
+{
+  "NODE_ENV": "development",
+  "SERVER_ID": "Chat",
+  "SERVER_PROTOCOL": "http:",
+  "SERVER_HOST": "127.0.0.1:9955",
+  "SERVER_PORT": 9955,
+  "APPLICATION_PORT": "9998",
+  "APPLICATION_ENABLED": false,
+  "APPLICATION_NAME": "restologia app sample",
+  "APPLICATION_VERSION": "1.0.1",
+  "ADMINISTRATOR_EMAIL": "carlcarlsonc18@gmail.com",
+  "ADMINISTRATOR_USER": "carlosjimenohernandez",
+  "ADMINISTRATOR_PASSWORD": "Carlos.Jimeno.Hernandez.9876543210",
+  "CHAT_PORT": 9955
+}

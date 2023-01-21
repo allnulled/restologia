@@ -1,0 +1,104 @@
+Asigno module.exports como una superquery con esquema Vue.prototype.$rest.schema con cliente Vue.prototype.$rest.client donde {
+    Creo usuarios como ~ una query que selecciona a "users" cuyo "name" | es igual que | "auth_admin".
+    Creo carritos como ~ una query que selecciona a "carritos" cuyo "propietario" | está contenido en | usuarios siendo 
+      @aplanado { por: "id" }
+      @@[true, "aplanado", { por: "id" }]
+      @@@[
+        [false, "expandido", { modo: "ids", ruta: "*", datos: productos_de_carrito }],
+        [false, "expandido", { modo: "ids", ruta: "*/carrito", datos: carritos }]
+      ].
+    Creo cupones como ~ una query que selecciona a "cupones" cuyo "id" | está contenido en | carritos siendo @aplanado { por: "cupones_asociados", en: 0 }.
+    Creo cupones_prototipo como ~ una query que selecciona a "cupones_prototipo" cuyo "id" | está contenido en | cupones siendo @aplanado { por: "prototipo" }.
+    Creo productos_de_carrito como ~ una query que selecciona a "productos_de_carrito" cuyo "carrito" | está contenido en | carritos siendo @aplanado { por: "id" }.
+    Creo productos como ~ una query que selecciona a "productos" cuyo "carrito" | está contenido en | productos_de_carrito siendo @aplanado { por: "productos" }.
+    Creo imagenes como ~ una query que selecciona a "imagenes" cuyo "id" | está contenido en | productos siendo @aplanado { por: "imagenes" }.
+    Hago x siendo 
+      ~ @binario([0,1],[0,1],[0,1],[0,1])
+        @@[true, 'binario',[0,1,1],[1,0,0]]
+        @@@[[true, 'binario',[0,1,0,0],[1,1,0,0]]].
+    Retorno productos_de_carrito siendo @expandido [
+      { modo: "ids", ruta: "*", datos: productos_de_carrito },
+      { modo: "ids", ruta: "*/carrito", datos: carritos },
+      { modo: "ids", ruta: "*/carrito/cupones_asociados/*", datos: cupones },
+      { modo: "ids", ruta: "*/carrito/cupones_asociados/*/prototipo", datos: cupones_prototipo },
+      { modo: "ids", ruta: "*/productos/*", datos: productos_de_carritos },
+      { modo: "ids", ruta: "*/productos/*/producto", datos: productos },
+      { modo: "ids", ruta: "*/productos/*/producto/imagenes/*", datos: imagenes }
+    ].
+}.
+Creo subitems_ids como base siendo {
+  @forzado {a:["app", "author"],ser:"allnulled"}
+  @accedido {por:["datos","items"],defecto:[]}
+  @mapeado {por: una función con (item) donde retorno item.subitems}
+  @aplanado {niveles:1}
+  @deduplicado
+  @comprobado {para:["app","author"], que: item es tipo texto}
+}.
+Si estoy en entorno de "testing" {
+  Hago un test llamado "Test de superquery" donde {
+    Compruebo que 5 es igual que 5 lanzando un nuevo Error("Nunca debe ocurrir esto").
+  } en errores lanzo error.
+  Hago un test llamado "Test de query" donde {
+    Compruebo que 5 es igual que 5 lanzando un nuevo Error("Nunca debe ocurrir esto").
+  } en errores lanzo error.
+  Hago un test llamado "Test unitario" donde {
+    Compruebo que 5 es igual que 5 lanzando un nuevo Error("Nunca debe ocurrir esto").
+  } en errores lanzo error.
+  Hago un testeo que en menos de 5 segundos pase [ "Test de superquery", "Test de query", "Test unitario" ] en errores lanzo error.
+}.
+
+Hago (un servidor http a partir de un servidor de websockets configurado con { port: 9050 } donde {
+  Añado evento "mensaje enviado" como una función donde retorno 500.
+  Añado evento "mensaje recibido" como una función donde retorno 600.
+  Añado evento "apagar aplicación" como una función donde retorno 400.
+}).listen(8081).
+
+
+
+
+Defino siendo @"sanitizado" como una función con (input) donde {
+  Retorno input.
+},
+
+Imprimo "Un mensaje".
+
+Hago un cliente web de websockets configurado con {} desde una función con (cliente) donde {
+  Añado evento "connect" en cliente como una función con (websocket) donde {
+    Añado evento "data" en websocket como una función con (datos) donde retorno 700.
+      Si datos.accion es igual que "mensaje_enviado" {
+        # Siok.
+      } pero si datos.accion es igual que "mensaje_recibido" {
+        # Siok.
+      } pero si datos.accion es igual que "mensaje_leido" {
+        # Siok.
+      } y si no lanzo un nuevo Error("Se requiere parámetro «accion» ser una acción identificabñe para «evento:mensaje_leido» ").
+    } en errores lanzo error.
+  } en errores lanzo error..
+  Añado evento "disconnect" en websocket como una función donde {
+    
+  }.
+}.
+
+Hago un cliente node.js de websockets configurado con {} donde {
+  Añado evento "connect" en cliente como una función con (websocket) donde {
+    Añado evento "data" en websocket como una función con (datos) donde retorno 1200.
+      Si datos.accion es igual que "mensaje_enviado" {
+        # Siok.
+      } pero si datos.accion es igual que "mensaje_recibido" {
+        # Siok.
+      } pero si datos.accion es igual que "mensaje_leido" {
+        # Siok.
+      } y si no lanzo un nuevo Error("Se requiere parámetro «accion» ser una acción identificabñe para «evento:mensaje_leido» ").
+    } en errores lanzo error.
+  } en errores lanzo error..
+  Añado evento "disconnect" en cliente como una función con (websocket) donde {
+
+  }.
+}.
+
+Creo configuraciones como una hidratación json de "./config.json".
+
+Hago una deshidratación json de "./config.json".
+
+
+

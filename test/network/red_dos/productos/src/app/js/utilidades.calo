@@ -1,0 +1,99 @@
+Creo ALPHABET como "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".split("").
+
+Asigno window.$utilidades como {}.
+
+Asigno window.$utilidades.getRandomId como una función con (len o en su defecto 1000, alphabet o en su defecto ALPHABET) donde {
+    Creo variable id como "".
+    Desde 0 hasta len {
+        Asigno id como id + alphabet[Math.floor(Math.random() * alphabet.length)].
+    }.
+    Retorno id.
+}.
+
+Asigno window.$utilidades.capitalizeString como una función con (texto) donde {
+    Retorno texto.substr(0, 1).toUpperCase() + texto.substr(1).
+}.
+
+
+
+Asigno window.$utilidades.padLeft como una función con (text, len, ch o en su defecto "0") {
+    Creo variable out como "" + text.
+    Mientras out.length es menor que len {
+        Asigno out como ch + out.
+    }.
+    Retorno out.
+}.
+    
+Asigno window.$utilidades.fromDateToString como una función con (date, untilSeconds o en su defecto false) {
+    Si untilSeconds {
+        Retorno "" + window.$utilidades.padLeft(date.getFullYear(), 4, "0")
+            + "/" + window.$utilidades.padLeft(date.getMonth() + 1, 2, "0")
+            + "/" + window.$utilidades.padLeft(date.getDate(), 2, "0")
+            + " " + window.$utilidades.padLeft(date.getHours(), 2, "0")
+            + ":" + window.$utilidades.padLeft(date.getMinutes(), 2, "0")
+            + ":" + window.$utilidades.padLeft(date.getSeconds(), 2, "0")
+            + "." + window.$utilidades.padLeft(date.getMilliseconds(), 3, "0").
+    }
+    Y si no {
+        Retorno "" + window.$utilidades.padLeft(date.getFullYear(), 4, "0")
+            + "/" + window.$utilidades.padLeft(date.getMonth() + 1, 2, "0")
+            + "/" + window.$utilidades.padLeft(date.getDate(), 2, "0").
+    }.
+}.
+
+Asigno window.$utilidades.fromStringToDate como una función con (dateStr, untilSeconds o en su defecto false) {
+    Si dateStr es instancia de Date retorno dateStr.
+    Creo dateStrParts como dateStr.split(una nueva RegExp("[\\/\\:\\ \\.]", "g")).
+    Creo date como una nueva Date().
+    Hago date.setFullYear(dateStrParts[0]).
+    Hago date.setMonth(dateStrParts[1] - 1).
+    Hago date.setDate(dateStrParts[2]).
+    Si untilSeconds {
+        Hago date.setHours(dateStrParts[3]).
+        Hago date.setMinutes(dateStrParts[4]).
+        Hago date.setSeconds(dateStrParts[5]).
+        Hago date.setMilliseconds(dateStrParts[6]).
+    }
+    Y si no {
+        Hago date.setHours(0).
+        Hago date.setMinutes(0).
+        Hago date.setSeconds(0).
+        Hago date.setMilliseconds(0).
+    }.
+    Retorno date.
+}.
+
+Asigno window.$utilidades.adaptWeekDay como una función con (day) donde {
+    Si day es igual que 0 retorno 7.
+    Si day es igual que 1 retorno 1.
+    Si day es igual que 2 retorno 2.
+    Si day es igual que 3 retorno 3.
+    Si day es igual que 4 retorno 4.
+    Si day es igual que 5 retorno 5.
+    Si day es igual que 6 retorno 6.
+}.
+
+Asigno window.$utilidades.fromWeekdayToText como una función con (day) donde {
+    Si day es igual que 0 retorno "Domingo".
+    Si day es igual que 1 retorno "Lunes".
+    Si day es igual que 2 retorno "Martes".
+    Si day es igual que 3 retorno "Miércoles".
+    Si day es igual que 4 retorno "Jueves".
+    Si day es igual que 5 retorno "Viernes".
+    Si day es igual que 6 retorno "Sábado".
+}.
+
+Asigno window.$utilidades.fromMonthToText como una función con (month) donde {
+    Si month es igual que 0 retorno "Enero".
+    Si month es igual que 1 retorno "Febrero".
+    Si month es igual que 2 retorno "Marzo".
+    Si month es igual que 3 retorno "Abril".
+    Si month es igual que 4 retorno "Mayo".
+    Si month es igual que 5 retorno "Junio".
+    Si month es igual que 6 retorno "Julio".
+    Si month es igual que 7 retorno "Agosto".
+    Si month es igual que 8 retorno "Septiembre".
+    Si month es igual que 9 retorno "Octubre".
+    Si month es igual que 10 retorno "Noviembre".
+    Si month es igual que 11 retorno "Diciembre".
+}.

@@ -1,0 +1,14 @@
+Importo API nativa.
+Asigno una global llamada "entorno" como "testing".
+Creo incr como una función con (parametro) donde retorno parametro + 1.
+Si estoy en entorno de "testing" hago un hecho ~ donde {
+    Hago un testeo que en menos de 4 segundos pase [ "Test inicio" ].
+    Hago ~ un test llamado "Test inicio" donde {
+        Compruebo que incr(50) es igual que 51 lanzando un nuevo Error("Función incr no suma 1 (1)").
+        Compruebo que incr(100) es igual que 101 lanzando un nuevo Error("Función incr no suma 1 (2)").
+        Compruebo que incr("ok") es igual que "ok1" lanzando un nuevo Error("Función incr no suma 1 (3)").
+    }.
+}.
+Imprimo un código en texto donde defino x como {} siendo @escameado { ohh: "pam" } @turguntuleado {} @obliviantado {}.
+Imprimo un código en js donde defino x como {} siendo @escameadillo @pardealidillo.
+Imprimo un código en texto donde defino x como {} siendo @escameado { ohh: "pam" } @turguntuleado {} @obliviantado {}.

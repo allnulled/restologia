@@ -1,0 +1,17 @@
+{
+    "name": "proyecto-okk",
+    "version": "1.0.2",
+    "description": "",
+    "main": "./main.js",
+    "directories": {
+        "test": "test"
+    },
+    "scripts": {
+        "build:calo": "calo ./main.calo test/test.calo",
+        "test": "node test/test.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "wtfpl",
+    "dependencies": {}
+}

@@ -1,0 +1,56 @@
+[
+    {
+        "name": "usuario_random_1",
+        "password": "usuario_random_1_password",
+        "email": "usuario_random_1@email.com",
+        "created_at": "0000/00/00 00:00:00.000",
+        "updated_at": "0000/00/00 00:00:00.000",
+        "groups": [],
+        "privileges": []
+    },
+    {
+        "name": "usuario_random_2",
+        "password": "usuario_random_2_password",
+        "email": "usuario_random_2@email.com",
+        "created_at": "0000/00/00 00:00:00.000",
+        "updated_at": "0000/00/00 00:00:00.000",
+        "groups": [],
+        "privileges": []
+    },
+    {
+        "name": "usuario_random_3",
+        "password": "usuario_random_3_password",
+        "email": "usuario_random_3@email.com",
+        "created_at": "0000/00/00 00:00:00.000",
+        "updated_at": "0000/00/00 00:00:00.000",
+        "groups": [],
+        "privileges": []
+    },
+    {
+        "name": "usuario_random_4",
+        "password": "usuario_random_4_password",
+        "email": "usuario_random_4@email.com",
+        "created_at": "0000/00/00 00:00:00.000",
+        "updated_at": "0000/00/00 00:00:00.000",
+        "groups": [],
+        "privileges": []
+    },
+    {
+        "name": "usuario_random_5",
+        "password": "usuario_random_5_password",
+        "email": "usuario_random_5@email.com",
+        "created_at": "0000/00/00 00:00:00.000",
+        "updated_at": "0000/00/00 00:00:00.000",
+        "groups": [],
+        "privileges": []
+    },
+    {
+        "name": "usuario_random_6",
+        "password": "usuario_random_6_password",
+        "email": "usuario_random_6@email.com",
+        "created_at": "0000/00/00 00:00:00.000",
+        "updated_at": "0000/00/00 00:00:00.000",
+        "groups": [],
+        "privileges": []
+    }
+]

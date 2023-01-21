@@ -1,0 +1,446 @@
+##########################################################################################
+
+@SECCIÓN: 1.0. window.$Restologia
+
+Asigno window.$Restologia como una clase donde {
+
+    @SECCIÓN: 1. Métodos instrumentales:
+
+    @SECCIÓN: 1.*. window.$Restologia.create(...)
+    
+    Método estático create con (extensiones o en su defecto {}) donde {
+        Retorno un nuevo this(extensiones).
+    }.
+
+    @SECCIÓN: 1.*. window.$Restologia.constructor(...)
+    
+    Método constructor con (extensiones o en su defecto {}) donde {
+        Asigno this.schemaData como undefined.
+        Asigno this.rootComponent como undefined.
+        Asigno this.authentication como undefined.
+        Asigno this.axiosClient como axios.create({ baseUrl: window.location.href }).
+        Asigno this.authProject como undefined.
+        Hago Object.assign(this, extensiones).
+    }.
+
+    @SECCIÓN: 1.*. window.$Restologia#setRootComponent(...)
+    
+    Método setRootComponent con ($rootComponent) donde {
+        Asigno this.rootComponent como $rootComponent.
+    }.
+
+    @SECCIÓN: 1.*. window.$Restologia#getProjectURLOfProject(...)
+    
+    Método getProjectURLOfProject con (projectId) donde {
+        Si this.schemaData.projects no contiene clave projectId lanzo un nuevo Error("Required parameter «projectId» to be a valid project in order to «$rest.getProjectURLOfProject»").
+        Retorno this.schemaData.projects[projectId].server.url.
+    }.
+
+    @SECCIÓN: 1.*. window.$Restologia#getProjectNameOfProject(...)
+    
+    Método getProjectNameOfProject con (projectId) donde {
+        Si this.schemaData.projects no contiene clave projectId lanzo un nuevo Error("Required parameter «projectId» to be a valid project in order to «$rest.getProjectNameOfProject»").
+        Retorno this.schemaData.projects[projectId].project.name.
+    }.
+
+    @SECCIÓN: 1.*. window.$Restologia#getReferredProjectAndTableByColumn(...)
+    
+    Método getReferredProjectAndTableByColumn con (projectId, table, column) donde {
+        Si this.schemaData.projects no contiene clave projectId lanzo un nuevo Error("Required parameter «project» (" + projectId + ") to be a known project full-identifier in order to «$rest.getProjectAndTableByExternalizedColumn»").
+        Si this.schemaData.projects[projectId].project.schema.tables no contiene clave table lanzo un nuevo Error("Required parameter «table» (" + table + ") to be a known table identifier in «project» (" + projectId + ") in order to «$rest.getProjectAndTableByExternalizedColumn»").
+        Si this.schemaData.projects[projectId].project.schema.tables[table].columns no contiene clave column lanzo un nuevo Error("Required parameter «column» (" + column + ") to be a known column identifier in «project» (" + projectId + ") and «table» (" + table + ") in order to «$rest.getProjectAndTableByExternalizedColumn»").
+        Creo columnData como this.schemaData.projects[projectId].project.schema.tables[table].columns[column].
+        Si columnData.attributes.isReferenceOf no es tipo texto lanzo un nuevo Error("Required parameter «project.table.column» (" + projectId + "." + table + "." + column + ") to be a reference of other table in order to «$rest.getProjectAndTableByExternalizedColumn»").
+        Si this.schemaData.projects[projectId].project.schema.tables no contiene clave columnData.attributes.isReferenceOf lanzo un nuevo Error("Required configuration «isReferenceOf» in «column» (" + projectId + "." + table + "." + column + ") to have attribute «isReferenceOf» (" + columnData.attributes.isReferenceOf + ") pointing to a valid own table in order to «$rest.getProjectAndTableByExternalizedColumn»").
+        Creo referencedTable como this.schemaData.projects[projectId].project.schema.tables[columnData.attributes.isReferenceOf].
+        Creo externalization como referencedTable.attributes.isExternalizedBy.
+        Si no externalization retorno {
+            Propiedad project como projectId.
+            Propiedad table como columnData.attributes.isReferenceOf.
+        }.
+        Retorno un hecho donde {
+            Creo externalHost como externalization.host.
+            Creo externalProject como externalization.project.
+            Creo externalTable como externalization.table.
+            Creo variable isExternalTableOfProject como false.
+            Itero como objeto this.schemaData.projects creando variable projectId2 donde {
+                Creo projectData como this.schemaData.projects[projectId2].
+                Creo projectUrl como projectData.server.url.
+                Si projectUrl es igual que externalHost {
+                    Asigno isExternalTableOfProject como projectData.
+                    Si projectData.project.schema.tables no contiene clave externalTable lanzo un nuevo Error("Required configuration «isExternalizedBy» on «host» (" + externalization.host + ") and «table» (" + externalization.table + ") parameters to refer to a valid table in schema in order to «$rest.getProjectAndTableByExternalizedColumn»").
+                }.
+            }.
+            Si isExternalTableOfProject es igual que false lanzo un nuevo Error("Required parameter «project.table.column» (" + projectId + "." + table + "." + column + ") to be a valid reference of other table in the same project in order to «$rest.getProjectAndTableByExternalizedColumn»").
+            Si isExternalTableOfProject.project.schema.tables no contiene clave externalTable lanzo un nuevo Error("Missing table (" + externalTable + ") on «project.host» (" + externalProject + "." + externalHost + ") due to externalized «host.table» (" + externalization.host + "." + externalization.table + ") on «project.table.column» (" + projectId + "." + table + "." + column + ") in order to «getProjectAndTableByExternalizedColumn» ").
+            Retorno {
+                Propiedad project como isExternalTableOfProject.project.id.
+                Propiedad table como externalTable.
+            }.
+        }.
+    } en errores {
+        Imprimo error.
+        Hago this.rootComponent.$notificaciones.error(error).
+        Lanzo error.
+    }.
+
+    @SECCIÓN: 1.*. window.$Restologia#getFileUrl(...)
+
+    Método getFileUrl con (project, table, id, column) donde {
+        Creo projectName como this.getProjectNameOfProject(project).
+        Creo projectUrl como this.getProjectURLOfProject(project).
+        Creo parametrosQuerystring como un nuevo URLSearchParams({
+            Propiedad operation como "get-file".
+            Propiedad project como projectName.
+            Propiedad table como table.
+            Propiedad column como column.
+            Propiedad id como id.
+            Propiedad nocache como Vue.prototype.$utilidades.getRandomId(10).
+            Propiedad authorization como this.rootComponent.authentication.token.
+        }).toString().
+        Retorno projectUrl + "?" + parametrosQuerystring.
+    } en errores {
+        Imprimo error.
+        Hago this.rootComponent.$notificaciones.error(error, "$restologia.getFileUrl").
+        Lanzo error.
+    }.
+
+    @SECCIÓN: 2. Métodos REST generales:
+
+    @SECCIÓN: 2.*. window.$Restologia#schema(...)
+    
+    Método asíncrono schema con (fullSchema o en su defecto false) donde {
+        
+        @SECCIÓN a) Obtengo el schema general:
+        Creo respuestaSchema como asíncronamente una petición http
+            con url "/schema.json"
+            con método "GET"
+            con cuerpo {}
+            con cabeceras {}
+            usando cliente this.axiosClient.
+        Si respuestaSchema.data.error lanzo un nuevo Error(respuestaSchema.data.error.message).
+        Asigno this.schemaServers como respuestaSchema.data.
+        Si no fullSchema {
+            Retorno this.schemaServers.
+        }.
+        Creo allSchemas como Object.assign({}, this.schemaServers).
+
+        @SECCIÓN b) Autentifico al usuario:
+        Itero como objeto this.schemaServers.projects creando constante projectId donde {
+            Creo projectServerData como this.schemaServers.projects[projectId].server.
+            Desacoplo constantes [ serverName, projectName ] a partir de projectId.split("@").
+            Creo parametrosQuerystring como un nuevo URLSearchParams({
+                Propiedad operation como "view-schema".
+                Propiedad project como projectName.
+            }).toString().
+            Creo projectUrl como projectServerData.url + "?" + parametrosQuerystring.
+            Creo respuestaProjectSchema como asíncronamente una petición http 
+                con url projectUrl
+                con método "GET"
+                con cuerpo {}
+                con cabeceras {}
+                usando cliente this.axiosClient.
+            Creo projectSchema como respuestaProjectSchema.data.data.schema.
+            Asigno allSchemas.projects[projectId].project como {
+                Propiedad name como projectName.
+                Propiedad id como projectId.
+                Propiedad schema como projectSchema.
+            }.
+        }.
+        Asigno this.schemaData como allSchemas.
+        Asigno this.rootComponent.schema como this.schemaData.
+        Asigno this.authProject como this.schemaData.projects[this.schemaData.authProject].
+        Retorno this.schemaData.
+    } en errores {
+        Imprimo error.
+        Hago this.rootComponent.$notificaciones.error(error, "$restologia.schema").
+        Lanzo error.
+    }.
+
+    @SECCIÓN: 2. Métodos de autentificación:
+
+    @SECCIÓN: 2.*. window.$Restologia#login(...)
+    
+    Método asíncrono login con (user, password) donde {
+        Si (no this.schemaServers) o (no this.schemaServers.authProject) lanzo un nuevo Error("Required to have «schema» in order to «login»").
+        Creo authProjectId como this.schemaServers.authProject.
+        Creo authProjectName como authProjectId.split("@")[1].
+        Creo authUrl como this.schemaServers.projects[authProjectId].server.url.
+        Creo respuestaLogin como asíncronamente una petición http
+            con url authUrl + `?project=${authProjectName}&operation=login`
+            con método "POST"
+            con cuerpo { user, password }
+            con cabeceras {}
+            usando cliente this.axiosClient.
+        Si respuestaLogin.data.error lanzo un nuevo Error(respuestaLogin.data.error.message).
+        Asigno this.authentication como {
+            Propiedad token como respuestaLogin.data.data.session.token.
+            Propiedad user como respuestaLogin.data.data.session.authentication.user.
+            Propiedad groups como respuestaLogin.data.data.session.authentication.groups.
+            Propiedad privileges como respuestaLogin.data.data.session.authentication.privileges.
+        }.
+        Asigno this.rootComponent.authentication como this.authentication.
+        Asigno this.axiosClient.defaults.headers.common.Authorization como respuestaLogin.data.data.session.token.
+        Retorno this.authentication.
+    } en errores {
+        Imprimo error.
+        Hago this.rootComponent.$notificaciones.error(error, "$rest.login").
+        Lanzo error.
+    }.
+
+    @SECCIÓN: 2.*. window.$Restologia#logout(...)
+    
+    Método asíncrono logout con () donde {
+        Creo authUrl como this.authProject.server.url.
+        Creo respuestaLogout como asíncronamente una petición http
+            con url authUrl + `?project=${this.authProject.project.name}&operation=logout`
+            con método "POST"
+            con cuerpo {}
+            con cabeceras {}
+            usando cliente this.axiosClient.
+        Si respuestaLogout.data.error lanzo un nuevo Error(respuestaLogout.data.error.message).
+        Asigno this.rootComponent.authentication como undefined.
+        Asigno this.authentication como undefined.
+        Elimino propiedad this.axiosClient.defaults.headers.common.Authorization.
+        Retorno this.authentication.
+    } en errores {
+        Imprimo error.
+        Hago this.rootComponent.$notificaciones.error(error, "$restologia.logout").
+        Lanzo error.
+    }.
+
+    @SECCIÓN: 3. Métodos REST sobre DATOS:
+
+    @SECCIÓN: 3.*. window.$Restologia#select(...)
+
+    Método asíncrono select con (project, table, where, order, paginate, search) donde {
+        Creo projectUrl como this.getProjectURLOfProject(project).
+        Creo projectName como this.getProjectNameOfProject(project).
+        Creo parametrosQuerystring como un nuevo URLSearchParams({
+            Propiedad operation como "select".
+            Propiedad project como projectName.
+            Propiedad table como table.
+            Propiedad where como where textualizado.
+            Propiedad sort como order textualizado.
+            Propiedad paginate como paginate textualizado.
+            Propiedad search como search textualizado.
+        }).toString().
+        Creo respuestaSelect como asíncronamente una petición http
+            con url projectUrl + "?" + parametrosQuerystring
+            con método "GET"
+            con cuerpo {}
+            con cabeceras {}
+            usando cliente this.axiosClient.
+        Si respuestaSelect.data.error lanzo un nuevo Error(respuestaSelect.data.error.message).
+        Retorno respuestaSelect.
+    } en errores {
+        Imprimo error.
+        Hago this.rootComponent.$notificaciones.error(error, "$restologia.select").
+        Lanzo error.
+    }.
+
+    @SECCIÓN: 3.*. window.$Restologia#insert(...)
+
+    Método asíncrono insert con (project, table, value) donde {
+        Creo projectUrl como this.getProjectURLOfProject(project).
+        Creo projectName como this.getProjectNameOfProject(project).
+        Creo parametrosQuerystring como un nuevo URLSearchParams({
+            Propiedad operation como "insert".
+            Propiedad project como projectName.
+        }).toString().
+        Creo respuestaInsert como asíncronamente una petición http
+            con url projectUrl + "?" + parametrosQuerystring
+            con método "POST"
+            con cuerpo {
+                Propiedad table como table.
+                Propiedad value como value textualizado.
+            }
+            con cabeceras {}
+            usando cliente this.axiosClient.
+        Si respuestaInsert.data.error lanzo un nuevo Error(respuestaInsert.data.error.message).
+        Retorno respuestaInsert.
+    } en errores {
+        Imprimo error.
+        Hago this.rootComponent.$notificaciones.error(error, "$restologia.insert").
+        Lanzo error.
+    }.
+
+    @SECCIÓN: 3.*. window.$Restologia#update(...)
+
+    Método asíncrono update con (project, table, id, value) donde {
+        Creo projectUrl como this.getProjectURLOfProject(project).
+        Creo projectName como this.getProjectNameOfProject(project).
+        Creo parametrosQuerystring como un nuevo URLSearchParams({
+            Propiedad operation como "update".
+            Propiedad project como projectName.
+        }).toString().
+        Creo respuestaInsert como asíncronamente una petición http
+            con url projectUrl + "?" + parametrosQuerystring
+            con método "POST"
+            con cuerpo {
+                Propiedad table como table.
+                Propiedad id como id.
+                Propiedad value como value textualizado.
+            }
+            con cabeceras {}
+            usando cliente this.axiosClient.
+        Si respuestaInsert.data.error lanzo un nuevo Error(respuestaInsert.data.error.message).
+        Retorno respuestaInsert.
+    } en errores {
+        Imprimo error.
+        Hago this.rootComponent.$notificaciones.error(error, "$restologia.update").
+        Lanzo error.
+    }.
+
+    @SECCIÓN: 3.*. window.$Restologia#delete(...)
+
+    Método asíncrono delete con (project, table, id) donde {
+        Creo projectUrl como this.getProjectURLOfProject(project).
+        Creo projectName como this.getProjectNameOfProject(project).
+        Creo parametrosQuerystring como un nuevo URLSearchParams({
+            Propiedad operation como "delete".
+            Propiedad project como projectName.
+        }).toString().
+        Creo respuestaInsert como asíncronamente una petición http
+            con url projectUrl + "?" + parametrosQuerystring
+            con método "POST"
+            con cuerpo {
+                Propiedad table como table.
+                Propiedad id como id.
+            }
+            con cabeceras {}
+            usando cliente this.axiosClient.
+        Si respuestaInsert.data.error lanzo un nuevo Error(respuestaInsert.data.error.message).
+        Retorno respuestaInsert.
+    } en errores {
+        Imprimo error.
+        Hago this.rootComponent.$notificaciones.error(error, "$restologia.delete").
+        Lanzo error.
+    }.
+
+    @SECCIÓN: 3.*. window.$Restologia#setFile(...)
+
+    Método asíncrono setFile con (project, table, id, column, fileInputs o en su defecto []) donde {
+        Creo projectName como this.getProjectNameOfProject(project).
+        Creo projectUrl como this.getProjectURLOfProject(project).
+        Creo parametrosQuerystring como un nuevo URLSearchParams({
+            Propiedad operation como "set-file".
+            Propiedad project como projectName.
+            Propiedad table como table.
+            Propiedad column como column.
+            Propiedad id como id.
+        }).toString().
+        Creo actionUrl como projectUrl + "?" + parametrosQuerystring.
+        Creo formData como un nuevo FormData().
+        Creo variable hasOne como false.
+        Creo fileKeys como Object.keys(fileInputs).
+        Itero como lista fileKeys creando variable keyIndex donde {
+            Creo fileKey como fileKeys[keyIndex].
+            Creo fileInput como fileInputs[fileKey].
+            Si fileInput es tipo indefinido lanzo un nuevo Error("Required parameter «fileInputs» on index «" + keyIndex + "» to not be undefined in order to «$restologia.setFile» from front").
+            Si fileInput no es instancia de HTMLElement lanzo un nuevo Error("Required parameter «fileInputs» on index «" + keyIndex + "» to be an «HTMLElement» instance in order to «$restologia.setFile» from front").
+            Si fileInput no es instancia de HTMLInputElement lanzo un nuevo Error("Required parameter «fileInputs» on index «" + keyIndex + "» to be an «HTMLInputElement» instance in order to «$restologia.setFile» from front").
+            Si fileInput.files es tipo indefinido lanzo un nuevo Error("Required parameter «fileInputs» on index «" + keyIndex + "» to have a «files» property in order to «$restologia.setFile» from front").
+            Si fileInput.files[0] es tipo indefinido lanzo un nuevo Error("Required parameter «fileInputs» on index «" + keyIndex + "» to have at least 1 «File» instance in order to «$restologia.setFile» from front").
+            Creo fileItem como fileInput.files[0].
+            Hago formData.append("files[]", fileItem).
+            Si hasOne no es igual que true asigno hasOne como true.
+        }.
+        Si hasOne es igual que false lanzo un nuevo Error("Required parameter «fileInputs» to have at least 1 item in order to «$restologia.setFile» from front").
+        Creo respuestaSetFile como asíncronamente una petición http
+            con url actionUrl
+            con método "POST"
+            con cuerpo formData
+            con cabeceras {
+                "Content-type": "multipart/formdata"
+            }
+            usando cliente this.axiosClient.
+        Si respuestaSetFile.data.error lanzo un nuevo Error(respuestaSetFile.data.error.message).
+        Retorno respuestaSetFile.
+    } en errores {
+        Imprimo error.
+        Hago this.rootComponent.$notificaciones.error(error, "$restologia.setFile").
+        Lanzo error.
+    }.
+
+    @SECCIÓN: 3.*. window.$Restologia#getFile(...)
+
+    Método asíncrono getFile con (project, table, id, column) donde {
+        Creo projectUrl como this.getFileUrl(project, table, id, column).
+        Creo respuestaGetFile como asíncronamente una petición http
+            con url this.getFileUrl(this.getProjectNameOfProject(project), table, column, id)
+            con método "GET"
+            con cuerpo {}
+            con cabeceras {}
+            usando cliente this.axiosClient.
+        Si respuestaGetFile.data.error lanzo un nuevo Error(respuestaGetFile.data.error.message).
+        Retorno respuestaGetFile.
+    } en errores {
+        Imprimo error.
+        Hago this.rootComponent.$notificaciones.error(error, "$restologia.getFile").
+        Lanzo error.
+    }.
+
+    @SECCIÓN: 4. Métodos de CRUD de schema.
+
+    @SECCIÓN: 4.*. window.$Restologia#insertTable(...)
+
+    Método asíncrono insertTable con (project, table) donde {
+        Creo projectUrl como this.getProjectURLOfProject(project).
+        Creo projectName como this.getProjectNameOfProject(project).
+        Creo parametrosQuerystring como un nuevo URLSearchParams({
+            Propiedad operation como "add-table".
+            Propiedad project como projectName.
+        }).toString().
+        Creo actionUrl como projectUrl + "?" + parametrosQuerystring.
+        Creo respuestaInsertTable como asíncronamente una petición http
+            con url actionUrl
+            con método "POST"
+            con cuerpo {
+                Propiedad table como table.
+                Propiedad attributes como {} textualizado.
+                Propiedad properties como {} textualizado.
+            }
+            con cabeceras {}
+            usando cliente this.axiosClient.
+        Si respuestaInsertTable.data.error lanzo un nuevo Error(respuestaInsertTable.data.error.message).
+        Retorno respuestaInsertTable.
+    } en errores {
+        Imprimo error.
+        Hago this.rootComponent.$notificaciones.error(error, "$restologia.insertTable").
+        Lanzo error.
+    }.
+
+    @SECCIÓN: 4.*. window.$Restologia#updateTable(...)
+
+    Método asíncrono updateTable con (project, table, attributes, properties) donde {
+        Creo projectUrl como this.getProjectURLOfProject(project).
+        Creo projectName como this.getProjectNameOfProject(project).
+        Creo parametrosQuerystring como un nuevo URLSearchParams({
+            Propiedad operation como "update-table".
+            Propiedad project como projectName.
+        }).toString().
+        Creo actionUrl como projectUrl + "?" + parametrosQuerystring.
+        Creo respuestaUpdateTable como asíncronamente una petición http
+            con url actionUrl
+            con método "POST"
+            con cuerpo {
+                Propiedad table como table.
+                Propiedad attributes como attributes textualizado.
+                Propiedad properties como properties textualizado.
+            }
+            con cabeceras {}
+            usando cliente this.axiosClient.
+        Si respuestaUpdateTable.data.error lanzo un nuevo Error(respuestaUpdateTable.data.error.message).
+        Retorno respuestaUpdateTable.
+    } en errores {
+        Imprimo error.
+        Hago this.rootComponent.$notificaciones.error(error, "$restologia.updateTable").
+        Lanzo error.
+    }.
+
+}.
+
+##########################################################################################
+@SECCIÓN: 2.*. window.$restologia
+Asigno window.$restologia como window.$Restologia.create().

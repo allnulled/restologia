@@ -1,0 +1,47 @@
+importo api nativa.
+
+hago un hecho ~ donde {
+    creo raiz como __dirname + "/raiz".
+    elimino ~ recursivamente directorio raiz.
+    genero ~ directorio raiz.
+    genero ~ directorio raiz + "/src".
+    genero ~ directorio raiz + "/test".
+    inicio ~ proyecto npm desde directorio raiz con {
+        propiedad name como "proyecto-okk".
+        propiedad version como "1.0.2".
+        propiedad dependencies como {
+            # propiedad "websocket" como "^1.0.2".
+        }.
+        propiedad main como "./main.js".
+        propiedad scripts como {
+            propiedad ["build:calo"] como "calo ./main.calo test/test.calo".
+            propiedad ["test"] como "node test/test.js".
+        }.
+        propiedad license como "wtfpl".
+    }.
+    hago ~ una espera de 1 segundos.
+    genero ~ fichero raiz + "/main.js" con contenido un código en js donde {
+        exporto como módulo es5 un módulo es5 importado de ruta __dirname + "/src/index.js".
+    }.
+    genero ~ fichero raiz + "/src/index.js" con contenido un código en js donde {
+        exporto como módulo es5 una promesa donde {
+            #
+        }.
+    }.
+    genero ~ fichero raiz + "/test/test.js" con contenido un código en js donde {
+        importo api nativa.
+        hago un hecho ~ donde {
+            hago un testeo que en menos de 4 segundos pase ["Test inicial", "Test final"].
+            hago ~ un test llamado "Test inicial" donde {
+                imprimo "Test inicial".
+            }.
+            hago ~ un test llamado "Test final" donde {
+                imprimo "Test final".
+            }.
+            imprimo "ok!".
+        }.
+    }.
+    ejecuto comando de consola "npm install" desde directorio raiz.
+    ejecuto comando de consola "npm run test" desde directorio raiz.
+    retorno "¡Despliegue exitoso!".
+} en errores imprimo error.

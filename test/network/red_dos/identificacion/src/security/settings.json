@@ -1,0 +1,14 @@
+{
+  "NODE_ENV": "development",
+  "SERVER_ID": "Identificacion",
+  "SERVER_PROTOCOL": "http",
+  "SERVER_HOST": "127.0.0.1",
+  "SERVER_PORT": 9900,
+  "APPLICATION_PORT": "9998",
+  "APPLICATION_ENABLED": false,
+  "APPLICATION_NAME": "restologia app sample",
+  "APPLICATION_VERSION": "1.0.1",
+  "ADMINISTRATOR_EMAIL": "carlcarlsonc18@gmail.com",
+  "ADMINISTRATOR_USER": "superadmin",
+  "ADMINISTRATOR_PASSWORD": "superadmin.123456"
+}
